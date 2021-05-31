@@ -88,7 +88,10 @@ export default function Register() {
       container
       direction="column"
       alignItems="center"
-      style={{ marginTop: "2.5rem" }}
+      style={{
+        paddingTop: "2.5rem",
+        backgroundColor: matchesSM ? "rgb(51, 201, 220, 0.1 )" : undefined,
+      }}
     >
       <Grid item style={{ marginBottom: "1.25rem" }}>
         <Grid container direction="column" alignItems="center">
