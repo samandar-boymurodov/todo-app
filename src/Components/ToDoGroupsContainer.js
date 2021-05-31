@@ -1,3 +1,9 @@
+import Header from "../UI/Header";
+
 export default function TodoGroupsContainer() {
-  return <>TodoGroupsContainer</>;
+  return (
+    <>
+      <Header />
+    </>
+  );
 }

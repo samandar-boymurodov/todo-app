@@ -55,12 +55,6 @@ const useStyles = makeStyles((theme) => ({
     paddingLeft: "2rem",
     paddingRight: "2rem",
   },
-  submitButton: {
-    color: "#fff",
-    height: "3rem",
-    fontFamily: "Raleway",
-    fontWeight: 600,
-  },
   mainContainer: {
     height: "100vh",
     backgroundColor: "rgb(51, 201, 220, 0.1 )",
@@ -71,7 +65,6 @@ export default function Login() {
   const classes = useStyles();
   const theme = useTheme();
 
-  const matchesSM = useMediaQuery(theme.breakpoints.down("xs"));
   const formik = useFormik({
     initialValues: {
       username: "",

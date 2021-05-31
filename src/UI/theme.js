@@ -17,6 +17,12 @@ export const theme = createMuiTheme({
       fontSize: "4rem",
       lineHeight: 1,
     },
+    h4: {
+      fontFamily: "Raleway",
+      lineHeight: 1,
+      color: "#fff",
+      fontSize: "2rem",
+    },
   },
   props: {
     MuiTextField: {

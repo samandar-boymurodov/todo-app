@@ -3,7 +3,6 @@ import { BrowserRouter, Route, Switch } from "react-router-dom";
 import { ThemeProvider } from "@material-ui/core";
 
 import { theme } from "./UI/theme";
-import Header from "./UI/Header";
 import Register from "./UI/Register";
 import Login from "./UI/Login";
 import ToDoGroupsContainer from "./Components/ToDoGroupsContainer";
@@ -16,7 +15,6 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <BrowserRouter>
-        {/* <Header /> */}
         <Switch>
           <Route path="/dashboard" component={ToDoGroupsContainer} />
           <Route exact path="/register" component={Register} />
