@@ -53,7 +53,6 @@ const useStyles = makeStyles((theme) => ({
     width: "3rem",
   },
   form: {
-    backgroundColor: "rgb(51, 201, 220, 0.1 )",
     padding: "1.25rem",
   },
   submitButton: {
@@ -112,6 +111,7 @@ export default function Register() {
         className={classes.form}
         style={{
           width: matchesSM ? "100%" : null,
+          backgroundColor: !matchesSM ? "rgb(51, 201, 220, 0.1 )" : undefined,
         }}
       >
         <Grid
