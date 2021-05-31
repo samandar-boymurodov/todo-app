@@ -14,7 +14,7 @@ export const theme = createMuiTheme({
     h1: {
       fontFamily: "Raleway",
       fontWeight: 400,
-      fontSize: "4.25rem",
+      fontSize: "4rem",
       lineHeight: 1,
     },
   },
