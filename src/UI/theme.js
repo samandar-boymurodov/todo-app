@@ -15,11 +15,15 @@ export const theme = createMuiTheme({
       fontFamily: "Raleway",
       fontWeight: 400,
       fontSize: "4.25rem",
+      lineHeight: 1,
     },
   },
   props: {
     MuiTextField: {
       variant: "outlined",
+      InputLabelProps: {
+        shrink: true,
+      },
     },
   },
   overrides: {
