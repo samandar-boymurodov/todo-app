@@ -16,7 +16,7 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <BrowserRouter>
-        <Header />
+        {/* <Header /> */}
         <Switch>
           <Route path="/dashboard" component={ToDoGroupsContainer} />
           <Route exact path="/register" component={Register} />

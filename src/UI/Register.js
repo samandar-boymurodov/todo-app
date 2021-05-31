@@ -55,7 +55,6 @@ const useStyles = makeStyles((theme) => ({
   form: {
     backgroundColor: "rgb(51, 201, 220, 0.1 )",
     padding: "1.25rem",
-    marginBottom: "5rem",
   },
   submitButton: {
     color: "#fff",
@@ -85,7 +84,12 @@ export default function Register() {
     },
   });
   return (
-    <Grid container direction="column" alignItems="center">
+    <Grid
+      container
+      direction="column"
+      alignItems="center"
+      style={{ marginTop: "2.5rem" }}
+    >
       <Grid item style={{ marginBottom: "1.25rem" }}>
         <Grid container direction="column" alignItems="center">
           <Grid item className={classes.lockIcon}>
@@ -94,7 +98,7 @@ export default function Register() {
             </span>
           </Grid>
           <Grid item>
-            <Typography variant="h1" color="primary">
+            <Typography variant="h1" color="secondary">
               Sign up
             </Typography>
           </Grid>
