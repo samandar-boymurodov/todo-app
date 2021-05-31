@@ -27,6 +27,11 @@ export const theme = createMuiTheme({
     },
   },
   overrides: {
+    MuiButton: {
+      root: {
+        borderRadius: 0,
+      },
+    },
     MuiInput: {
       root: {
         color: "red",
