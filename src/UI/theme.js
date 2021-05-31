@@ -33,6 +33,11 @@ export const theme = createMuiTheme({
     },
   },
   overrides: {
+    MuiListItem: {
+      root: {
+        backgroundColor: cyan[100],
+      },
+    },
     MuiButton: {
       root: {
         borderRadius: 0,
