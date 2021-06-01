@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
     position: "absolute",
     overflow: "auto",
     width: "25rem",
-    top: 62,
+    top: 63,
     bottom: 55,
   },
   todoGroup: {
@@ -35,6 +35,7 @@ const useStyles = makeStyles((theme) => ({
     overflow: "hidden",
     textOverflow: "ellipsis",
     color: "#fff",
+    fontWeight: 300,
   },
   todoGroups: {
     marginTop: "0.1rem",
@@ -66,6 +67,11 @@ const useStyles = makeStyles((theme) => ({
   icon: {
     fill: "#fff",
   },
+  menuItem: {
+    color: "#fff",
+    fontWeight: 600,
+    fontFamily: "Raleway",
+  },
   textField: {
     "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
       borderWidth: 1,
@@ -89,7 +95,25 @@ function TodoGroupsContainer({ isScrolling }) {
     setOpenPopper(index);
     setAnchorEl(e.currentTarget);
   };
-  const handleClosePopper = () => {
+  const clickOpenPopper = (index) => (e) => {
+    e.stopPropagation();
+    if (isScrolling) {
+      return;
+    }
+    setOpenPopper((prev) => (prev === index ? false : index));
+    setAnchorEl(e.currentTarget);
+  };
+  const editGroupHandler = (e) => {
+    e.stopPropagation();
+    setOpenPopper(false);
+    setAnchorEl(null);
+  };
+  const deleGroupteHandler = (e) => {
+    e.stopPropagation();
+    setOpenPopper(false);
+    setAnchorEl(null);
+  };
+  const handleClosePopper = (e) => {
     setOpenPopper(false);
     setAnchorEl(null);
   };
@@ -102,7 +126,12 @@ function TodoGroupsContainer({ isScrolling }) {
           <Grid item className={classes.todoGroupsContainer}>
             <List>
               {arrays.map((item, index) => (
-                <ListItem key={index} button className={classes.todoGroups}>
+                <ListItem
+                  key={index}
+                  button
+                  className={classes.todoGroups}
+                  onClick={() => console.log("clicked")}
+                >
                   <Grid container alignItems="center">
                     <Grid item xs={10}>
                       <Typography variant="h5" className={classes.todoGroup}>
@@ -113,7 +142,7 @@ function TodoGroupsContainer({ isScrolling }) {
                       <IconButton
                         disableRipple
                         onMouseOver={handlePopper(index)}
-                        onClick={handlePopper(index)}
+                        onClick={clickOpenPopper(index)}
                       >
                         <MoreHorizIcon
                           color="primary"
@@ -141,10 +170,16 @@ function TodoGroupsContainer({ isScrolling }) {
                                 onClickAway={handleClosePopper}
                               >
                                 <MenuList id="menu-list-grow">
-                                  <MenuItem onClick={handleClosePopper}>
+                                  <MenuItem
+                                    onClick={editGroupHandler}
+                                    className={classes.menuItem}
+                                  >
                                     Edit
                                   </MenuItem>
-                                  <MenuItem onClick={handleClosePopper}>
+                                  <MenuItem
+                                    onClick={deleGroupteHandler}
+                                    className={classes.menuItem}
+                                  >
                                     Delete
                                   </MenuItem>
                                 </MenuList>
