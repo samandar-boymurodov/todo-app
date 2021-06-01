@@ -9,6 +9,7 @@ import {
   Divider,
   Fade,
   ClickAwayListener,
+  InputAdornment,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 import SearchIcon from "@material-ui/icons/Search";
@@ -69,7 +70,13 @@ export default function TodoGroupContainer() {
                         style: {
                           padding: "8px 5px",
                         },
-                        endAdornment: <SearchIcon color="primary" />,
+                      }}
+                      InputProps={{
+                        endAdornment: (
+                          <InputAdornment position="end">
+                            <SearchIcon color="primary" />
+                          </InputAdornment>
+                        ),
                       }}
                       placeholder="Type to search"
                     />
