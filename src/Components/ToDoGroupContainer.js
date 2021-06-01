@@ -118,17 +118,17 @@ function TodoGroupContainer({ isScrolling }) {
 
     setChecked(newChecked);
   };
-  const editGroupHandler = (e) => {
+  const editTodoHandler = (e) => {
     e.stopPropagation();
     setOpenPopper(false);
     setAnchorEl(null);
-    setModalType("EditGroup");
+    setModalType("EditTodo");
   };
-  const deleGroupteHandler = (e) => {
+  const deleteTodoHandler = (e) => {
     e.stopPropagation();
     setOpenPopper(false);
     setAnchorEl(null);
-    setModalType("DeleteGroup");
+    setModalType("DeleteTodo");
   };
   const handleClosePopper = () => {
     setOpenPopper(false);
@@ -151,7 +151,10 @@ function TodoGroupContainer({ isScrolling }) {
               <Grid item>
                 {!openSearch ? (
                   <Fade in={!openSearch}>
-                    <IconButton onClick={() => setOpenSearch(true)}>
+                    <IconButton
+                      onClick={() => setOpenSearch(true)}
+                      disableRipple
+                    >
                       <SearchIcon color="secondary" />
                     </IconButton>
                   </Fade>
@@ -183,6 +186,7 @@ function TodoGroupContainer({ isScrolling }) {
                   variant="contained"
                   color="primary"
                   style={{ color: "#fff", boxShadow: "none" }}
+                  onClick={() => setModalType("AddTodo")}
                 >
                   Add todo
                 </Button>
@@ -249,13 +253,13 @@ function TodoGroupContainer({ isScrolling }) {
                             <ClickAwayListener onClickAway={handleClosePopper}>
                               <MenuList id="menu-list-grow">
                                 <MenuItem
-                                  onClick={editGroupHandler}
+                                  onClick={editTodoHandler}
                                   className={classes.menuItem}
                                 >
                                   Edit
                                 </MenuItem>
                                 <MenuItem
-                                  onClick={deleGroupteHandler}
+                                  onClick={deleteTodoHandler}
                                   className={classes.menuItem}
                                 >
                                   Delete
