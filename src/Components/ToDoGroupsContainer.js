@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
     position: "absolute",
     overflow: "auto",
     width: "25rem",
-    top: 56,
+    top: 62,
     bottom: 55,
   },
   todoGroup: {

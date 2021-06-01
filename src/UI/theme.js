@@ -33,9 +33,22 @@ export const theme = createMuiTheme({
     },
   },
   overrides: {
+    MuiList: {
+      padding: {
+        paddingTop: 0,
+        paddingBottom: 0,
+      },
+    },
     MuiListItem: {
       root: {
-        backgroundColor: cyan[400],
+        backgroundColor: cyan[300],
+      },
+    },
+    MuiMenuItem: {
+      root: {
+        "&:hover": {
+          backgroundColor: teal[400],
+        },
       },
     },
     MuiButton: {
