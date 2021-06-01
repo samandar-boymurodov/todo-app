@@ -164,7 +164,7 @@ function TodoGroupsContainer({ isScrolling }) {
                         <MoreHorizIcon className={classes.icon} />
                       </IconButton>
                       <Popper
-                        placement="right-end"
+                        placement="left-start"
                         style={{ zIndex: theme.zIndex.modal }}
                         open={openPopper === index}
                         anchorEl={anchorEl}
