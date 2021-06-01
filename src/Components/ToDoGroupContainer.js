@@ -70,6 +70,11 @@ const useStyles = makeStyles((theme) => ({
       background: theme.palette.primary.light,
     },
   },
+  menuItem: {
+    color: "#fff",
+    fontWeight: 600,
+    fontFamily: "Raleway",
+  },
   listItem: {
     backgroundColor: teal[300],
   },
@@ -118,17 +123,17 @@ function TodoGroupContainer({ isScrolling }) {
 
     setChecked(newChecked);
   };
-  const editGroupHandler = (e) => {
+  const editTodoHandler = (e) => {
     e.stopPropagation();
     setOpenPopper(false);
     setAnchorEl(null);
-    setModalType("EditGroup");
+    setModalType("EditTodo");
   };
-  const deleGroupteHandler = (e) => {
+  const deleteTodoHandler = (e) => {
     e.stopPropagation();
     setOpenPopper(false);
     setAnchorEl(null);
-    setModalType("DeleteGroup");
+    setModalType("DeleteTodo");
   };
   const handleClosePopper = () => {
     setOpenPopper(false);
@@ -150,32 +155,28 @@ function TodoGroupContainer({ isScrolling }) {
             <Grid item container xs={6} justify="flex-end" alignItems="center">
               <Grid item>
                 {!openSearch ? (
-                  <Fade in={!openSearch}>
-                    <IconButton onClick={() => setOpenSearch(true)}>
-                      <SearchIcon color="secondary" />
-                    </IconButton>
-                  </Fade>
+                  <IconButton onClick={() => setOpenSearch(true)} disableRipple>
+                    <SearchIcon color="secondary" />
+                  </IconButton>
                 ) : (
-                  <Fade in={openSearch}>
-                    <ClickAwayListener onClickAway={() => setOpenSearch(false)}>
-                      <TextField
-                        autoFocus
-                        inputProps={{
-                          style: {
-                            padding: "8px 5px",
-                          },
-                        }}
-                        InputProps={{
-                          endAdornment: (
-                            <InputAdornment position="end">
-                              <SearchIcon color="primary" />
-                            </InputAdornment>
-                          ),
-                        }}
-                        placeholder="Type to search"
-                      />
-                    </ClickAwayListener>
-                  </Fade>
+                  <ClickAwayListener onClickAway={() => setOpenSearch(false)}>
+                    <TextField
+                      autoFocus
+                      inputProps={{
+                        style: {
+                          padding: "8px 5px",
+                        },
+                      }}
+                      InputProps={{
+                        endAdornment: (
+                          <InputAdornment position="end">
+                            <SearchIcon color="primary" />
+                          </InputAdornment>
+                        ),
+                      }}
+                      placeholder="Type to search"
+                    />
+                  </ClickAwayListener>
                 )}
               </Grid>
               <Grid item>
@@ -183,6 +184,7 @@ function TodoGroupContainer({ isScrolling }) {
                   variant="contained"
                   color="primary"
                   style={{ color: "#fff", boxShadow: "none" }}
+                  onClick={() => setModalType("AddTodo")}
                 >
                   Add todo
                 </Button>
@@ -249,13 +251,13 @@ function TodoGroupContainer({ isScrolling }) {
                             <ClickAwayListener onClickAway={handleClosePopper}>
                               <MenuList id="menu-list-grow">
                                 <MenuItem
-                                  onClick={editGroupHandler}
+                                  onClick={editTodoHandler}
                                   className={classes.menuItem}
                                 >
                                   Edit
                                 </MenuItem>
                                 <MenuItem
-                                  onClick={deleGroupteHandler}
+                                  onClick={deleteTodoHandler}
                                   className={classes.menuItem}
                                 >
                                   Delete

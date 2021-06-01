@@ -26,9 +26,7 @@ export const theme = createMuiTheme({
       color: "#fff",
       fontSize: "2rem",
     },
-    h5: {
-      fontWeight: 400,
-    },
+
     h6: {
       color: cyan[900],
       fontFamily: "Raleway",
