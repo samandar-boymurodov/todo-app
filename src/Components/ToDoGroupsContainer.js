@@ -56,6 +56,16 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: 400,
     fontFamily: "Raleway",
   },
+  addGroupButton: {
+    height: "100%",
+    fontSize: "1.5rem",
+    fontWeight: 400,
+  },
+  textField: {
+    "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
+      borderWidth: 1,
+    },
+  },
 }));
 
 const arrays = [...new Array(100).fill("Mnemonics")];
@@ -152,6 +162,8 @@ function TodoGroupsContainer({ isScrolling }) {
                   className: classes.addText,
                 }}
                 fullWidth
+                variant="outlined"
+                className={classes.textField}
                 placeholder="Add your Todo Group"
               />
             </Grid>
@@ -160,11 +172,7 @@ function TodoGroupsContainer({ isScrolling }) {
                 variant="contained"
                 fullWidth
                 color="secondary"
-                style={{
-                  height: "100%",
-                  fontSize: "1.5rem",
-                  fontWeight: 400,
-                }}
+                className={classes.addGroupButton}
               >
                 ADD
               </Button>
