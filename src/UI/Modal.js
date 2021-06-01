@@ -76,6 +76,7 @@ const Modal = ({ type }) => {
           label="Enter new name"
           variant="outlined"
           color="primary"
+          autoFocus
         />
       </DialogContent>
       <DialogActions>

@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
       width: 10,
     },
     "&::-webkit-scrollbar-track": {
-      background: "#f1f1f1",
+      background: theme.palette.grey[300],
     },
     "&::-webkit-scrollbar-thumb": {
       background: theme.palette.primary.main,
