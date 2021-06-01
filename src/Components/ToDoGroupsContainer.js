@@ -87,7 +87,7 @@ const useStyles = makeStyles((theme) => ({
     fontFamily: "Raleway",
   },
   textField: {
-    "&.MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
+    "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
       borderWidth: 1,
     },
   },
