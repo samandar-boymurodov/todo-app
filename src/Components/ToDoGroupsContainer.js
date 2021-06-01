@@ -113,7 +113,7 @@ function TodoGroupsContainer({ isScrolling }) {
     setOpenPopper(false);
     setAnchorEl(null);
   };
-  const handleClosePopper = (e) => {
+  const handleClosePopper = () => {
     setOpenPopper(false);
     setAnchorEl(null);
   };
@@ -127,6 +127,7 @@ function TodoGroupsContainer({ isScrolling }) {
             <List>
               {arrays.map((item, index) => (
                 <ListItem
+                  onMouseLeave={handleClosePopper}
                   key={index}
                   button
                   className={classes.todoGroups}
@@ -197,7 +198,6 @@ function TodoGroupsContainer({ isScrolling }) {
           <Grid item container className={classes.AddArea}>
             <Grid item xs={9}>
               <TextField
-                prop
                 inputProps={{
                   className: classes.addText,
                 }}
