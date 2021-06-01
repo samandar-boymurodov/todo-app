@@ -34,14 +34,16 @@ const useStyles = makeStyles((theme) => ({
     whiteSpace: "nowrap",
     overflow: "hidden",
     textOverflow: "ellipsis",
+    color: "#fff",
   },
   todoGroups: {
     marginTop: "0.1rem",
     marginBottom: "0.1rem",
     "&:hover": {
-      backgroundColor: theme.palette.primary.dark,
+      backgroundColor: theme.palette.secondary.light,
       color: "#fff",
     },
+
     color: theme.palette.primary.dark,
   },
   AddArea: {
@@ -60,6 +62,9 @@ const useStyles = makeStyles((theme) => ({
     height: "100%",
     fontSize: "1.5rem",
     fontWeight: 400,
+  },
+  icon: {
+    fill: "#fff",
   },
   textField: {
     "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {

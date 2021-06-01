@@ -35,7 +35,7 @@ export const theme = createMuiTheme({
   overrides: {
     MuiListItem: {
       root: {
-        backgroundColor: cyan[100],
+        backgroundColor: cyan[400],
       },
     },
     MuiButton: {
