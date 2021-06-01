@@ -29,6 +29,18 @@ const useStyles = makeStyles((theme) => ({
     width: "25rem",
     top: 63,
     bottom: 55,
+    "&::-webkit-scrollbar": {
+      width: 10,
+    },
+    "&::-webkit-scrollbar-track": {
+      background: "#f1f1f1",
+    },
+    "&::-webkit-scrollbar-thumb": {
+      background: theme.palette.primary.main,
+    },
+    "&::-webkit-scrollbar-thumb:hover": {
+      background: theme.palette.primary.light,
+    },
   },
   todoGroup: {
     whiteSpace: "nowrap",
