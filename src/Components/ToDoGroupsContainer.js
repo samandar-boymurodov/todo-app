@@ -1,4 +1,6 @@
 import Header from "../UI/Header";
+import Modal from "../UI/Modal";
+import ToDoGroupContainer from "./ToDoGroupContainer";
 import React from "react";
 import {
   Grid,
@@ -17,7 +19,6 @@ import {
 } from "@material-ui/core";
 import { makeStyles, useTheme } from "@material-ui/styles";
 import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
-import Modal from "../UI/Modal";
 import IsScrolling from "react-is-scrolling";
 
 const useStyles = makeStyles((theme) => ({
@@ -27,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
   todoGroupsContainer: {
     position: "absolute",
     overflow: "auto",
-    width: "25rem",
+    width: "35%",
     top: 63,
     bottom: 55,
     "&::-webkit-scrollbar": {
@@ -62,7 +63,7 @@ const useStyles = makeStyles((theme) => ({
   },
   AddArea: {
     position: "absolute",
-    width: "25rem",
+    width: "35%",
     bottom: 0,
   },
   addText: {
@@ -86,7 +87,7 @@ const useStyles = makeStyles((theme) => ({
     fontFamily: "Raleway",
   },
   textField: {
-    "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
+    "&.MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
       borderWidth: 1,
     },
   },
@@ -236,7 +237,9 @@ function TodoGroupsContainer({ isScrolling }) {
           </Grid>
         </Grid>
 
-        <Grid item></Grid>
+        <Grid item>
+          <ToDoGroupContainer />
+        </Grid>
       </Grid>
       <Modal type={modalType} />
     </div>

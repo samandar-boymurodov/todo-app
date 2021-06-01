@@ -50,6 +50,9 @@ const Modal = ({ type }) => {
         <Typography
           color="primary"
           variant="h5"
+          style={{
+            fontFamily: "Raleway",
+          }}
           className={classes.deleteGroupTitle}
         >
           Do you really want to delete?
