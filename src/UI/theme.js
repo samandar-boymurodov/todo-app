@@ -9,6 +9,9 @@ export const theme = createMuiTheme({
     secondary: {
       main: teal[500],
     },
+    background: {
+      paper: teal[50],
+    },
   },
   typography: {
     h1: {
@@ -22,6 +25,9 @@ export const theme = createMuiTheme({
       lineHeight: 1,
       color: "#fff",
       fontSize: "2rem",
+    },
+    h5: {
+      fontWeight: 400,
     },
   },
   props: {

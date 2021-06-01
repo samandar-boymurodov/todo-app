@@ -17,6 +17,7 @@ import {
 } from "@material-ui/core";
 import { makeStyles, useTheme } from "@material-ui/styles";
 import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
+import Modal from "../UI/Modal";
 import IsScrolling from "react-is-scrolling";
 
 const useStyles = makeStyles((theme) => ({
@@ -99,6 +100,7 @@ function TodoGroupsContainer({ isScrolling }) {
 
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [openPopper, setOpenPopper] = React.useState(false);
+  const [modalType, setModalType] = React.useState(null);
 
   const handlePopper = (index) => (e) => {
     if (isScrolling) {
@@ -119,11 +121,13 @@ function TodoGroupsContainer({ isScrolling }) {
     e.stopPropagation();
     setOpenPopper(false);
     setAnchorEl(null);
+    setModalType("EditGroup");
   };
   const deleGroupteHandler = (e) => {
     e.stopPropagation();
     setOpenPopper(false);
     setAnchorEl(null);
+    setModalType("DeleteGroup");
   };
   const handleClosePopper = () => {
     setOpenPopper(false);
@@ -234,6 +238,7 @@ function TodoGroupsContainer({ isScrolling }) {
 
         <Grid item></Grid>
       </Grid>
+      <Modal type={modalType} />
     </div>
   );
 }
