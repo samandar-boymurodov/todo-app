@@ -113,12 +113,7 @@ const Modal = ({ type }) => {
   const addTodo = (
     <>
       <DialogContent>
-        <Grid
-          container
-          direction="column"
-          justify="center"
-          style={{ height: "7.5rem" }}
-        >
+        <Grid container direction="column" justify="center">
           <Grid item>
             <FormControlLabel
               className={classes.descriptionQuestion}
@@ -145,13 +140,18 @@ const Modal = ({ type }) => {
             />
           </Grid>
           <Grid item>
-            <Grow in={check} style={{ marginTop: "0.6rem" }}>
+            <Grow
+              in={check}
+              style={{ marginTop: "0.6rem", marginBottom: "0.5rem" }}
+            >
               <TextField
                 className={classes.textField}
                 label="Enter description"
                 autoFocus={check}
                 variant="outlined"
                 color="primary"
+                multiline
+                rowsMax={4}
               />
             </Grow>
           </Grid>
@@ -171,13 +171,29 @@ const Modal = ({ type }) => {
   const editTodo = (
     <>
       <DialogContent>
-        <TextField
-          className={classes.textField}
-          label="Enter new name"
-          variant="outlined"
-          color="primary"
-          autoFocus
-        />
+        <Grid container direction="column">
+          <Grid item>
+            <TextField
+              className={classes.textField}
+              label="Enter new name"
+              variant="outlined"
+              color="primary"
+              autoFocus
+            />
+          </Grid>
+          <Grid item>
+            <TextField
+              className={classes.textField}
+              label="Enter new description"
+              variant="outlined"
+              color="primary"
+              placeholder="This is optional"
+              style={{
+                marginTop: "1.4rem",
+              }}
+            />
+          </Grid>
+        </Grid>
       </DialogContent>
       <DialogActions>
         <Button variant="outlined" color="secondary" onClick={handleClose}>
@@ -185,6 +201,31 @@ const Modal = ({ type }) => {
         </Button>
         <Button variant="outlined" color="secondary" onClick={handleClose}>
           Cancel
+        </Button>
+      </DialogActions>
+    </>
+  );
+
+  const deleteTodo = (
+    <>
+      <DialogContent>
+        <Typography
+          color="primary"
+          variant="h5"
+          style={{
+            fontFamily: "Raleway",
+          }}
+          className={classes.deleteGroupTitle}
+        >
+          Do you really want to delete?
+        </Typography>
+      </DialogContent>
+      <DialogActions>
+        <Button variant="outlined" color="secondary" onClick={handleClose}>
+          Yes
+        </Button>
+        <Button variant="outlined" color="secondary" onClick={handleClose}>
+          No
         </Button>
       </DialogActions>
     </>
