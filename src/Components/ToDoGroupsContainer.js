@@ -148,7 +148,6 @@ function TodoGroupsContainer({ isScrolling }) {
                   key={index}
                   button
                   className={classes.todoGroups}
-                  onClick={() => console.log("clicked")}
                 >
                   <Grid container alignItems="center">
                     <Grid item xs={10}>
@@ -162,10 +161,7 @@ function TodoGroupsContainer({ isScrolling }) {
                         onMouseOver={handlePopper(index)}
                         onClick={clickOpenPopper(index)}
                       >
-                        <MoreHorizIcon
-                          color="primary"
-                          className={classes.icon}
-                        />
+                        <MoreHorizIcon className={classes.icon} />
                       </IconButton>
                       <Popper
                         placement="right-end"

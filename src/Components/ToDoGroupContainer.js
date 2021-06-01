@@ -16,10 +16,18 @@ import {
   ListItemText,
   Checkbox,
   ListItemIcon,
+  ListItemSecondaryAction,
+  Popper,
+  Grow,
+  MenuList,
+  MenuItem,
 } from "@material-ui/core";
-import { makeStyles } from "@material-ui/styles";
+import { makeStyles, useTheme } from "@material-ui/styles";
 import SearchIcon from "@material-ui/icons/Search";
+import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
 import { CheckBox } from "@material-ui/icons";
+import IsScrolling from "react-is-scrolling";
+import Modal from "../UI/Modal";
 
 const useStyles = makeStyles((theme) => ({
   groupContainer: {
@@ -72,10 +80,31 @@ const arrays = [...new Array(100)].map((el) => [
   "Garden, Kitchen, Bedroom",
 ]);
 
-export default function TodoGroupContainer() {
+function TodoGroupContainer({ isScrolling }) {
+  const classes = useStyles();
+  const theme = useTheme();
+
   const [openSearch, setOpenSearch] = useState(false);
   const [checked, setChecked] = useState([0]);
-  const classes = useStyles();
+  const [openPopper, setOpenPopper] = useState(false);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [modalType, setModalType] = useState(null);
+
+  const handlePopper = (index) => (e) => {
+    if (isScrolling) {
+      return;
+    }
+    setOpenPopper(index);
+    setAnchorEl(e.currentTarget);
+  };
+  const clickOpenPopper = (index) => (e) => {
+    e.stopPropagation();
+    if (isScrolling) {
+      return;
+    }
+    setOpenPopper((prev) => (prev === index ? false : index));
+    setAnchorEl(e.currentTarget);
+  };
 
   const handleToggle = (value) => () => {
     const currentIndex = checked.indexOf(value);
@@ -89,90 +118,164 @@ export default function TodoGroupContainer() {
 
     setChecked(newChecked);
   };
+  const editGroupHandler = (e) => {
+    e.stopPropagation();
+    setOpenPopper(false);
+    setAnchorEl(null);
+    setModalType("EditGroup");
+  };
+  const deleGroupteHandler = (e) => {
+    e.stopPropagation();
+    setOpenPopper(false);
+    setAnchorEl(null);
+    setModalType("DeleteGroup");
+  };
+  const handleClosePopper = () => {
+    setOpenPopper(false);
+    setAnchorEl(null);
+  };
 
   return (
-    <Grid container direction="column" className={classes.groupContainer}>
-      <Paper square className={classes.infoContainer}>
-        <Grid item container>
-          <Grid item xs={6} container justify="flex-end">
-            <Grid item>
-              <Typography variant="h3" className={classes.groupTitle}>
-                Locations
-              </Typography>
+    <>
+      <Grid container direction="column" className={classes.groupContainer}>
+        <Paper square className={classes.infoContainer}>
+          <Grid item container>
+            <Grid item xs={6} container justify="flex-end">
+              <Grid item>
+                <Typography variant="h3" className={classes.groupTitle}>
+                  Locations
+                </Typography>
+              </Grid>
+            </Grid>
+            <Grid item container xs={6} justify="flex-end" alignItems="center">
+              <Grid item>
+                {!openSearch ? (
+                  <Fade in={!openSearch}>
+                    <IconButton onClick={() => setOpenSearch(true)}>
+                      <SearchIcon color="secondary" />
+                    </IconButton>
+                  </Fade>
+                ) : (
+                  <Fade in={openSearch}>
+                    <ClickAwayListener onClickAway={() => setOpenSearch(false)}>
+                      <TextField
+                        autoFocus
+                        inputProps={{
+                          style: {
+                            padding: "8px 5px",
+                          },
+                        }}
+                        InputProps={{
+                          endAdornment: (
+                            <InputAdornment position="end">
+                              <SearchIcon color="primary" />
+                            </InputAdornment>
+                          ),
+                        }}
+                        placeholder="Type to search"
+                      />
+                    </ClickAwayListener>
+                  </Fade>
+                )}
+              </Grid>
+              <Grid item>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  style={{ color: "#fff", boxShadow: "none" }}
+                >
+                  Add todo
+                </Button>
+              </Grid>
             </Grid>
           </Grid>
-          <Grid item container xs={6} justify="flex-end" alignItems="center">
-            <Grid item>
-              {!openSearch ? (
-                <Fade in={!openSearch}>
-                  <IconButton onClick={() => setOpenSearch(true)}>
-                    <SearchIcon color="secondary" />
-                  </IconButton>
-                </Fade>
-              ) : (
-                <Fade in={openSearch}>
-                  <ClickAwayListener onClickAway={() => setOpenSearch(false)}>
-                    <TextField
-                      autoFocus
-                      inputProps={{
-                        style: {
-                          padding: "8px 5px",
-                        },
-                      }}
-                      InputProps={{
-                        endAdornment: (
-                          <InputAdornment position="end">
-                            <SearchIcon color="primary" />
-                          </InputAdornment>
-                        ),
-                      }}
-                      placeholder="Type to search"
+        </Paper>
+        <Grid item className={classes.todos}>
+          <List style={{ marginLeft: "0.4rem" }}>
+            {arrays.map((value, index) => {
+              const labelId = `checkbox-list-label-${index}`;
+              return (
+                <ListItem
+                  divider
+                  className={classes.listItem}
+                  key={index}
+                  onMouseLeave={handleClosePopper}
+                >
+                  <ListItemIcon>
+                    <Checkbox
+                      edge="start"
+                      checked={checked.indexOf(value) !== -1}
+                      tabIndex={-1}
+                      disableRipple
+                      inputProps={{ "aria-labelledby": labelId }}
+                      onClick={handleToggle(value)}
+                      color="secondary"
                     />
-                  </ClickAwayListener>
-                </Fade>
-              )}
-            </Grid>
-            <Grid item>
-              <Button
-                variant="contained"
-                color="primary"
-                style={{ color: "#fff", boxShadow: "none" }}
-              >
-                Add todo
-              </Button>
-            </Grid>
-          </Grid>
-        </Grid>
-      </Paper>
-      <Grid item className={classes.todos}>
-        <List style={{ marginLeft: "0.4rem" }}>
-          {arrays.map((value, index) => {
-            const labelId = `checkbox-list-label-${index}`;
-            return (
-              <ListItem divider className={classes.listItem} key={index}>
-                <ListItemIcon>
-                  <Checkbox
-                    edge="start"
-                    checked={checked.indexOf(value) !== -1}
-                    tabIndex={-1}
-                    disableRipple
-                    inputProps={{ "aria-labelledby": labelId }}
-                    onClick={handleToggle(value)}
-                    color="secondary"
+                  </ListItemIcon>
+                  <ListItemText
+                    primary={<Typography variant="h6">{value[0]}</Typography>}
+                    secondary={
+                      <Typography variant="body1">{value[1]}</Typography>
+                    }
                   />
-                </ListItemIcon>
-                <ListItemText
-                  primary={<Typography variant="h6">{value[0]}</Typography>}
-                  secondary={
-                    <Typography variant="body1">{value[1]}</Typography>
-                  }
-                />
-              </ListItem>
-            );
-          })}
-          +
-        </List>
+                  <ListItemSecondaryAction>
+                    <IconButton
+                      disableRipple
+                      onMouseOver={handlePopper(index)}
+                      onClick={clickOpenPopper(index)}
+                    >
+                      <MoreHorizIcon
+                        className={classes.icon}
+                        style={{ fill: "#fff" }}
+                      />
+                    </IconButton>
+                    <Popper
+                      placement="left"
+                      style={{ zIndex: theme.zIndex.modal }}
+                      open={openPopper === index}
+                      anchorEl={anchorEl}
+                      onMouseLeave={handleClosePopper}
+                      transition
+                      disablePortal
+                    >
+                      {({ TransitionProps, placement }) => (
+                        <Grow
+                          {...TransitionProps}
+                          style={{
+                            transformOrigin: "bottom center",
+                          }}
+                        >
+                          <Paper>
+                            <ClickAwayListener onClickAway={handleClosePopper}>
+                              <MenuList id="menu-list-grow">
+                                <MenuItem
+                                  onClick={editGroupHandler}
+                                  className={classes.menuItem}
+                                >
+                                  Edit
+                                </MenuItem>
+                                <MenuItem
+                                  onClick={deleGroupteHandler}
+                                  className={classes.menuItem}
+                                >
+                                  Delete
+                                </MenuItem>
+                              </MenuList>
+                            </ClickAwayListener>
+                          </Paper>
+                        </Grow>
+                      )}
+                    </Popper>
+                  </ListItemSecondaryAction>
+                </ListItem>
+              );
+            })}
+          </List>
+        </Grid>
       </Grid>
-    </Grid>
+      <Modal type={modalType} />
+    </>
   );
 }
+
+export default IsScrolling(TodoGroupContainer);
