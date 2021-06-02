@@ -23,6 +23,7 @@ import {
   MenuItem,
   Tabs,
   Tab,
+  useMediaQuery,
 } from "@material-ui/core";
 import { makeStyles, useTheme } from "@material-ui/styles";
 import SearchIcon from "@material-ui/icons/Search";
@@ -39,6 +40,9 @@ const useStyles = makeStyles((theme) => ({
     bottom: 0,
     top: 63,
     backgroundColor: theme.palette.background.paper,
+    [theme.breakpoints.down("xs")]: {
+      width: "100%",
+    },
   },
   infoContainer: {
     paddingLeft: "1rem",
@@ -49,17 +53,31 @@ const useStyles = makeStyles((theme) => ({
   },
   groupTitle: {
     color: theme.palette.secondary.main,
+    maxWidth: 450,
+    whiteSpace: "nowrap",
+    overflow: "hidden",
+    textOverflow: "ellipsis",
     [theme.breakpoints.down("lg")]: {
       fontSize: "2.5rem",
+      maxWidth: 300,
+    },
+    [theme.breakpoints.down("md")]: {
+      maxWidth: 200,
+    },
+    [theme.breakpoints.down("sm")]: {
+      fontSize: "2rem",
+      maxWidth: 150,
     },
     [theme.breakpoints.down("xs")]: {
-      fontSize: "2rem",
+      fontSize: "2.2rem",
+      maxWidth: 250,
     },
+    width: (props) => props.openSearch && "100%",
   },
   todos: {
     position: "absolute",
     bottom: 0,
-    top: 120,
+    top: 102,
     width: "100%",
     overflow: "auto",
     "&::-webkit-scrollbar": {
@@ -96,8 +114,10 @@ const arrays = [...new Array(100)].map((el) => [
 ]);
 
 function TodoGroupContainer({ isScrolling }) {
-  const classes = useStyles();
+  const classes = useStyles(openSearch);
   const theme = useTheme();
+  const matchesXS = useMediaQuery(theme.breakpoints.down("xs"));
+  const matchesSM = useMediaQuery(theme.breakpoints.down("sm"));
 
   const [openSearch, setOpenSearch] = useState(false);
   const [checked, setChecked] = useState([0]);
@@ -161,12 +181,15 @@ function TodoGroupContainer({ isScrolling }) {
           {" "}
           {/*--- ToolBar ---*/}
           <Grid container direction="column">
-            <Grid item style={{ height: 45, marginBottom: "0.7rem" }}>
+            <Grid item style={{ height: 45, marginBottom: "0.4rem" }}>
               <Grid container alignItems="center">
                 <Grid item xs={4} container justify="flex-start">
-                  <Grid item>
+                  <Grid
+                    item
+                    style={{ display: matchesSM && openSearch ? "none" : null }}
+                  >
                     <Typography variant="h3" className={classes.groupTitle}>
-                      Locations
+                      LocationsLocationsLocations
                     </Typography>
                   </Grid>
                 </Grid>
@@ -210,7 +233,10 @@ function TodoGroupContainer({ isScrolling }) {
                       </ClickAwayListener>
                     )}
                   </Grid>
-                  <Grid item>
+                  <Grid
+                    item
+                    style={{ display: matchesSM && openSearch ? "none" : null }}
+                  >
                     <Button
                       variant="contained"
                       color="primary"
@@ -224,7 +250,7 @@ function TodoGroupContainer({ isScrolling }) {
               </Grid>
             </Grid>
             <Divider />
-            <Grid item container>
+            <Grid item container justify={matchesXS ? "center" : null}>
               <Tabs onChange={handleTabChange} value={tab}>
                 <Divider orientation="vertical" flexItem />
                 <Tab

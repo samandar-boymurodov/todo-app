@@ -16,6 +16,7 @@ import {
   Paper,
   TextField,
   Button,
+  Hidden,
 } from "@material-ui/core";
 import { makeStyles, useTheme } from "@material-ui/styles";
 import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
@@ -139,99 +140,101 @@ function TodoGroupsContainer({ isScrolling }) {
       <Header />
       <div className={classes.toolbarMargin} />
       <Grid container>
-        <Grid item container direction="column">
-          <Grid item className={classes.todoGroupsContainer}>
-            <List>
-              {arrays.map((item, index) => (
-                <ListItem
-                  onMouseLeave={handleClosePopper}
-                  key={index}
-                  button
-                  className={classes.todoGroups}
+        <Hidden xsDown>
+          <Grid item container direction="column">
+            <Grid item className={classes.todoGroupsContainer}>
+              <List>
+                {arrays.map((item, index) => (
+                  <ListItem
+                    onMouseLeave={handleClosePopper}
+                    key={index}
+                    button
+                    className={classes.todoGroups}
+                  >
+                    <Grid container alignItems="center">
+                      <Grid item xs={10}>
+                        <Typography variant="h5" className={classes.todoGroup}>
+                          {item}
+                        </Typography>
+                      </Grid>
+                      <Grid item xs={2} container justify="flex-end">
+                        <IconButton
+                          disableRipple
+                          onMouseOver={handlePopper(index)}
+                          onClick={clickOpenPopper(index)}
+                        >
+                          <MoreHorizIcon className={classes.icon} />
+                        </IconButton>
+                        <Popper
+                          placement="left-start"
+                          style={{ zIndex: theme.zIndex.modal }}
+                          open={openPopper === index}
+                          anchorEl={anchorEl}
+                          onMouseLeave={handleClosePopper}
+                          transition
+                          disablePortal
+                        >
+                          {({ TransitionProps, placement }) => (
+                            <Grow
+                              {...TransitionProps}
+                              style={{
+                                transformOrigin: "bottom center",
+                              }}
+                            >
+                              <Paper>
+                                <ClickAwayListener
+                                  onClickAway={handleClosePopper}
+                                >
+                                  <MenuList id="menu-list-grow">
+                                    <MenuItem
+                                      onClick={editGroupHandler}
+                                      className={classes.menuItem}
+                                    >
+                                      Edit
+                                    </MenuItem>
+                                    <MenuItem
+                                      onClick={deleGroupteHandler}
+                                      className={classes.menuItem}
+                                    >
+                                      Delete
+                                    </MenuItem>
+                                  </MenuList>
+                                </ClickAwayListener>
+                              </Paper>
+                            </Grow>
+                          )}
+                        </Popper>
+                      </Grid>
+                    </Grid>
+                  </ListItem>
+                ))}
+              </List>
+            </Grid>
+            <Grid item container className={classes.AddArea}>
+              <Grid item xs={9}>
+                <TextField
+                  inputProps={{
+                    className: classes.addText,
+                  }}
+                  fullWidth
+                  variant="outlined"
+                  className={classes.textField}
+                  placeholder="Add your Todo Group"
+                />
+              </Grid>
+              <Grid item xs={3}>
+                <Button
+                  variant="contained"
+                  fullWidth
+                  color="secondary"
+                  className={classes.addGroupButton}
                 >
-                  <Grid container alignItems="center">
-                    <Grid item xs={10}>
-                      <Typography variant="h5" className={classes.todoGroup}>
-                        {item}
-                      </Typography>
-                    </Grid>
-                    <Grid item xs={2} container justify="flex-end">
-                      <IconButton
-                        disableRipple
-                        onMouseOver={handlePopper(index)}
-                        onClick={clickOpenPopper(index)}
-                      >
-                        <MoreHorizIcon className={classes.icon} />
-                      </IconButton>
-                      <Popper
-                        placement="left-start"
-                        style={{ zIndex: theme.zIndex.modal }}
-                        open={openPopper === index}
-                        anchorEl={anchorEl}
-                        onMouseLeave={handleClosePopper}
-                        transition
-                        disablePortal
-                      >
-                        {({ TransitionProps, placement }) => (
-                          <Grow
-                            {...TransitionProps}
-                            style={{
-                              transformOrigin: "bottom center",
-                            }}
-                          >
-                            <Paper>
-                              <ClickAwayListener
-                                onClickAway={handleClosePopper}
-                              >
-                                <MenuList id="menu-list-grow">
-                                  <MenuItem
-                                    onClick={editGroupHandler}
-                                    className={classes.menuItem}
-                                  >
-                                    Edit
-                                  </MenuItem>
-                                  <MenuItem
-                                    onClick={deleGroupteHandler}
-                                    className={classes.menuItem}
-                                  >
-                                    Delete
-                                  </MenuItem>
-                                </MenuList>
-                              </ClickAwayListener>
-                            </Paper>
-                          </Grow>
-                        )}
-                      </Popper>
-                    </Grid>
-                  </Grid>
-                </ListItem>
-              ))}
-            </List>
-          </Grid>
-          <Grid item container className={classes.AddArea}>
-            <Grid item xs={9}>
-              <TextField
-                inputProps={{
-                  className: classes.addText,
-                }}
-                fullWidth
-                variant="outlined"
-                className={classes.textField}
-                placeholder="Add your Todo Group"
-              />
-            </Grid>
-            <Grid item xs={3}>
-              <Button
-                variant="contained"
-                fullWidth
-                color="secondary"
-                className={classes.addGroupButton}
-              >
-                ADD
-              </Button>
+                  ADD
+                </Button>
+              </Grid>
             </Grid>
           </Grid>
-        </Grid>
+        </Hidden>
 
         <Grid item>
           <ToDoGroupContainer />
