@@ -55,9 +55,6 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   todoGroup: {
-    whiteSpace: "nowrap",
-    overflow: "hidden",
-    textOverflow: "ellipsis",
     color: "#fff",
     fontWeight: 300,
   },
@@ -113,7 +110,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const arrays = [...new Array(30).fill("Mnemonics")];
+const arrays = [...new Array(30).fill("MnemonicsMnemonicsMnemonicsMnemonics")];
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="right" ref={ref} {...props} />;
@@ -181,7 +178,7 @@ function TodoGroupsContainer({ isScrolling }) {
                     <Grid container alignItems="center">
                       <Grid item xs={10}>
                         <Typography variant="h5" className={classes.todoGroup}>
-                          {item}
+                          <span style={{ wordWrap: "break-word" }}>{item}</span>
                         </Typography>
                       </Grid>
                       <Grid item xs={2} container justify="flex-end">

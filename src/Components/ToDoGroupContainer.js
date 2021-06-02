@@ -115,11 +115,15 @@ const useStyles = makeStyles((theme) => ({
       fontSize: "2rem",
     },
   },
+  listText: {
+    wordWrap: "breakWord",
+    marginRight: "1.5rem",
+  },
 }));
 
 const arrays = [...new Array(30)].map((el) => [
   "Home",
-  "Garden, Kitchen, Bedroom",
+  "Garden, Kitchen, Bedroom, Roof, Toilet",
 ]);
 
 function TodoGroupContainer({ isScrolling }) {
@@ -342,6 +346,7 @@ function TodoGroupContainer({ isScrolling }) {
                     secondary={
                       <Typography variant="body1">{value[1]}</Typography>
                     }
+                    className={classes.listText}
                   />
                   <ListItemSecondaryAction>
                     <IconButton
