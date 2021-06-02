@@ -24,6 +24,7 @@ import {
   Toolbar,
 } from "@material-ui/core";
 import { makeStyles, useTheme } from "@material-ui/styles";
+import teal from "@material-ui/core/colors/teal";
 import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
 import CloseIcon from "@material-ui/icons/Close";
 import IsScrolling from "react-is-scrolling";
@@ -54,14 +55,15 @@ const useStyles = makeStyles((theme) => ({
       background: theme.palette.primary.light,
     },
   },
-  todoGroup: {
+  groupTitle: {
     color: "#fff",
     fontWeight: 300,
     marginRight: "1.5rem",
+    overflow: "hidden",
   },
-  todoGroups: {
-    marginTop: "0.1rem",
-    marginBottom: "0.1rem",
+  groupText: {
+    width: "85%",
+    wordWrap: "break-word",
     "&:hover": {
       backgroundColor: theme.palette.secondary.light,
       color: "#fff",
@@ -94,6 +96,7 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.down("sm")]: {
       fontSize: "2rem",
     },
+    cursor: "pointer",
   },
   menuItem: {
     color: "#fff",
@@ -109,9 +112,15 @@ const useStyles = makeStyles((theme) => ({
     fill: "#fff",
     fontSize: "2.5rem",
   },
+  groupPaperContainer: {
+    display: "flex",
+    backgroundColor: teal[300],
+    marginTop: 1,
+    marginBottom: 1,
+  },
 }));
 
-const arrays = [...new Array(30).fill("Mnemonics")];
+const arrays = [...new Array(30).fill("MnemonicsMnemonicsMnemonics")];
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="right" ref={ref} {...props} />;
@@ -126,20 +135,13 @@ function TodoGroupsContainer({ isScrolling }) {
   const [modalType, setModalType] = React.useState(null);
   const [openMenu, setOpenMenu] = React.useState(false);
 
-  const handlePopper = (index) => (e) => {
-    if (isScrolling) {
-      return;
-    }
-    setOpenPopper(index);
-    setAnchorEl(e.currentTarget);
-  };
   const clickOpenPopper = (index) => (e) => {
-    e.stopPropagation();
-    if (isScrolling) {
-      return;
-    }
-    setOpenPopper((prev) => (prev === index ? false : index));
     setAnchorEl(e.currentTarget);
+    setOpenPopper(index);
+
+    if (anchorEl) {
+      console.log("exists anchor");
+    }
   };
   const editGroupHandler = (e) => {
     e.stopPropagation();
@@ -154,6 +156,7 @@ function TodoGroupsContainer({ isScrolling }) {
     setModalType("DeleteGroup");
   };
   const handleClosePopper = () => {
+    console.log("close popper");
     setOpenPopper(false);
     setAnchorEl(null);
   };
@@ -170,68 +173,29 @@ function TodoGroupsContainer({ isScrolling }) {
             <Grid item className={classes.todoGroupsContainer}>
               <List>
                 {arrays.map((item, index) => (
-                  <ListItem
-                    onMouseLeave={handleClosePopper}
-                    key={index}
-                    button
-                    className={classes.todoGroups}
+                  <Paper
+                    elevation={0}
+                    className={classes.groupPaperContainer}
+                    square
                   >
-                    <Grid container alignItems="center">
-                      <Grid item xs={10}>
-                        <Typography variant="h5" className={classes.todoGroup}>
-                          <span style={{ wordWrap: "break-word" }}>{item}</span>
-                        </Typography>
-                      </Grid>
-                      <Grid item xs={2} container justify="flex-end">
-                        <IconButton
-                          disableRipple
-                          onMouseOver={handlePopper(index)}
-                          onClick={clickOpenPopper(index)}
-                        >
-                          <MoreHorizIcon className={classes.icon} />
-                        </IconButton>
-                        <Popper
-                          placement="left"
-                          style={{ zIndex: theme.zIndex.modal }}
-                          open={openPopper === index}
-                          anchorEl={anchorEl}
-                          onMouseLeave={handleClosePopper}
-                          transition
-                          disablePortal
-                        >
-                          {({ TransitionProps, placement }) => (
-                            <Grow
-                              {...TransitionProps}
-                              style={{
-                                transformOrigin: "right",
-                              }}
-                            >
-                              <Paper>
-                                <ClickAwayListener
-                                  onClickAway={handleClosePopper}
-                                >
-                                  <MenuList id="menu-list-grow">
-                                    <MenuItem
-                                      onClick={editGroupHandler}
-                                      className={classes.menuItem}
-                                    >
-                                      Edit
-                                    </MenuItem>
-                                    <MenuItem
-                                      onClick={deleGroupteHandler}
-                                      className={classes.menuItem}
-                                    >
-                                      Delete
-                                    </MenuItem>
-                                  </MenuList>
-                                </ClickAwayListener>
-                              </Paper>
-                            </Grow>
-                          )}
-                        </Popper>
-                      </Grid>
+                    <ListItem key={index} button className={classes.groupText}>
+                      <Typography variant="h5" className={classes.groupTitle}>
+                        {item}
+                      </Typography>
+                    </ListItem>
+
+                    <Grid
+                      container
+                      justify="center"
+                      alignItems="center"
+                      style={{ width: "15%" }}
+                    >
+                      <MoreHorizIcon
+                        className={classes.icon}
+                        onClick={clickOpenPopper(index)}
+                      />
                     </Grid>
-                  </ListItem>
+                  </Paper>
                 ))}
               </List>
             </Grid>
@@ -299,7 +263,6 @@ function TodoGroupsContainer({ isScrolling }) {
                       <Grid item xs={2} container justify="flex-end">
                         <IconButton
                           disableRipple
-                          onMouseOver={handlePopper(index)}
                           onClick={clickOpenPopper(index)}
                         >
                           <MoreHorizIcon className={classes.icon} />
@@ -379,6 +342,43 @@ function TodoGroupsContainer({ isScrolling }) {
         </Grid>
       </Grid>
       <Modal type={modalType} />
+      <Popper
+        placement="left"
+        style={{ zIndex: theme.zIndex.modal }}
+        open={!!anchorEl}
+        anchorEl={anchorEl}
+        onMouseLeave={handleClosePopper}
+        transition
+        disablePortal
+      >
+        {({ TransitionProps, placement }) => (
+          <Grow
+            {...TransitionProps}
+            style={{
+              transformOrigin: "right",
+            }}
+          >
+            <Paper>
+              <ClickAwayListener onClickAway={handleClosePopper}>
+                <MenuList id="menu-list-grow">
+                  <MenuItem
+                    onClick={editGroupHandler}
+                    className={classes.menuItem}
+                  >
+                    Edit
+                  </MenuItem>
+                  <MenuItem
+                    onClick={deleGroupteHandler}
+                    className={classes.menuItem}
+                  >
+                    Delete
+                  </MenuItem>
+                </MenuList>
+              </ClickAwayListener>
+            </Paper>
+          </Grow>
+        )}
+      </Popper>
     </div>
   );
 }
