@@ -49,6 +49,12 @@ const useStyles = makeStyles((theme) => ({
   },
   groupTitle: {
     color: theme.palette.secondary.main,
+    [theme.breakpoints.down("lg")]: {
+      fontSize: "2.5rem",
+    },
+    [theme.breakpoints.down("xs")]: {
+      fontSize: "2rem",
+    },
   },
   todos: {
     position: "absolute",
@@ -76,6 +82,11 @@ const useStyles = makeStyles((theme) => ({
   },
   listItem: {
     backgroundColor: teal[300],
+  },
+  serachInput: {
+    [theme.breakpoints.down("md")]: {
+      maxWidth: 180,
+    },
   },
 }));
 
@@ -147,17 +158,26 @@ function TodoGroupContainer({ isScrolling }) {
     <>
       <Grid container direction="column" className={classes.groupContainer}>
         <Paper square className={classes.infoContainer}>
+          {" "}
+          {/*--- ToolBar ---*/}
           <Grid container direction="column">
             <Grid item style={{ height: 45, marginBottom: "0.7rem" }}>
-              <Grid container>
-                <Grid item xs container justify="flex-start">
+              <Grid container alignItems="center">
+                <Grid item xs={4} container justify="flex-start">
                   <Grid item>
                     <Typography variant="h3" className={classes.groupTitle}>
                       Locations
                     </Typography>
                   </Grid>
                 </Grid>
-                <Grid item container xs justify="flex-end" alignItems="center">
+                <Grid
+                  item
+                  container
+                  xs={8}
+                  justify="flex-end"
+                  alignItems="center"
+                  style={{ height: 55 }}
+                >
                   <Grid item>
                     {!openSearch ? (
                       <IconButton
@@ -171,6 +191,7 @@ function TodoGroupContainer({ isScrolling }) {
                         onClickAway={() => setOpenSearch(false)}
                       >
                         <TextField
+                          className={classes.serachInput}
                           autoFocus
                           inputProps={{
                             style: {
@@ -232,6 +253,8 @@ function TodoGroupContainer({ isScrolling }) {
         </Paper>
         <Grid item className={classes.todos}>
           <List style={{ marginLeft: "0.4rem" }}>
+            {" "}
+            {/*--- List of Todos ---*/}
             {arrays.map((value, index) => {
               const labelId = `checkbox-list-label-${index}`;
               return (

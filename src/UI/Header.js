@@ -35,10 +35,10 @@ export default function Header() {
       <Toolbar>
         <Grid container justify="space-between" alignItems="center">
           <Grid item>
-            <Hidden smDown>
+            <Hidden xsDown>
               <Typography variant="h4">Samandar</Typography>
             </Hidden>
-            <Hidden mdUp>
+            <Hidden smUp>
               <IconButton>
                 <MenuIcon className={classes.menu} />
               </IconButton>
