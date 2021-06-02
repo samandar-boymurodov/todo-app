@@ -35,6 +35,7 @@ export const theme = createMuiTheme({
     body1: {
       color: "#fff",
       fontWeight: 400,
+      fontSize: "1rem",
     },
     h3: {
       fontWeight: 500,
@@ -105,6 +106,16 @@ export const theme = createMuiTheme({
       },
       input: {
         color: cyan[600],
+      },
+    },
+    MuiTab: {
+      root: {
+        minHeight: 0,
+      },
+    },
+    MuiTabs: {
+      root: {
+        minHeight: 0,
       },
     },
   },

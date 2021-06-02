@@ -93,7 +93,7 @@ function TodoGroupContainer({ isScrolling }) {
   const [openPopper, setOpenPopper] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
   const [modalType, setModalType] = useState(null);
-  const [tab, setTab] = useState(0);
+  const [tab, setTab] = useState("todos");
 
   const handlePopper = (index) => (e) => {
     if (isScrolling) {
@@ -204,10 +204,11 @@ function TodoGroupContainer({ isScrolling }) {
             </Grid>
             <Divider />
             <Grid item container>
-              <Divider orientation="vertical" flexItem />
               <Tabs onChange={handleTabChange} value={tab}>
+                <Divider orientation="vertical" flexItem />
                 <Tab
                   disableTouchRipple
+                  value="todos"
                   label={
                     <Typography variant="body1" color="secondary">
                       Todos
@@ -217,6 +218,7 @@ function TodoGroupContainer({ isScrolling }) {
                 <Divider orientation="vertical" flexItem />
                 <Tab
                   disableTouchRipple
+                  value="completed-todos"
                   label={
                     <Typography variant="body1" color="secondary">
                       Completed Todos
