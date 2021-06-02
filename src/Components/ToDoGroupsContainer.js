@@ -93,6 +93,9 @@ const useStyles = makeStyles((theme) => ({
   },
   icon: {
     fill: "#fff",
+    [theme.breakpoints.down("sm")]: {
+      fontSize: "2rem",
+    },
   },
   menuItem: {
     color: "#fff",
@@ -110,7 +113,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const arrays = [...new Array(100).fill("Mnemonics")];
+const arrays = [...new Array(30).fill("Mnemonics")];
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="right" ref={ref} {...props} />;

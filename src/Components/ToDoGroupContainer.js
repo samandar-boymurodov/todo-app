@@ -109,9 +109,15 @@ const useStyles = makeStyles((theme) => ({
       width: "100%",
     },
   },
+  icon: {
+    fill: "#fff",
+    [theme.breakpoints.down("sm")]: {
+      fontSize: "2rem",
+    },
+  },
 }));
 
-const arrays = [...new Array(100)].map((el) => [
+const arrays = [...new Array(30)].map((el) => [
   "Home",
   "Garden, Kitchen, Bedroom",
 ]);
