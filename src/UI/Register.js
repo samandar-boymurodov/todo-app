@@ -9,7 +9,6 @@ import {
 import { makeStyles, useTheme } from "@material-ui/styles";
 import { useFormik } from "formik";
 import * as yup from "yup";
-import LockOpenIcon from "@material-ui/icons/LockOpen";
 
 const validationSchema = yup.object({
   email: yup
@@ -43,15 +42,6 @@ const validationSchema = yup.object({
 });
 
 const useStyles = makeStyles((theme) => ({
-  lockIcon: {
-    backgroundColor: theme.palette.secondary.main,
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    borderRadius: 50,
-    height: "3rem",
-    width: "3rem",
-  },
   form: {
     padding: "1.25rem",
   },
@@ -85,22 +75,29 @@ export default function Register() {
   return (
     <Grid
       container
-      direction="column"
+      direction={matchesSM ? "column" : "row"}
       alignItems="center"
+      justify={matchesSM ? null : "center"}
       style={{
-        paddingTop: "2.5rem",
+        paddingTop: matchesSM ? "1.5rem" : null,
         backgroundColor: matchesSM ? "rgb(51, 201, 220, 0.1 )" : undefined,
       }}
     >
-      <Grid item style={{ marginBottom: "1.25rem" }}>
+      <Grid
+        item
+        style={{
+          marginBottom: matchesSM ? "1rem" : undefined,
+          marginRight: matchesSM ? undefined : "-2rem",
+          marginLeft: matchesSM ? undefined : "-6rem",
+        }}
+      >
         <Grid container direction="column" alignItems="center">
-          <Grid item className={classes.lockIcon}>
-            <span>
-              <LockOpenIcon style={{ fill: "#fff" }} />
-            </span>
-          </Grid>
           <Grid item>
-            <Typography variant="h1" color="secondary">
+            <Typography
+              variant="h1"
+              color="secondary"
+              style={{ transform: matchesSM ? null : "rotate(-90deg)" }}
+            >
               Sign up
             </Typography>
           </Grid>
@@ -112,6 +109,10 @@ export default function Register() {
         style={{
           width: matchesSM ? "100%" : null,
           backgroundColor: !matchesSM ? "rgb(51, 201, 220, 0.1 )" : undefined,
+          marginLeft: matchesSM ? undefined : "-2rem",
+          height: matchesSM ? undefined : "100vh",
+          display: "flex",
+          alignItems: "center",
         }}
       >
         <Grid
