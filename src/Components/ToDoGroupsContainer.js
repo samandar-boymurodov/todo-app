@@ -17,9 +17,15 @@ import {
   TextField,
   Button,
   Hidden,
+  Dialog,
+  DialogContent,
+  Slide,
+  AppBar,
+  Toolbar,
 } from "@material-ui/core";
 import { makeStyles, useTheme } from "@material-ui/styles";
 import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
+import CloseIcon from "@material-ui/icons/Close";
 import IsScrolling from "react-is-scrolling";
 
 const useStyles = makeStyles((theme) => ({
@@ -30,6 +36,9 @@ const useStyles = makeStyles((theme) => ({
     position: "absolute",
     overflow: "auto",
     width: "35%",
+    [theme.breakpoints.down("xs")]: {
+      width: "100%",
+    },
     top: 63,
     bottom: 55,
     "&::-webkit-scrollbar": {
@@ -65,6 +74,9 @@ const useStyles = makeStyles((theme) => ({
   AddArea: {
     position: "absolute",
     width: "35%",
+    [theme.breakpoints.down("xs")]: {
+      width: "100%",
+    },
     bottom: 0,
   },
   addText: {
@@ -92,9 +104,17 @@ const useStyles = makeStyles((theme) => ({
       borderWidth: 1,
     },
   },
+  closeIcon: {
+    fill: "#fff",
+    fontSize: "2.5rem",
+  },
 }));
 
 const arrays = [...new Array(100).fill("Mnemonics")];
+
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Slide direction="right" ref={ref} {...props} />;
+});
 
 function TodoGroupsContainer({ isScrolling }) {
   const classes = useStyles();
@@ -103,6 +123,7 @@ function TodoGroupsContainer({ isScrolling }) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [openPopper, setOpenPopper] = React.useState(false);
   const [modalType, setModalType] = React.useState(null);
+  const [openMenu, setOpenMenu] = React.useState(false);
 
   const handlePopper = (index) => (e) => {
     if (isScrolling) {
@@ -135,9 +156,12 @@ function TodoGroupsContainer({ isScrolling }) {
     setOpenPopper(false);
     setAnchorEl(null);
   };
+  const handleMenu = () => {
+    setOpenMenu(!openMenu);
+  };
   return (
     <div>
-      <Header />
+      <Header handleMenu={handleMenu} />
       <div className={classes.toolbarMargin} />
       <Grid container>
         <Hidden xsDown>
@@ -166,7 +190,7 @@ function TodoGroupsContainer({ isScrolling }) {
                           <MoreHorizIcon className={classes.icon} />
                         </IconButton>
                         <Popper
-                          placement="left-start"
+                          placement="left"
                           style={{ zIndex: theme.zIndex.modal }}
                           open={openPopper === index}
                           anchorEl={anchorEl}
@@ -178,7 +202,7 @@ function TodoGroupsContainer({ isScrolling }) {
                             <Grow
                               {...TransitionProps}
                               style={{
-                                transformOrigin: "bottom center",
+                                transformOrigin: "right",
                               }}
                             >
                               <Paper>
@@ -235,7 +259,120 @@ function TodoGroupsContainer({ isScrolling }) {
             </Grid>
           </Grid>
         </Hidden>
-
+        <Dialog
+          open={openMenu}
+          TransitionComponent={Transition}
+          keepMounted
+          fullScreen
+        >
+          <AppBar color="secondary">
+            <Toolbar>
+              <Grid container justify="space-between" alignItems="center">
+                <Grid item>
+                  <Typography variant="h4">Samandar</Typography>
+                </Grid>
+                <Grid item>
+                  <IconButton onClick={handleMenu} disableRipple>
+                    <CloseIcon color="primary" className={classes.closeIcon} />
+                  </IconButton>
+                </Grid>
+              </Grid>
+            </Toolbar>
+          </AppBar>
+          <Grid item container direction="column">
+            <Grid item className={classes.todoGroupsContainer}>
+              <List>
+                {arrays.map((item, index) => (
+                  <ListItem
+                    onMouseLeave={handleClosePopper}
+                    key={index}
+                    button
+                    className={classes.todoGroups}
+                  >
+                    <Grid container alignItems="center">
+                      <Grid item xs={10}>
+                        <Typography variant="h5" className={classes.todoGroup}>
+                          {item}
+                        </Typography>
+                      </Grid>
+                      <Grid item xs={2} container justify="flex-end">
+                        <IconButton
+                          disableRipple
+                          onMouseOver={handlePopper(index)}
+                          onClick={clickOpenPopper(index)}
+                        >
+                          <MoreHorizIcon className={classes.icon} />
+                        </IconButton>
+                        <Popper
+                          placement="left"
+                          style={{ zIndex: theme.zIndex.modal }}
+                          open={openPopper === index}
+                          anchorEl={anchorEl}
+                          onMouseLeave={handleClosePopper}
+                          transition
+                          disablePortal
+                        >
+                          {({ TransitionProps, placement }) => (
+                            <Grow
+                              {...TransitionProps}
+                              style={{
+                                transformOrigin: "right",
+                              }}
+                            >
+                              <Paper>
+                                <ClickAwayListener
+                                  onClickAway={handleClosePopper}
+                                >
+                                  <MenuList id="menu-list-grow">
+                                    <MenuItem
+                                      onClick={editGroupHandler}
+                                      className={classes.menuItem}
+                                    >
+                                      Edit
+                                    </MenuItem>
+                                    <MenuItem
+                                      onClick={deleGroupteHandler}
+                                      className={classes.menuItem}
+                                    >
+                                      Delete
+                                    </MenuItem>
+                                  </MenuList>
+                                </ClickAwayListener>
+                              </Paper>
+                            </Grow>
+                          )}
+                        </Popper>
+                      </Grid>
+                    </Grid>
+                  </ListItem>
+                ))}
+              </List>
+            </Grid>
+            <Grid item container className={classes.AddArea}>
+              <Grid item xs={9}>
+                <TextField
+                  inputProps={{
+                    className: classes.addText,
+                  }}
+                  fullWidth
+                  variant="outlined"
+                  className={classes.textField}
+                  placeholder="Add your Todo Group"
+                />
+              </Grid>
+              <Grid item xs={3}>
+                <Button
+                  variant="contained"
+                  fullWidth
+                  color="secondary"
+                  className={classes.addGroupButton}
+                >
+                  ADD
+                </Button>
+              </Grid>
+            </Grid>
+          </Grid>
+        </Dialog>
         <Grid item>
           <ToDoGroupContainer />
         </Grid>

@@ -128,7 +128,7 @@ function TodoGroupContainer({ isScrolling }) {
   const [anchorEl, setAnchorEl] = useState(null);
   const [modalType, setModalType] = useState(null);
   const [tab, setTab] = useState("todos");
-  console.log(theme.breakpoints.down("xs"));
+
   const handlePopper = (index) => (e) => {
     if (isScrolling) {
       return;
@@ -218,7 +218,7 @@ function TodoGroupContainer({ isScrolling }) {
                   <Grid item xs={4} container justify="flex-start">
                     <Grid item>
                       <Typography variant="h3" className={classes.groupTitle}>
-                        LocationsLocationsLocations
+                        Locations
                       </Typography>
                     </Grid>
                   </Grid>
@@ -361,7 +361,7 @@ function TodoGroupContainer({ isScrolling }) {
                         <Grow
                           {...TransitionProps}
                           style={{
-                            transformOrigin: "bottom center",
+                            transformOrigin: "right",
                           }}
                         >
                           <Paper>

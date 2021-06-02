@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Header() {
+export default function Header({ handleMenu }) {
   const classes = useStyles();
   const theme = useTheme();
 
@@ -39,7 +39,7 @@ export default function Header() {
               <Typography variant="h4">Samandar</Typography>
             </Hidden>
             <Hidden smUp>
-              <IconButton>
+              <IconButton onClick={handleMenu}>
                 <MenuIcon className={classes.menu} />
               </IconButton>
             </Hidden>
