@@ -57,22 +57,18 @@ const useStyles = makeStyles((theme) => ({
     whiteSpace: "nowrap",
     overflow: "hidden",
     textOverflow: "ellipsis",
-    [theme.breakpoints.down("lg")]: {
-      fontSize: "2.5rem",
-      maxWidth: 300,
-    },
+    lineHeight: 1,
     [theme.breakpoints.down("md")]: {
-      maxWidth: 200,
+      maxWidth: 260,
     },
     [theme.breakpoints.down("sm")]: {
       fontSize: "2rem",
       maxWidth: 150,
     },
     [theme.breakpoints.down("xs")]: {
-      fontSize: "2.2rem",
-      maxWidth: 250,
+      fontSize: "2rem",
+      maxWidth: 130,
     },
-    width: (props) => props.openSearch && "100%",
   },
   todos: {
     position: "absolute",
@@ -97,13 +93,20 @@ const useStyles = makeStyles((theme) => ({
     color: "#fff",
     fontWeight: 600,
     fontFamily: "Raleway",
+    // "&.MuiListItem-root": {
+    //   paddingTop: 0,
+    //   paddingBottom: 0,
+    // },
   },
   listItem: {
     backgroundColor: teal[300],
   },
   serachInput: {
     [theme.breakpoints.down("md")]: {
-      maxWidth: 180,
+      width: 180,
+    },
+    [theme.breakpoints.down("xs")]: {
+      width: "100%",
     },
   },
 }));
@@ -114,7 +117,7 @@ const arrays = [...new Array(100)].map((el) => [
 ]);
 
 function TodoGroupContainer({ isScrolling }) {
-  const classes = useStyles(openSearch);
+  const classes = useStyles();
   const theme = useTheme();
   const matchesXS = useMediaQuery(theme.breakpoints.down("xs"));
   const matchesSM = useMediaQuery(theme.breakpoints.down("sm"));
@@ -125,7 +128,7 @@ function TodoGroupContainer({ isScrolling }) {
   const [anchorEl, setAnchorEl] = useState(null);
   const [modalType, setModalType] = useState(null);
   const [tab, setTab] = useState("todos");
-
+  console.log(theme.breakpoints.down("xs"));
   const handlePopper = (index) => (e) => {
     if (isScrolling) {
       return;
@@ -181,22 +184,49 @@ function TodoGroupContainer({ isScrolling }) {
           {" "}
           {/*--- ToolBar ---*/}
           <Grid container direction="column">
-            <Grid item style={{ height: 45, marginBottom: "0.4rem" }}>
+            <Grid
+              item
+              style={{
+                height: 45,
+                marginBottom: "0.4rem",
+              }}
+            >
+              {openSearch && matchesXS ? (
+                <ClickAwayListener onClickAway={() => setOpenSearch(false)}>
+                  <TextField
+                    className={classes.serachInput}
+                    autoFocus
+                    inputProps={{
+                      style: {
+                        padding: "8px 5px",
+                      },
+                    }}
+                    style={{ marginTop: 10 }}
+                    InputProps={{
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          <SearchIcon color="primary" />
+                        </InputAdornment>
+                      ),
+                    }}
+                    placeholder="Type to search"
+                  />
+                </ClickAwayListener>
+              ) : null}
               <Grid container alignItems="center">
-                <Grid item xs={4} container justify="flex-start">
-                  <Grid
-                    item
-                    style={{ display: matchesSM && openSearch ? "none" : null }}
-                  >
-                    <Typography variant="h3" className={classes.groupTitle}>
-                      LocationsLocationsLocations
-                    </Typography>
+                {!(openSearch && matchesXS) ? (
+                  <Grid item xs={4} container justify="flex-start">
+                    <Grid item>
+                      <Typography variant="h3" className={classes.groupTitle}>
+                        LocationsLocationsLocations
+                      </Typography>
+                    </Grid>
                   </Grid>
-                </Grid>
+                ) : null}
                 <Grid
                   item
                   container
-                  xs={8}
+                  xs={!(openSearch && matchesXS) ? 8 : 12}
                   justify="flex-end"
                   alignItems="center"
                   style={{ height: 55 }}
@@ -209,7 +239,7 @@ function TodoGroupContainer({ isScrolling }) {
                       >
                         <SearchIcon color="secondary" />
                       </IconButton>
-                    ) : (
+                    ) : !(openSearch && matchesXS) ? (
                       <ClickAwayListener
                         onClickAway={() => setOpenSearch(false)}
                       >
@@ -231,21 +261,21 @@ function TodoGroupContainer({ isScrolling }) {
                           placeholder="Type to search"
                         />
                       </ClickAwayListener>
-                    )}
+                    ) : null}
                   </Grid>
-                  <Grid
-                    item
-                    style={{ display: matchesSM && openSearch ? "none" : null }}
-                  >
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      style={{ color: "#fff", boxShadow: "none" }}
-                      onClick={() => setModalType("AddTodo")}
-                    >
-                      Add todo
-                    </Button>
-                  </Grid>
+
+                  {!(matchesSM && openSearch) ? (
+                    <Grid item>
+                      <Button
+                        variant="contained"
+                        color="primary"
+                        style={{ color: "#fff", boxShadow: "none" }}
+                        onClick={() => setModalType("AddTodo")}
+                      >
+                        Add todo
+                      </Button>
+                    </Grid>
+                  ) : null}
                 </Grid>
               </Grid>
             </Grid>

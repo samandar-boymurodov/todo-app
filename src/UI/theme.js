@@ -67,6 +67,10 @@ export const theme = createMuiTheme({
         "&:hover": {
           backgroundColor: teal[400],
         },
+        ["@media (max-width:599.95px)"]: {
+          padding: "5px 15px",
+          minHeight: 30,
+        },
       },
     },
     MuiButton: {
