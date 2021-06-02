@@ -21,6 +21,8 @@ import {
   Grow,
   MenuList,
   MenuItem,
+  Tabs,
+  Tab,
 } from "@material-ui/core";
 import { makeStyles, useTheme } from "@material-ui/styles";
 import SearchIcon from "@material-ui/icons/Search";
@@ -44,9 +46,6 @@ const useStyles = makeStyles((theme) => ({
     margin: "0.3rem 0.5rem",
     boxShadow: theme.shadows[3],
     backgroundColor: cyan[100],
-    display: "flex",
-    alignItems: "center",
-    height: 55,
   },
   groupTitle: {
     color: theme.palette.secondary.main,
@@ -54,7 +53,7 @@ const useStyles = makeStyles((theme) => ({
   todos: {
     position: "absolute",
     bottom: 0,
-    top: 70,
+    top: 120,
     width: "100%",
     overflow: "auto",
     "&::-webkit-scrollbar": {
@@ -94,6 +93,7 @@ function TodoGroupContainer({ isScrolling }) {
   const [openPopper, setOpenPopper] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
   const [modalType, setModalType] = useState(null);
+  const [tab, setTab] = useState(0);
 
   const handlePopper = (index) => (e) => {
     if (isScrolling) {
@@ -139,56 +139,92 @@ function TodoGroupContainer({ isScrolling }) {
     setOpenPopper(false);
     setAnchorEl(null);
   };
+  const handleTabChange = (e, newValue) => {
+    setTab(newValue);
+  };
 
   return (
     <>
       <Grid container direction="column" className={classes.groupContainer}>
         <Paper square className={classes.infoContainer}>
-          <Grid item container>
-            <Grid item xs={6} container justify="flex-end">
-              <Grid item>
-                <Typography variant="h3" className={classes.groupTitle}>
-                  Locations
-                </Typography>
+          <Grid container direction="column">
+            <Grid item style={{ height: 45, marginBottom: "0.7rem" }}>
+              <Grid container>
+                <Grid item xs container justify="flex-start">
+                  <Grid item>
+                    <Typography variant="h3" className={classes.groupTitle}>
+                      Locations
+                    </Typography>
+                  </Grid>
+                </Grid>
+                <Grid item container xs justify="flex-end" alignItems="center">
+                  <Grid item>
+                    {!openSearch ? (
+                      <IconButton
+                        onClick={() => setOpenSearch(true)}
+                        disableRipple
+                      >
+                        <SearchIcon color="secondary" />
+                      </IconButton>
+                    ) : (
+                      <ClickAwayListener
+                        onClickAway={() => setOpenSearch(false)}
+                      >
+                        <TextField
+                          autoFocus
+                          inputProps={{
+                            style: {
+                              padding: "8px 5px",
+                            },
+                          }}
+                          InputProps={{
+                            endAdornment: (
+                              <InputAdornment position="end">
+                                <SearchIcon color="primary" />
+                              </InputAdornment>
+                            ),
+                          }}
+                          placeholder="Type to search"
+                        />
+                      </ClickAwayListener>
+                    )}
+                  </Grid>
+                  <Grid item>
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      style={{ color: "#fff", boxShadow: "none" }}
+                      onClick={() => setModalType("AddTodo")}
+                    >
+                      Add todo
+                    </Button>
+                  </Grid>
+                </Grid>
               </Grid>
             </Grid>
-            <Grid item container xs={6} justify="flex-end" alignItems="center">
-              <Grid item>
-                {!openSearch ? (
-                  <IconButton onClick={() => setOpenSearch(true)} disableRipple>
-                    <SearchIcon color="secondary" />
-                  </IconButton>
-                ) : (
-                  <ClickAwayListener onClickAway={() => setOpenSearch(false)}>
-                    <TextField
-                      autoFocus
-                      inputProps={{
-                        style: {
-                          padding: "8px 5px",
-                        },
-                      }}
-                      InputProps={{
-                        endAdornment: (
-                          <InputAdornment position="end">
-                            <SearchIcon color="primary" />
-                          </InputAdornment>
-                        ),
-                      }}
-                      placeholder="Type to search"
-                    />
-                  </ClickAwayListener>
-                )}
-              </Grid>
-              <Grid item>
-                <Button
-                  variant="contained"
-                  color="primary"
-                  style={{ color: "#fff", boxShadow: "none" }}
-                  onClick={() => setModalType("AddTodo")}
-                >
-                  Add todo
-                </Button>
-              </Grid>
+            <Divider />
+            <Grid item container>
+              <Divider orientation="vertical" flexItem />
+              <Tabs onChange={handleTabChange} value={tab}>
+                <Tab
+                  disableTouchRipple
+                  label={
+                    <Typography variant="body1" color="secondary">
+                      Todos
+                    </Typography>
+                  }
+                />
+                <Divider orientation="vertical" flexItem />
+                <Tab
+                  disableTouchRipple
+                  label={
+                    <Typography variant="body1" color="secondary">
+                      Completed Todos
+                    </Typography>
+                  }
+                />
+                <Divider orientation="vertical" flexItem />
+              </Tabs>
             </Grid>
           </Grid>
         </Paper>
