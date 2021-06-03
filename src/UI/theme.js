@@ -60,8 +60,6 @@ export const theme = createMuiTheme({
     MuiListItem: {
       root: {
         backgroundColor: cyan[300],
-        paddingTop: "5px !important",
-        paddingBottom: "5px !important",
       },
     },
     MuiMenuItem: {
