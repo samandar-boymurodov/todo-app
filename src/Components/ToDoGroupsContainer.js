@@ -28,7 +28,6 @@ import {
 import { makeStyles, useTheme } from "@material-ui/styles";
 import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
 import CloseIcon from "@material-ui/icons/Close";
-import IsScrolling from "react-is-scrolling";
 
 const useStyles = makeStyles((theme) => ({
   toolbarMargin: {
@@ -56,14 +55,13 @@ const useStyles = makeStyles((theme) => ({
       background: theme.palette.primary.light,
     },
   },
-  todoGroup: {
+  groupText: {
     color: "#fff",
     fontWeight: 300,
     marginRight: "1.5rem",
+    wordWrap: "break-word",
   },
-  todoGroups: {
-    marginTop: "0.1rem",
-    marginBottom: "0.1rem",
+  groupContainer: {
     "&:hover": {
       backgroundColor: theme.palette.secondary.light,
       color: "#fff",
@@ -119,7 +117,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="right" ref={ref} {...props} />;
 });
 
-function TodoGroupsContainer({ isScrolling }) {
+function TodoGroupsContainer() {
   const classes = useStyles();
   const theme = useTheme();
 
@@ -129,28 +127,19 @@ function TodoGroupsContainer({ isScrolling }) {
   const [openMenu, setOpenMenu] = React.useState(false);
 
   const handlePopper = (index) => (e) => {
-    if (isScrolling) {
-      return;
-    }
     setOpenPopper(index);
     setAnchorEl(e.currentTarget);
   };
   const clickOpenPopper = (index) => (e) => {
-    e.stopPropagation();
-    if (isScrolling) {
-      return;
-    }
     setOpenPopper((prev) => (prev === index ? false : index));
     setAnchorEl(e.currentTarget);
   };
   const editGroupHandler = (e) => {
-    e.stopPropagation();
     setOpenPopper(false);
     setAnchorEl(null);
     setModalType("EditGroup");
   };
   const deleGroupteHandler = (e) => {
-    e.stopPropagation();
     setOpenPopper(false);
     setAnchorEl(null);
     setModalType("DeleteGroup");
@@ -172,72 +161,72 @@ function TodoGroupsContainer({ isScrolling }) {
             <Grid item className={classes.todoGroupsContainer}>
               <List>
                 {arrays.map((item, index) => (
-                  <ListItem
-                    onMouseLeave={handleClosePopper}
-                    key={index}
-                    button
-                    className={classes.todoGroups}
-                  >
-                    <ListItemText
-                      primary={
-                        <Typography variant="h5" className={classes.todoGroup}>
-                          {item}
-                        </Typography>
-                      }
-                    />
-
-                    <ListItemSecondaryAction>
-                      <IconButton
-                        disableRipple
-                        onMouseOver={handlePopper(index)}
-                        onClick={clickOpenPopper(index)}
-                      >
-                        <MoreHorizIcon
-                          className={classes.icon}
-                          style={{ fill: "#fff" }}
-                        />
-                      </IconButton>
-                      <Popper
-                        placement="left"
-                        style={{ zIndex: theme.zIndex.modal }}
-                        open={openPopper === index}
-                        anchorEl={anchorEl}
-                        onMouseLeave={handleClosePopper}
-                        transition
-                        disablePortal
-                      >
-                        {({ TransitionProps, placement }) => (
-                          <Grow
-                            {...TransitionProps}
-                            style={{
-                              transformOrigin: "right",
-                            }}
+                  <div key={index}>
+                    <Popper
+                      placement="left"
+                      style={{ zIndex: theme.zIndex.modal }}
+                      open={openPopper === index}
+                      anchorEl={anchorEl}
+                      onMouseLeave={handleClosePopper}
+                      transition
+                      disablePortal
+                    >
+                      {({ TransitionProps }) => (
+                        <Grow
+                          {...TransitionProps}
+                          style={{
+                            transformOrigin: "right",
+                          }}
+                        >
+                          <Paper>
+                            <ClickAwayListener onClickAway={handleClosePopper}>
+                              <MenuList id="menu-list-grow">
+                                <MenuItem
+                                  onClick={editGroupHandler}
+                                  className={classes.menuItem}
+                                >
+                                  Edit
+                                </MenuItem>
+                                <MenuItem
+                                  onClick={deleGroupteHandler}
+                                  className={classes.menuItem}
+                                >
+                                  Delete
+                                </MenuItem>
+                              </MenuList>
+                            </ClickAwayListener>
+                          </Paper>
+                        </Grow>
+                      )}
+                    </Popper>
+                    <ListItem
+                      onMouseLeave={handleClosePopper}
+                      button
+                      className={classes.groupContainer}
+                      divider
+                    >
+                      <ListItemText
+                        primary={
+                          <Typography
+                            variant="h5"
+                            className={classes.groupText}
                           >
-                            <Paper>
-                              <ClickAwayListener
-                                onClickAway={handleClosePopper}
-                              >
-                                <MenuList id="menu-list-grow">
-                                  <MenuItem
-                                    onClick={editGroupHandler}
-                                    className={classes.menuItem}
-                                  >
-                                    Edit
-                                  </MenuItem>
-                                  <MenuItem
-                                    onClick={deleGroupteHandler}
-                                    className={classes.menuItem}
-                                  >
-                                    Delete
-                                  </MenuItem>
-                                </MenuList>
-                              </ClickAwayListener>
-                            </Paper>
-                          </Grow>
-                        )}
-                      </Popper>
-                    </ListItemSecondaryAction>
-                  </ListItem>
+                            {item}
+                          </Typography>
+                        }
+                      />
+
+                      <ListItemSecondaryAction>
+                        <IconButton
+                          disableRipple
+                          onMouseOver={handlePopper(index)}
+                          onClick={clickOpenPopper(index)}
+                        >
+                          <MoreHorizIcon className={classes.icon} />
+                        </IconButton>
+                      </ListItemSecondaryAction>
+                    </ListItem>
+                  </div>
                 ))}
               </List>
             </Grid>
@@ -290,19 +279,62 @@ function TodoGroupsContainer({ isScrolling }) {
             <Grid item className={classes.todoGroupsContainer}>
               <List>
                 {arrays.map((item, index) => (
-                  <ListItem
-                    onMouseLeave={handleClosePopper}
-                    key={index}
-                    button
-                    className={classes.todoGroups}
-                  >
-                    <Grid container alignItems="center">
-                      <Grid item xs={10}>
-                        <Typography variant="h5" className={classes.todoGroup}>
-                          <span style={{ wordWrap: "break-word" }}>{item}</span>
-                        </Typography>
-                      </Grid>
-                      <Grid item xs={2} container justify="flex-end">
+                  <div key={index}>
+                    <Popper
+                      placement="left"
+                      style={{ zIndex: theme.zIndex.modal }}
+                      open={openPopper === index}
+                      anchorEl={anchorEl}
+                      onMouseLeave={handleClosePopper}
+                      transition
+                      disablePortal
+                    >
+                      {({ TransitionProps }) => (
+                        <Grow
+                          {...TransitionProps}
+                          style={{
+                            transformOrigin: "right",
+                          }}
+                        >
+                          <Paper>
+                            <ClickAwayListener onClickAway={handleClosePopper}>
+                              <MenuList id="menu-list-grow">
+                                <MenuItem
+                                  onClick={editGroupHandler}
+                                  className={classes.menuItem}
+                                >
+                                  Edit
+                                </MenuItem>
+                                <MenuItem
+                                  onClick={deleGroupteHandler}
+                                  className={classes.menuItem}
+                                >
+                                  Delete
+                                </MenuItem>
+                              </MenuList>
+                            </ClickAwayListener>
+                          </Paper>
+                        </Grow>
+                      )}
+                    </Popper>
+                    <ListItem
+                      onMouseLeave={handleClosePopper}
+                      button
+                      className={classes.groupContainer}
+                      divider
+                    >
+                      <ListItemText
+                        primary={
+                          <Typography
+                            variant="h5"
+                            className={classes.groupText}
+                          >
+                            {item}
+                          </Typography>
+                        }
+                      />
+
+                      <ListItemSecondaryAction>
                         <IconButton
                           disableRipple
                           onMouseOver={handlePopper(index)}
@@ -310,48 +342,9 @@ function TodoGroupsContainer({ isScrolling }) {
                         >
                           <MoreHorizIcon className={classes.icon} />
                         </IconButton>
-                        <Popper
-                          placement="left"
-                          style={{ zIndex: theme.zIndex.modal }}
-                          open={openPopper === index}
-                          anchorEl={anchorEl}
-                          onMouseLeave={handleClosePopper}
-                          transition
-                          disablePortal
-                        >
-                          {({ TransitionProps, placement }) => (
-                            <Grow
-                              {...TransitionProps}
-                              style={{
-                                transformOrigin: "right",
-                              }}
-                            >
-                              <Paper>
-                                <ClickAwayListener
-                                  onClickAway={handleClosePopper}
-                                >
-                                  <MenuList id="menu-list-grow">
-                                    <MenuItem
-                                      onClick={editGroupHandler}
-                                      className={classes.menuItem}
-                                    >
-                                      Edit
-                                    </MenuItem>
-                                    <MenuItem
-                                      onClick={deleGroupteHandler}
-                                      className={classes.menuItem}
-                                    >
-                                      Delete
-                                    </MenuItem>
-                                  </MenuList>
-                                </ClickAwayListener>
-                              </Paper>
-                            </Grow>
-                          )}
-                        </Popper>
-                      </Grid>
-                    </Grid>
-                  </ListItem>
+                      </ListItemSecondaryAction>
+                    </ListItem>
+                  </div>
                 ))}
               </List>
             </Grid>
@@ -389,4 +382,4 @@ function TodoGroupsContainer({ isScrolling }) {
   );
 }
 
-export default IsScrolling(TodoGroupsContainer);
+export default TodoGroupsContainer;

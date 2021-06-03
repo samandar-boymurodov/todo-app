@@ -29,7 +29,6 @@ import { makeStyles, useTheme } from "@material-ui/styles";
 import SearchIcon from "@material-ui/icons/Search";
 import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
 import { CheckBox } from "@material-ui/icons";
-import IsScrolling from "react-is-scrolling";
 import Modal from "../UI/Modal";
 
 const useStyles = makeStyles((theme) => ({
@@ -126,7 +125,7 @@ const arrays = [...new Array(30)].map((el) => [
   "Garden, Kitchen, Bedroom, Roof, Toilet",
 ]);
 
-function TodoGroupContainer({ isScrolling }) {
+function TodoGroupContainer() {
   const classes = useStyles();
   const theme = useTheme();
   const matchesXS = useMediaQuery(theme.breakpoints.down("xs"));
@@ -140,17 +139,11 @@ function TodoGroupContainer({ isScrolling }) {
   const [tab, setTab] = useState("todos");
 
   const handlePopper = (index) => (e) => {
-    if (isScrolling) {
-      return;
-    }
     setOpenPopper(index);
     setAnchorEl(e.currentTarget);
   };
   const clickOpenPopper = (index) => (e) => {
     e.stopPropagation();
-    if (isScrolling) {
-      return;
-    }
     setOpenPopper((prev) => (prev === index ? false : index));
     setAnchorEl(e.currentTarget);
   };
@@ -408,4 +401,4 @@ function TodoGroupContainer({ isScrolling }) {
   );
 }
 
-export default IsScrolling(TodoGroupContainer);
+export default TodoGroupContainer;
