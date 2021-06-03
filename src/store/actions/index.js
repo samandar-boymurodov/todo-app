@@ -1,2 +1,2 @@
-export { register, login, logout } from "./auth";
+export { register, login, logout, checkAuthState } from "./auth";
 export { setAlert, removeAlert } from "./alert";

@@ -35,6 +35,13 @@ export const authReducer = (state = initialState, action) => {
         userId: null,
         error: null,
       };
+    case actionTypes.AUTO_LOGIN:
+      console.log(authData);
+      return {
+        ...state,
+        token: authData.idToken,
+        userId: authData.localId,
+      };
     default:
       return state;
   }

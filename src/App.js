@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 import { ThemeProvider } from "@material-ui/core";
 import { Snackbar, Typography } from "@material-ui/core";
@@ -9,7 +9,7 @@ import Login from "./UI/Login";
 import ToDoGroupsContainer from "./Components/ToDoGroupsContainer";
 import Fonts from "./UI/Fonts";
 import { connect } from "react-redux";
-import { removeAlert } from "./store/actions/index";
+import { removeAlert, checkAuthState } from "./store/actions/index";
 
 function Alert(props) {
   return (
@@ -24,10 +24,11 @@ function Alert(props) {
   );
 }
 
-function App({ open, message, type, onCloseAlert }) {
-  React.useEffect(() => {
+function App({ open, message, type, onCloseAlert, tryToSignIn }) {
+  useEffect(() => {
+    tryToSignIn();
     Fonts();
-  }, []);
+  }, [tryToSignIn]);
   return (
     <ThemeProvider theme={theme}>
       <BrowserRouter>
@@ -65,6 +66,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => {
   return {
     onCloseAlert: () => dispatch(removeAlert()),
+    tryToSignIn: () => dispatch(checkAuthState()),
   };
 };
 
