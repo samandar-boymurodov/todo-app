@@ -6,6 +6,7 @@ import {
   useMediaQuery,
   Typography,
 } from "@material-ui/core";
+import { useEffect } from "react";
 import { makeStyles, useTheme } from "@material-ui/styles";
 import { useFormik } from "formik";
 import * as yup from "yup";
@@ -16,6 +17,7 @@ import cyan from "@material-ui/core/colors/cyan";
 import { connect } from "react-redux";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import * as actions from "../store/actions/index";
+import { useHistory } from "react-router-dom";
 
 const validationSchema = yup.object({
   password: yup
@@ -65,9 +67,16 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Login({ onAuth, loading }) {
+function Login({ onAuth, loading, isAuth }) {
   const classes = useStyles();
+  const history = useHistory();
   const theme = useTheme();
+
+  useEffect(() => {
+    if (isAuth) {
+      history.push("/dashboard");
+    }
+  }, [isAuth]);
 
   const formik = useFormik({
     initialValues: {
@@ -177,6 +186,7 @@ const mapDispatchToProps = (dispatch) => {
 const mapStateToProps = (state) => {
   return {
     loading: state.auth.loading,
+    isAuth: !!state.auth.token,
   };
 };
 

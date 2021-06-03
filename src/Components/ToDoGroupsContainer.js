@@ -1,7 +1,8 @@
 import Header from "../UI/Header";
 import Modal from "../UI/Modal";
 import ToDoGroupContainer from "./ToDoGroupContainer";
-import React from "react";
+import React, { useEffect } from "react";
+import { connect } from "react-redux";
 import {
   Grid,
   List,
@@ -28,6 +29,7 @@ import {
 import { makeStyles, useTheme } from "@material-ui/styles";
 import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
 import CloseIcon from "@material-ui/icons/Close";
+import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   toolbarMargin: {
@@ -117,9 +119,16 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="right" ref={ref} {...props} />;
 });
 
-function TodoGroupsContainer() {
+function TodoGroupsContainer({ isAuth }) {
   const classes = useStyles();
   const theme = useTheme();
+  const history = useHistory();
+
+  useEffect(() => {
+    if (!isAuth) {
+      history.push("/login");
+    }
+  }, [isAuth]);
 
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [openPopper, setOpenPopper] = React.useState(null);
@@ -382,4 +391,8 @@ function TodoGroupsContainer() {
   );
 }
 
-export default TodoGroupsContainer;
+const mapStateToProps = (state) => ({
+  isAuth: !!state.auth.token,
+});
+
+export default connect(mapStateToProps)(TodoGroupsContainer);

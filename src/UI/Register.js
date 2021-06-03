@@ -6,6 +6,8 @@ import {
   Divider,
   useMediaQuery,
 } from "@material-ui/core";
+import { useEffect } from "react";
+import { useHistory } from "react-router-dom";
 import { makeStyles, useTheme } from "@material-ui/styles";
 import { useFormik } from "formik";
 import { Link } from "react-router-dom";
@@ -48,9 +50,16 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Register({ onAuth, loading }) {
+function Register({ onAuth, loading, isAuth }) {
   const theme = useTheme();
   const classes = useStyles();
+  const history = useHistory();
+
+  useEffect(() => {
+    if (isAuth) {
+      history.push("/dashboard");
+    }
+  }, [isAuth]);
 
   const matchesSM = useMediaQuery(theme.breakpoints.down("xs"));
   const formik = useFormik({
@@ -211,6 +220,7 @@ const mapDispatchToProps = (dispatch) => {
 const mapStateToProps = (state) => {
   return {
     loading: state.auth.loading,
+    isAuth: !!state.auth.token,
   };
 };
 
