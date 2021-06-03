@@ -22,6 +22,8 @@ import {
   Slide,
   AppBar,
   Toolbar,
+  ListItemSecondaryAction,
+  ListItemText,
 } from "@material-ui/core";
 import { makeStyles, useTheme } from "@material-ui/styles";
 import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
@@ -176,61 +178,65 @@ function TodoGroupsContainer({ isScrolling }) {
                     button
                     className={classes.todoGroups}
                   >
-                    <Grid container alignItems="center">
-                      <Grid item xs={10}>
+                    <ListItemText
+                      primary={
                         <Typography variant="h5" className={classes.todoGroup}>
-                          <span style={{ wordWrap: "break-word" }}>{item}</span>
+                          {item}
                         </Typography>
-                      </Grid>
-                      <Grid item xs={2} container justify="flex-end">
-                        <IconButton
-                          disableRipple
-                          onMouseOver={handlePopper(index)}
-                          onClick={clickOpenPopper(index)}
-                        >
-                          <MoreHorizIcon className={classes.icon} />
-                        </IconButton>
-                        <Popper
-                          placement="left"
-                          style={{ zIndex: theme.zIndex.modal }}
-                          open={openPopper === index}
-                          anchorEl={anchorEl}
-                          onMouseLeave={handleClosePopper}
-                          transition
-                          disablePortal
-                        >
-                          {({ TransitionProps, placement }) => (
-                            <Grow
-                              {...TransitionProps}
-                              style={{
-                                transformOrigin: "right",
-                              }}
-                            >
-                              <Paper>
-                                <ClickAwayListener
-                                  onClickAway={handleClosePopper}
-                                >
-                                  <MenuList id="menu-list-grow">
-                                    <MenuItem
-                                      onClick={editGroupHandler}
-                                      className={classes.menuItem}
-                                    >
-                                      Edit
-                                    </MenuItem>
-                                    <MenuItem
-                                      onClick={deleGroupteHandler}
-                                      className={classes.menuItem}
-                                    >
-                                      Delete
-                                    </MenuItem>
-                                  </MenuList>
-                                </ClickAwayListener>
-                              </Paper>
-                            </Grow>
-                          )}
-                        </Popper>
-                      </Grid>
-                    </Grid>
+                      }
+                    />
+
+                    <ListItemSecondaryAction>
+                      <IconButton
+                        disableRipple
+                        onMouseOver={handlePopper(index)}
+                        onClick={clickOpenPopper(index)}
+                      >
+                        <MoreHorizIcon
+                          className={classes.icon}
+                          style={{ fill: "#fff" }}
+                        />
+                      </IconButton>
+                      <Popper
+                        placement="left"
+                        style={{ zIndex: theme.zIndex.modal }}
+                        open={openPopper === index}
+                        anchorEl={anchorEl}
+                        onMouseLeave={handleClosePopper}
+                        transition
+                        disablePortal
+                      >
+                        {({ TransitionProps, placement }) => (
+                          <Grow
+                            {...TransitionProps}
+                            style={{
+                              transformOrigin: "right",
+                            }}
+                          >
+                            <Paper>
+                              <ClickAwayListener
+                                onClickAway={handleClosePopper}
+                              >
+                                <MenuList id="menu-list-grow">
+                                  <MenuItem
+                                    onClick={editGroupHandler}
+                                    className={classes.menuItem}
+                                  >
+                                    Edit
+                                  </MenuItem>
+                                  <MenuItem
+                                    onClick={deleGroupteHandler}
+                                    className={classes.menuItem}
+                                  >
+                                    Delete
+                                  </MenuItem>
+                                </MenuList>
+                              </ClickAwayListener>
+                            </Paper>
+                          </Grow>
+                        )}
+                      </Popper>
+                    </ListItemSecondaryAction>
                   </ListItem>
                 ))}
               </List>
