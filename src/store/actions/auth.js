@@ -15,15 +15,53 @@ export const authSuccess = (authData) => {
   };
 };
 
-export const authError = (error) => {
+export const authFail = (error) => {
   return {
     type: actionTypes.AUTH_FAIL,
     error: error,
   };
 };
 
-export const auth = (username, email, password) => (dispatch) => {
+export const register = (username, email, password) => (dispatch) => {
   dispatch(authStart());
-  axios.post("");
-  AIzaSyCLDHvRZv8ufkm6vcmWf6xH4oXLBA9x258;
+  const authData = {
+    email,
+    password,
+    returnSecureToken: true,
+  };
+  axios
+    .post(
+      "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyCLDHvRZv8ufkm6vcmWf6xH4oXLBA9x258",
+      authData
+    )
+    .then((response) => {
+      console.log(response);
+      dispatch(authSuccess(response.data));
+    })
+    .catch((error) => {
+      console.dir(error.response.data);
+      dispatch(authFail(error));
+    });
+};
+
+export const login = (email, password) => (dispatch) => {
+  dispatch(authStart());
+  const authData = {
+    email,
+    password,
+    returnSecureToken: true,
+  };
+  axios
+    .post(
+      "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyCLDHvRZv8ufkm6vcmWf6xH4oXLBA9x258",
+      authData
+    )
+    .then((response) => {
+      console.log(response);
+      dispatch(authSuccess(response.data));
+    })
+    .catch((error) => {
+      console.dir(error.response.data);
+      dispatch(authFail(error));
+    });
 };

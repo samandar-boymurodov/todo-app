@@ -11,6 +11,10 @@ import { useFormik } from "formik";
 import * as yup from "yup";
 import LockOpenIcon from "@material-ui/icons/LockOpen";
 import bulb from "../assets/bulb.jpg";
+import { Link } from "react-router-dom";
+import cyan from "@material-ui/core/colors/cyan";
+import { connect } from "react-redux";
+import * as actions from "../store/actions/index";
 
 const validationSchema = yup.object({
   password: yup
@@ -19,11 +23,11 @@ const validationSchema = yup.object({
     .max(20, "Enter shorter password")
     .required("Password is required"),
 
-  username: yup
-    .string("Enter your Username")
-    .required("Username is required")
-    .min(3, "Enter longer Username")
-    .max(15, "Enter shorter Username"),
+  email: yup
+    .string("Enter your email")
+    .required("Email is required")
+    .min(3, "Enter longer email")
+    .max(15, "Enter shorter email"),
 });
 
 const useStyles = makeStyles((theme) => ({
@@ -61,18 +65,18 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Login() {
+function Login({ onAuth }) {
   const classes = useStyles();
   const theme = useTheme();
 
   const formik = useFormik({
     initialValues: {
-      username: "",
+      email: "",
       password: "",
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
-      alert(JSON.stringify(values, null, 2));
+      onAuth(values.email, values.password);
     },
   });
   return (
@@ -109,22 +113,21 @@ export default function Login() {
           >
             <Grid item>
               <TextField
-                name="username"
-                id="username"
-                label="Username or Email"
+                name="email"
+                id="email"
+                label="Email"
                 fullWidth
-                value={formik.values.username}
+                value={formik.values.email}
                 onChange={formik.handleChange}
-                error={
-                  formik.touched.username && Boolean(formik.errors.username)
-                }
-                helperText={formik.touched.username && formik.errors.username}
+                error={formik.touched.email && Boolean(formik.errors.email)}
+                helperText={formik.touched.email && formik.errors.email}
               />
             </Grid>
             <Grid item style={{ marginTop: "1.25rem" }}>
               <TextField
                 name="password"
                 id="password"
+                type="password"
                 label="Password"
                 fullWidth
                 value={formik.values.password}
@@ -146,9 +149,25 @@ export default function Login() {
                 Submit
               </Button>
             </Grid>
+            <Grid item style={{ marginTop: "1rem" }}>
+              <Typography variant="body1" color="secondary">
+                If you are not signed up, then you can{" "}
+                <Link to="/register" style={{ color: cyan[500] }}>
+                  sign up
+                </Link>
+              </Typography>
+            </Grid>
           </Grid>
         </Grid>
       </Grid>
     </Grid>
   );
 }
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onAuth: (email, password) => dispatch(actions.login(email, password)),
+  };
+};
+
+export default connect(null, mapDispatchToProps)(Login);

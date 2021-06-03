@@ -8,9 +8,11 @@ import {
 } from "@material-ui/core";
 import { makeStyles, useTheme } from "@material-ui/styles";
 import { useFormik } from "formik";
+import { Link } from "react-router-dom";
 import * as yup from "yup";
 import * as actions from "../store/actions/index";
 import { connect } from "react-redux";
+import cyan from "@material-ui/core/colors/cyan";
 
 const validationSchema = yup.object({
   email: yup
@@ -181,6 +183,14 @@ function Register({ onAuth }) {
               Submit
             </Button>
           </Grid>
+          <Grid item>
+            <Typography variant="body1" color="secondary">
+              If you are already signup up, then you can{" "}
+              <Link to="/login" style={{ color: cyan[500] }}>
+                login
+              </Link>
+            </Typography>
+          </Grid>
         </Grid>
       </Grid>
     </Grid>
@@ -190,7 +200,7 @@ function Register({ onAuth }) {
 const mapDispatchToProps = (dispatch) => {
   return {
     onAuth: (username, email, password) =>
-      dispatch(actions.auth(email, password)),
+      dispatch(actions.register(username, email, password)),
   };
 };
 
