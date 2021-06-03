@@ -10,6 +10,9 @@ import {
 } from "@material-ui/core";
 import { makeStyles, useTheme } from "@material-ui/styles";
 import MenuIcon from "@material-ui/icons/Menu";
+import { useDispatch } from "react-redux";
+import { useHistory } from "react-router-dom";
+import { logout } from "../store/actions/auth";
 
 const useStyles = makeStyles((theme) => ({
   button: {
@@ -30,6 +33,8 @@ export default function Header({ handleMenu }) {
   const theme = useTheme();
 
   const matchesMD = useMediaQuery(theme.breakpoints.down("sm"));
+  const dispatch = useDispatch();
+  const history = useHistory();
   return (
     <AppBar>
       <Toolbar>
@@ -45,7 +50,14 @@ export default function Header({ handleMenu }) {
             </Hidden>
           </Grid>
           <Grid item>
-            <Button variant="contained" className={classes.button}>
+            <Button
+              variant="contained"
+              className={classes.button}
+              onClick={() => {
+                dispatch(logout());
+                history.push("/login");
+              }}
+            >
               Log Out
             </Button>
           </Grid>

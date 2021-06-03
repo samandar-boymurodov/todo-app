@@ -1,6 +1,6 @@
 import axios from "axios";
-
 import * as actionTypes from "./actionTypes";
+
 import { setAlert } from "./index";
 
 export const authStart = () => {
@@ -22,6 +22,10 @@ export const authFail = (error) => {
     error: error,
   };
 };
+
+export const logout = () => ({
+  type: actionTypes.LOGOUT,
+});
 
 export const register = (username, email, password) => (dispatch) => {
   dispatch(authStart());
