@@ -9,6 +9,8 @@ import {
 import { makeStyles, useTheme } from "@material-ui/styles";
 import { useFormik } from "formik";
 import * as yup from "yup";
+import * as actions from "../store/actions/index";
+import { connect } from "react-redux";
 
 const validationSchema = yup.object({
   email: yup
@@ -24,16 +26,6 @@ const validationSchema = yup.object({
     .string("Enter a confirmation password")
     .required("Confirmation password is required")
     .oneOf([yup.ref("password"), null], "Passwords must match"),
-  firstname: yup
-    .string("Enter your Firstname")
-    .min(3, "Enter longer Firstname")
-    .max(15, "Enter shorter Firstname")
-    .required("Firstname is required"),
-  lastname: yup
-    .string("Enter your Lastname")
-    .min(3, "Enter longer Lastname")
-    .max(15, "Enter shorter Lastname")
-    .required("Lastname is required"),
   username: yup
     .string("Enter your Username")
     .required("Username is required")
@@ -53,15 +45,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Register() {
+function Register({ onAuth }) {
   const theme = useTheme();
   const classes = useStyles();
 
   const matchesSM = useMediaQuery(theme.breakpoints.down("xs"));
   const formik = useFormik({
     initialValues: {
-      firstname: "",
-      lastname: "",
       username: "",
       email: "",
       password: "",
@@ -69,7 +59,7 @@ export default function Register() {
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
-      alert(JSON.stringify(values, null, 2));
+      onAuth(values.username, values.email, values.password);
     },
   });
   return (
@@ -122,41 +112,6 @@ export default function Register() {
           component="form"
           onSubmit={formik.handleSubmit}
         >
-          <Grid
-            item
-            container
-            direction={matchesSM ? "column" : "row"}
-            spacing={2}
-          >
-            <Grid item>
-              <TextField
-                label="First Name"
-                name="firstname"
-                id="firstname"
-                value={formik.values.firstname}
-                onChange={formik.handleChange}
-                error={
-                  formik.touched.firstname && Boolean(formik.errors.firstname)
-                }
-                helperText={formik.touched.firstname && formik.errors.firstname}
-                fullWidth={matchesSM ? true : false}
-              />
-            </Grid>
-            <Grid item>
-              <TextField
-                label="Last Name"
-                name="lastname"
-                id="lastname"
-                fullWidth={matchesSM ? true : false}
-                value={formik.values.lastname}
-                onChange={formik.handleChange}
-                error={
-                  formik.touched.lastname && Boolean(formik.errors.lastname)
-                }
-                helperText={formik.touched.lastname && formik.errors.lastname}
-              />
-            </Grid>
-          </Grid>
           <Grid item>
             <TextField
               label="Username"
@@ -231,3 +186,12 @@ export default function Register() {
     </Grid>
   );
 }
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onAuth: (username, email, password) =>
+      dispatch(actions.auth(email, password)),
+  };
+};
+
+export default connect(null, mapDispatchToProps)(Register);
