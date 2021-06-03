@@ -51,22 +51,21 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: cyan[100],
   },
   groupTitle: {
+    fontSize: "2rem",
     color: theme.palette.secondary.main,
     maxWidth: 450,
     [theme.breakpoints.down("md")]: {
       maxWidth: 260,
     },
     [theme.breakpoints.down("sm")]: {
-      fontSize: "2rem",
       maxWidth: 150,
     },
     [theme.breakpoints.down("xs")]: {
-      fontSize: "2rem",
       maxWidth: 130,
     },
   },
   groupTitleContainer: {
-    overflowX: "scroll",
+    overflow: "auto",
     "&::-webkit-scrollbar": {
       height: 5,
     },
@@ -214,18 +213,19 @@ function TodoGroupContainer() {
                 </ClickAwayListener>
               ) : null}
 
-              <Grid container alignItems="center">
+              <Grid container alignItems="center" style={{ height: "100%" }}>
                 {!(openSearch && matchesXS) ? (
                   <Grid
                     item
                     xs={4}
                     container
                     justify="flex-start"
+                    alignItems="center"
                     className={classes.groupTitleContainer}
                   >
-                    <Grid item className={classes.groupTitle}>
+                    <Grid item>
                       <Typography variant="h3" className={classes.groupTitle}>
-                        LocationsLocationsLocationsLocations
+                        Locations
                       </Typography>
                     </Grid>
                   </Grid>
