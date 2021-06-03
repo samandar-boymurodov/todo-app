@@ -4,6 +4,7 @@ import * as reducers from "./reducers/index";
 
 const rootReducer = combineReducers({
   auth: reducers.authReducer,
+  alert: reducers.alertReducer,
 });
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;

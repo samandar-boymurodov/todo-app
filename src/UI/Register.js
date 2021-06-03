@@ -13,6 +13,7 @@ import * as yup from "yup";
 import * as actions from "../store/actions/index";
 import { connect } from "react-redux";
 import cyan from "@material-ui/core/colors/cyan";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 const validationSchema = yup.object({
   email: yup
@@ -47,7 +48,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Register({ onAuth }) {
+function Register({ onAuth, loading }) {
   const theme = useTheme();
   const classes = useStyles();
 
@@ -180,7 +181,11 @@ function Register({ onAuth }) {
               fullWidth
               className={classes.submitButton}
             >
-              Submit
+              {loading ? (
+                <CircularProgress style={{ color: "#fff" }} />
+              ) : (
+                "Submit"
+              )}
             </Button>
           </Grid>
           <Grid item>
@@ -203,5 +208,10 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(actions.register(username, email, password)),
   };
 };
+const mapStateToProps = (state) => {
+  return {
+    loading: state.auth.loading,
+  };
+};
 
-export default connect(null, mapDispatchToProps)(Register);
+export default connect(mapStateToProps, mapDispatchToProps)(Register);

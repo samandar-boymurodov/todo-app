@@ -1,6 +1,7 @@
 import axios from "axios";
 
 import * as actionTypes from "./actionTypes";
+import { setAlert } from "./index";
 
 export const authStart = () => {
   return {
@@ -37,10 +38,12 @@ export const register = (username, email, password) => (dispatch) => {
     .then((response) => {
       console.log(response);
       dispatch(authSuccess(response.data));
+      dispatch(setAlert("Successfully signed up!", "success"));
     })
     .catch((error) => {
-      console.dir(error.response.data);
-      dispatch(authFail(error));
+      console.log(error.response.data.error.message);
+      dispatch(authFail(error.response.data.error.message));
+      dispatch(setAlert("Something went wrong!", "error"));
     });
 };
 
@@ -59,9 +62,11 @@ export const login = (email, password) => (dispatch) => {
     .then((response) => {
       console.log(response);
       dispatch(authSuccess(response.data));
+      dispatch(setAlert("Successfully signed in!", "success"));
     })
     .catch((error) => {
-      console.dir(error.response.data);
-      dispatch(authFail(error));
+      console.log(error.response.data.error.message);
+      dispatch(authFail(error.response.data.error.message));
+      dispatch(setAlert("Something went wrong!", "error"));
     });
 };

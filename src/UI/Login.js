@@ -14,6 +14,7 @@ import bulb from "../assets/bulb.jpg";
 import { Link } from "react-router-dom";
 import cyan from "@material-ui/core/colors/cyan";
 import { connect } from "react-redux";
+import CircularProgress from "@material-ui/core/CircularProgress";
 import * as actions from "../store/actions/index";
 
 const validationSchema = yup.object({
@@ -25,9 +26,8 @@ const validationSchema = yup.object({
 
   email: yup
     .string("Enter your email")
-    .required("Email is required")
-    .min(3, "Enter longer email")
-    .max(15, "Enter shorter email"),
+    .email("Enter a valid email")
+    .required("Email is required"),
 });
 
 const useStyles = makeStyles((theme) => ({
@@ -65,7 +65,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Login({ onAuth }) {
+function Login({ onAuth, loading }) {
   const classes = useStyles();
   const theme = useTheme();
 
@@ -146,7 +146,11 @@ function Login({ onAuth }) {
                 className={classes.submitButton}
                 color="primary"
               >
-                Submit
+                {loading ? (
+                  <CircularProgress style={{ color: "#fff" }} />
+                ) : (
+                  "Submit"
+                )}
               </Button>
             </Grid>
             <Grid item style={{ marginTop: "1rem" }}>
@@ -170,4 +174,10 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(null, mapDispatchToProps)(Login);
+const mapStateToProps = (state) => {
+  return {
+    loading: state.auth.loading,
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);
