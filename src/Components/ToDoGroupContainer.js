@@ -100,7 +100,7 @@ const useStyles = makeStyles((theme) => ({
   listItem: {
     backgroundColor: teal[300],
   },
-  serachInput: {
+  searchInput: {
     [theme.breakpoints.down("md")]: {
       width: 180,
     },
@@ -115,7 +115,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   listText: {
-    wordWrap: "breakWord",
+    wordWrap: "break-word",
     marginRight: "1.5rem",
   },
 }));
@@ -133,7 +133,7 @@ function TodoGroupContainer() {
 
   const [openSearch, setOpenSearch] = useState(false);
   const [checked, setChecked] = useState([0]);
-  const [openPopper, setOpenPopper] = useState(false);
+  const [openPopper, setOpenPopper] = useState(null);
   const [anchorEl, setAnchorEl] = useState(null);
   const [modalType, setModalType] = useState(null);
   const [tab, setTab] = useState("todos");
@@ -144,7 +144,7 @@ function TodoGroupContainer() {
   };
   const clickOpenPopper = (index) => (e) => {
     e.stopPropagation();
-    setOpenPopper((prev) => (prev === index ? false : index));
+    setOpenPopper((prev) => (prev === index ? null : index));
     setAnchorEl(e.currentTarget);
   };
 
@@ -162,18 +162,18 @@ function TodoGroupContainer() {
   };
   const editTodoHandler = (e) => {
     e.stopPropagation();
-    setOpenPopper(false);
+    setOpenPopper(null);
     setAnchorEl(null);
     setModalType("EditTodo");
   };
   const deleteTodoHandler = (e) => {
     e.stopPropagation();
-    setOpenPopper(false);
+    setOpenPopper(null);
     setAnchorEl(null);
     setModalType("DeleteTodo");
   };
   const handleClosePopper = () => {
-    setOpenPopper(false);
+    setOpenPopper(null);
     setAnchorEl(null);
   };
   const handleTabChange = (e, newValue) => {
@@ -197,7 +197,7 @@ function TodoGroupContainer() {
               {openSearch && matchesXS ? (
                 <ClickAwayListener onClickAway={() => setOpenSearch(false)}>
                   <TextField
-                    className={classes.serachInput}
+                    className={classes.searchInput}
                     autoFocus
                     inputProps={{
                       style: {
@@ -229,7 +229,7 @@ function TodoGroupContainer() {
                 <Grid
                   item
                   container
-                  xs={!(openSearch && matchesXS) ? 8 : 12}
+                  xs={8}
                   justify="flex-end"
                   alignItems="center"
                   style={{ height: 55 }}
@@ -247,7 +247,7 @@ function TodoGroupContainer() {
                         onClickAway={() => setOpenSearch(false)}
                       >
                         <TextField
-                          className={classes.serachInput}
+                          className={classes.searchInput}
                           autoFocus
                           inputProps={{
                             style: {
@@ -317,80 +317,81 @@ function TodoGroupContainer() {
             {arrays.map((value, index) => {
               const labelId = `checkbox-list-label-${index}`;
               return (
-                <ListItem
-                  divider
-                  className={classes.listItem}
-                  key={index}
-                  onMouseLeave={handleClosePopper}
-                >
-                  <ListItemIcon>
-                    <Checkbox
-                      edge="start"
-                      checked={checked.indexOf(value) !== -1}
-                      tabIndex={-1}
-                      disableRipple
-                      inputProps={{ "aria-labelledby": labelId }}
-                      onClick={handleToggle(value)}
-                      color="secondary"
-                    />
-                  </ListItemIcon>
-                  <ListItemText
-                    primary={<Typography variant="h6">{value[0]}</Typography>}
-                    secondary={
-                      <Typography variant="body1">{value[1]}</Typography>
-                    }
-                    className={classes.listText}
-                  />
-                  <ListItemSecondaryAction>
-                    <IconButton
-                      disableRipple
-                      onMouseOver={handlePopper(index)}
-                      onClick={clickOpenPopper(index)}
-                    >
-                      <MoreHorizIcon
-                        className={classes.icon}
-                        style={{ fill: "#fff" }}
+                <div key={index}>
+                  <Popper
+                    placement="left"
+                    style={{ zIndex: theme.zIndex.modal }}
+                    open={openPopper === index}
+                    anchorEl={anchorEl}
+                    onMouseLeave={handleClosePopper}
+                    transition
+                    disablePortal
+                  >
+                    {({ TransitionProps, placement }) => (
+                      <Grow
+                        {...TransitionProps}
+                        style={{
+                          transformOrigin: "right",
+                        }}
+                      >
+                        <Paper>
+                          <ClickAwayListener onClickAway={handleClosePopper}>
+                            <MenuList id="menu-list-grow">
+                              <MenuItem
+                                onClick={editTodoHandler}
+                                className={classes.menuItem}
+                              >
+                                Edit
+                              </MenuItem>
+                              <MenuItem
+                                onClick={deleteTodoHandler}
+                                className={classes.menuItem}
+                              >
+                                Delete
+                              </MenuItem>
+                            </MenuList>
+                          </ClickAwayListener>
+                        </Paper>
+                      </Grow>
+                    )}
+                  </Popper>
+                  <ListItem
+                    divider
+                    className={classes.listItem}
+                    onMouseLeave={handleClosePopper}
+                  >
+                    <ListItemIcon>
+                      <Checkbox
+                        edge="start"
+                        checked={checked.indexOf(value) !== -1}
+                        tabIndex={-1}
+                        disableRipple
+                        inputProps={{ "aria-labelledby": labelId }}
+                        onClick={handleToggle(value)}
+                        color="secondary"
                       />
-                    </IconButton>
-                    <Popper
-                      placement="left"
-                      style={{ zIndex: theme.zIndex.modal }}
-                      open={openPopper === index}
-                      anchorEl={anchorEl}
-                      onMouseLeave={handleClosePopper}
-                      transition
-                      disablePortal
-                    >
-                      {({ TransitionProps, placement }) => (
-                        <Grow
-                          {...TransitionProps}
-                          style={{
-                            transformOrigin: "right",
-                          }}
-                        >
-                          <Paper>
-                            <ClickAwayListener onClickAway={handleClosePopper}>
-                              <MenuList id="menu-list-grow">
-                                <MenuItem
-                                  onClick={editTodoHandler}
-                                  className={classes.menuItem}
-                                >
-                                  Edit
-                                </MenuItem>
-                                <MenuItem
-                                  onClick={deleteTodoHandler}
-                                  className={classes.menuItem}
-                                >
-                                  Delete
-                                </MenuItem>
-                              </MenuList>
-                            </ClickAwayListener>
-                          </Paper>
-                        </Grow>
-                      )}
-                    </Popper>
-                  </ListItemSecondaryAction>
-                </ListItem>
+                    </ListItemIcon>
+                    <ListItemText
+                      primary={<Typography variant="h6">{value[0]}</Typography>}
+                      secondary={
+                        <Typography variant="body1">{value[1]}</Typography>
+                      }
+                      className={classes.listText}
+                    />
+                    <ListItemSecondaryAction>
+                      <IconButton
+                        disableRipple
+                        onMouseOver={handlePopper(index)}
+                        onClick={clickOpenPopper(index)}
+                      >
+                        <MoreHorizIcon
+                          className={classes.icon}
+                          style={{ fill: "#fff" }}
+                        />
+                      </IconButton>
+                    </ListItemSecondaryAction>
+                  </ListItem>
+                </div>
               );
             })}
           </List>

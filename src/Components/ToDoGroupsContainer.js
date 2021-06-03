@@ -122,7 +122,7 @@ function TodoGroupsContainer() {
   const theme = useTheme();
 
   const [anchorEl, setAnchorEl] = React.useState(null);
-  const [openPopper, setOpenPopper] = React.useState(false);
+  const [openPopper, setOpenPopper] = React.useState(null);
   const [modalType, setModalType] = React.useState(null);
   const [openMenu, setOpenMenu] = React.useState(false);
 
@@ -131,21 +131,21 @@ function TodoGroupsContainer() {
     setAnchorEl(e.currentTarget);
   };
   const clickOpenPopper = (index) => (e) => {
-    setOpenPopper((prev) => (prev === index ? false : index));
+    setOpenPopper((prev) => (prev === index ? null : index));
     setAnchorEl(e.currentTarget);
   };
   const editGroupHandler = (e) => {
-    setOpenPopper(false);
+    setOpenPopper(null);
     setAnchorEl(null);
     setModalType("EditGroup");
   };
   const deleGroupteHandler = (e) => {
-    setOpenPopper(false);
+    setOpenPopper(null);
     setAnchorEl(null);
     setModalType("DeleteGroup");
   };
   const handleClosePopper = () => {
-    setOpenPopper(false);
+    setOpenPopper(null);
     setAnchorEl(null);
   };
   const handleMenu = () => {
