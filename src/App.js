@@ -1,7 +1,7 @@
 import React from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import { ThemeProvider } from "@material-ui/core";
-import { Snackbar } from "@material-ui/core";
+import { Snackbar, Typography } from "@material-ui/core";
 import MuiAlert from "@material-ui/lab/Alert";
 import { theme } from "./UI/theme";
 import Register from "./UI/Register";
@@ -12,7 +12,16 @@ import { connect } from "react-redux";
 import { removeAlert } from "./store/actions/index";
 
 function Alert(props) {
-  return <MuiAlert elevation={6} variant="filled" {...props} />;
+  return (
+    <MuiAlert
+      elevation={6}
+      variant="filled"
+      {...props}
+      style={{
+        borderRadius: 0,
+      }}
+    />
+  );
 }
 
 function App({ open, message, type, onCloseAlert }) {
@@ -39,7 +48,7 @@ function App({ open, message, type, onCloseAlert }) {
         }}
       >
         <Alert severity={type} onClose={onCloseAlert}>
-          {message}
+          <Typography variant="body1">{message}</Typography>
         </Alert>
       </Snackbar>
     </ThemeProvider>

@@ -36,6 +36,7 @@ export const theme = createMuiTheme({
       color: "#fff",
       fontWeight: 400,
       fontSize: "1rem",
+      fontFamily: "Roboto",
     },
     h3: {
       fontWeight: 500,

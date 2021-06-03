@@ -8,7 +8,7 @@ const initialState = {
 
 export const alertReducer = (state = initialState, action) => {
   const { payload } = action;
-  console.log("i am called");
+
   switch (action.type) {
     case actionTypes.SET_ALERT:
       return {
