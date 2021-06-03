@@ -53,10 +53,6 @@ const useStyles = makeStyles((theme) => ({
   groupTitle: {
     color: theme.palette.secondary.main,
     maxWidth: 450,
-    whiteSpace: "nowrap",
-    overflow: "hidden",
-    textOverflow: "ellipsis",
-    lineHeight: 1,
     [theme.breakpoints.down("md")]: {
       maxWidth: 260,
     },
@@ -67,6 +63,21 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.down("xs")]: {
       fontSize: "2rem",
       maxWidth: 130,
+    },
+  },
+  groupTitleContainer: {
+    overflowX: "scroll",
+    "&::-webkit-scrollbar": {
+      height: 5,
+    },
+    "&::-webkit-scrollbar-track": {
+      background: theme.palette.grey[300],
+    },
+    "&::-webkit-scrollbar-thumb": {
+      background: theme.palette.primary.main,
+    },
+    "&::-webkit-scrollbar-thumb:hover": {
+      background: theme.palette.primary.light,
     },
   },
   todos: {
@@ -92,10 +103,6 @@ const useStyles = makeStyles((theme) => ({
     color: "#fff",
     fontWeight: 600,
     fontFamily: "Raleway",
-    // "&.MuiListItem-root": {
-    //   paddingTop: 0,
-    //   paddingBottom: 0,
-    // },
   },
   listItem: {
     backgroundColor: teal[300],
@@ -143,7 +150,6 @@ function TodoGroupContainer() {
     setAnchorEl(e.currentTarget);
   };
   const clickOpenPopper = (index) => (e) => {
-    e.stopPropagation();
     setOpenPopper((prev) => (prev === index ? null : index));
     setAnchorEl(e.currentTarget);
   };
@@ -161,13 +167,11 @@ function TodoGroupContainer() {
     setChecked(newChecked);
   };
   const editTodoHandler = (e) => {
-    e.stopPropagation();
     setOpenPopper(null);
     setAnchorEl(null);
     setModalType("EditTodo");
   };
   const deleteTodoHandler = (e) => {
-    e.stopPropagation();
     setOpenPopper(null);
     setAnchorEl(null);
     setModalType("DeleteTodo");
@@ -184,16 +188,9 @@ function TodoGroupContainer() {
     <>
       <Grid container direction="column" className={classes.groupContainer}>
         <Paper square className={classes.infoContainer}>
-          {" "}
           {/*--- ToolBar ---*/}
           <Grid container direction="column">
-            <Grid
-              item
-              style={{
-                height: 45,
-                marginBottom: "0.4rem",
-              }}
-            >
+            <Grid item style={{ height: 50 }}>
               {openSearch && matchesXS ? (
                 <ClickAwayListener onClickAway={() => setOpenSearch(false)}>
                   <TextField
@@ -216,12 +213,19 @@ function TodoGroupContainer() {
                   />
                 </ClickAwayListener>
               ) : null}
+
               <Grid container alignItems="center">
                 {!(openSearch && matchesXS) ? (
-                  <Grid item xs={4} container justify="flex-start">
-                    <Grid item>
+                  <Grid
+                    item
+                    xs={4}
+                    container
+                    justify="flex-start"
+                    className={classes.groupTitleContainer}
+                  >
+                    <Grid item className={classes.groupTitle}>
                       <Typography variant="h3" className={classes.groupTitle}>
-                        Locations
+                        LocationsLocationsLocationsLocations
                       </Typography>
                     </Grid>
                   </Grid>
@@ -232,7 +236,6 @@ function TodoGroupContainer() {
                   xs={8}
                   justify="flex-end"
                   alignItems="center"
-                  style={{ height: 55 }}
                 >
                   <Grid item>
                     {!openSearch ? (
@@ -311,9 +314,8 @@ function TodoGroupContainer() {
           </Grid>
         </Paper>
         <Grid item className={classes.todos}>
+          {/* --- Todos list --- */}
           <List style={{ marginLeft: "0.4rem" }}>
-            {" "}
-            {/*--- List of Todos ---*/}
             {arrays.map((value, index) => {
               const labelId = `checkbox-list-label-${index}`;
               return (
