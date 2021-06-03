@@ -53,15 +53,14 @@ const useStyles = makeStyles((theme) => ({
   groupTitle: {
     fontSize: "2rem",
     color: theme.palette.secondary.main,
-    maxWidth: 450,
     [theme.breakpoints.down("md")]: {
-      maxWidth: 260,
+      fontSize: "1.8rem",
     },
     [theme.breakpoints.down("sm")]: {
-      maxWidth: 150,
+      fontSize: "1.6rem",
     },
     [theme.breakpoints.down("xs")]: {
-      maxWidth: 130,
+      fontSize: "1.4rem",
     },
   },
   groupTitleContainer: {
