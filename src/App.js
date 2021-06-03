@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter, Route, Switch } from "react-router-dom";
+import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 import { ThemeProvider } from "@material-ui/core";
 import { Snackbar, Typography } from "@material-ui/core";
 import MuiAlert from "@material-ui/lab/Alert";
@@ -32,7 +32,8 @@ function App({ open, message, type, onCloseAlert }) {
     <ThemeProvider theme={theme}>
       <BrowserRouter>
         <Switch>
-          <Route path="/dashboard" component={ToDoGroupsContainer} />
+          <Route path="/" exact render={() => <Redirect to="/dashboard" />} />
+          <Route path="/dashboard" exact component={ToDoGroupsContainer} />
           <Route exact path="/register" component={Register} />
           <Route exact path="/login" component={Login} />
           <Route component={() => <>Not Found!</>} />
