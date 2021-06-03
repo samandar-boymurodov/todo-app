@@ -51,7 +51,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: cyan[100],
   },
   groupTitle: {
-    fontSize: "2rem",
+    fontSize: "2.5rem",
     color: theme.palette.secondary.main,
     [theme.breakpoints.down("md")]: {
       fontSize: "1.8rem",
