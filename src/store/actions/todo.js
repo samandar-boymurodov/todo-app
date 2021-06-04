@@ -49,10 +49,11 @@ export const addTodoGroup = (name) => (dispatch) => {
     },
     ...store.getState().todo.todoGroups,
   ];
-
   dispatch(setAlert("Todo Group successfully added!", "success"));
   dispatch({
     type: actionTypes.ADD_GROUP,
     newToDoGroups,
   });
 };
+
+export const addTodo = (name, todoInfo) => (dispatch) => {};
