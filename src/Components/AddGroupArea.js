@@ -47,6 +47,7 @@ export const AddGroupArea = () => {
     if (e.code === "Enter") {
       if (newGroupTitle) {
         dispatch(addTodoGroup(newGroupTitle));
+        setNewGroupTitle("");
       }
     }
   };
@@ -54,6 +55,7 @@ export const AddGroupArea = () => {
   const handleAddButton = () => {
     if (newGroupTitle) {
       dispatch(addTodoGroup(newGroupTitle));
+      setNewGroupTitle("");
     }
   };
   return (

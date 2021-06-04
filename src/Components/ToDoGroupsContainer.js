@@ -72,6 +72,12 @@ const useStyles = makeStyles((theme) => ({
     },
 
     color: theme.palette.primary.dark,
+    "&.Mui-selected": {
+      backgroundColor: theme.palette.secondary.light,
+    },
+    "&.Mui-selected:hover": {
+      backgroundColor: theme.palette.secondary.light,
+    },
   },
 
   addText: {
@@ -104,7 +110,13 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="right" ref={ref} {...props} />;
 });
 
-function TodoGroupsContainer({ isAuth, onInit, todoGroups, selectTodoGroup }) {
+function TodoGroupsContainer({
+  isAuth,
+  onInit,
+  todoGroups,
+  selectTodoGroup,
+  selectedTodoGroup,
+}) {
   const classes = useStyles();
   const theme = useTheme();
   const history = useHistory();
@@ -204,7 +216,10 @@ function TodoGroupsContainer({ isAuth, onInit, todoGroups, selectTodoGroup }) {
                       onMouseLeave={handleClosePopper}
                       button
                       onClick={() => selectTodoGroup(index, todoGroups)}
-                      className={classes.groupContainer}
+                      selected={todoGroup.name === selectedTodoGroup.name}
+                      classes={{
+                        root: classes.groupContainer,
+                      }}
                       divider
                     >
                       <ListItemText
@@ -301,7 +316,10 @@ function TodoGroupsContainer({ isAuth, onInit, todoGroups, selectTodoGroup }) {
                       onMouseLeave={handleClosePopper}
                       button
                       onClick={() => selectTodoGroup(index, todoGroups)}
-                      className={classes.groupContainer}
+                      classes={{
+                        root: classes.groupContainer,
+                      }}
+                      selected={todoGroup.name === selectedTodoGroup.name}
                       divider
                     >
                       <ListItemText
@@ -344,6 +362,7 @@ function TodoGroupsContainer({ isAuth, onInit, todoGroups, selectTodoGroup }) {
 const mapStateToProps = (state) => ({
   isAuth: !!state.auth.token,
   todoGroups: state.todo.todoGroups,
+  selectedTodoGroup: state.todo.selectedTodoGroup,
 });
 
 const mapDispatchToProps = (dispatch) => ({
