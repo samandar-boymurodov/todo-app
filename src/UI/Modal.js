@@ -47,7 +47,15 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-const Modal = ({ open, onRemoveModal, type, selectedGroupName, onAddTodo }) => {
+const Modal = ({
+  open,
+  onRemoveModal,
+  type,
+  selectedGroupName,
+  onAddTodo,
+  onEditGroup,
+  selected,
+}) => {
   const classes = useStyles();
 
   const [check, setCheck] = useState(false);
@@ -56,9 +64,13 @@ const Modal = ({ open, onRemoveModal, type, selectedGroupName, onAddTodo }) => {
     description: "",
     error: "",
   });
+  const [newGroupName, setNewGroupName] = useState({
+    name: "",
+    error: "",
+  });
 
   const handleClose = (e) => {
-    if (e.target.innerText !== "ADD") {
+    if (e.target.innerText !== "ADD" && e.target.innerText !== "SAVE") {
       onRemoveModal();
       setAddTodoInfo({
         name: "",
@@ -66,6 +78,10 @@ const Modal = ({ open, onRemoveModal, type, selectedGroupName, onAddTodo }) => {
         error: "",
       });
       setCheck(false);
+      setNewGroupName({
+        name: "",
+        error: "",
+      });
       return;
     }
     switch (type) {
@@ -83,7 +99,14 @@ const Modal = ({ open, onRemoveModal, type, selectedGroupName, onAddTodo }) => {
             onAddTodo(selectedGroupName, { name: addTodoInfo.name });
           }
         }
-
+        break;
+      case modalTypes.EDIT_GROUP:
+        if (!newGroupName.name) {
+          setNewGroupName({ ...newGroupName, error: "this field is required" });
+          return;
+        } else {
+          onEditGroup(selected, newGroupName.name);
+        }
         break;
       default:
         break;
@@ -95,6 +118,10 @@ const Modal = ({ open, onRemoveModal, type, selectedGroupName, onAddTodo }) => {
       error: "",
     });
     setCheck(false);
+    setNewGroupName({
+      name: "",
+      error: "",
+    });
   };
 
   const handleCheck = (e) => {
@@ -133,6 +160,15 @@ const Modal = ({ open, onRemoveModal, type, selectedGroupName, onAddTodo }) => {
           label="Enter new name"
           variant="outlined"
           color="primary"
+          error={!!newGroupName.error}
+          helperText={newGroupName.error}
+          value={newGroupName.name}
+          onChange={(e) =>
+            setNewGroupName({
+              name: e.target.value,
+              error: e.target.value ? "" : newGroupName.error,
+            })
+          }
           autoFocus
         />
       </DialogContent>
@@ -327,6 +363,8 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   onRemoveModal: () => dispatch(actions.removeModal()),
   onAddTodo: (name, todoInfo) => dispatch(actions.addTodo(name, todoInfo)),
+  onEditGroup: (oldName, newName) =>
+    dispatch(actions.editGroup(oldName, newName)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Modal);

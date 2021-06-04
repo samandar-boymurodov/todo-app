@@ -28,6 +28,11 @@ export const todoReducer = (state = initialState, action) => {
         ...state,
         todoGroups: action.newToDoGroups,
       };
+    case actionTypes.EDIT_GROUP:
+      return {
+        ...state,
+        todoGroups: action.newToDoGroups,
+      };
     default:
       return state;
   }

@@ -134,6 +134,7 @@ function TodoGroupsContainer({
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [openPopper, setOpenPopper] = React.useState(null);
   const [openMenu, setOpenMenu] = React.useState(false);
+  const [selected, setSelected] = React.useState(null);
 
   const handlePopper = (index) => (e) => {
     setOpenPopper(index);
@@ -143,10 +144,11 @@ function TodoGroupsContainer({
     setOpenPopper((prev) => (prev === index ? null : index));
     setAnchorEl(e.currentTarget);
   };
-  const editGroupHandler = (e) => {
+  const editGroupHandler = (index) => {
     setOpenPopper(null);
     setAnchorEl(null);
     onModalOpen(modalTypes.EDIT_GROUP);
+    setSelected(index);
   };
   const deleGroupteHandler = (e) => {
     setOpenPopper(null);
@@ -192,7 +194,7 @@ function TodoGroupsContainer({
                             <ClickAwayListener onClickAway={handleClosePopper}>
                               <MenuList id="menu-list-grow">
                                 <MenuItem
-                                  onClick={editGroupHandler}
+                                  onClick={() => editGroupHandler(index)}
                                   className={classes.menuItem}
                                 >
                                   Edit
@@ -292,7 +294,7 @@ function TodoGroupsContainer({
                             <ClickAwayListener onClickAway={handleClosePopper}>
                               <MenuList id="menu-list-grow">
                                 <MenuItem
-                                  onClick={editGroupHandler}
+                                  onClick={() => editGroupHandler(index)}
                                   className={classes.menuItem}
                                 >
                                   Edit
@@ -351,7 +353,7 @@ function TodoGroupsContainer({
           <ToDoGroupContainer />
         </Grid>
       </Grid>
-      <Modal />
+      <Modal selected={selected} />
     </div>
   );
 }

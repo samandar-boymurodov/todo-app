@@ -9,5 +9,6 @@ export const INIT_TODOS = "INIT_TODOS";
 export const SELECT_TODOGROUP = "SELECT_TODOGROUP";
 export const ADD_GROUP = "ADD_GROUP";
 export const ADD_TODO = "ADD_TODO";
+export const EDIT_GROUP = "EDIT_GROUP";
 export const SET_MODAL = "SET_MODAL";
 export const REMOVE_MODAL = "REMOVE_MODAL";

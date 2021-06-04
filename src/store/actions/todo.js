@@ -76,3 +76,20 @@ export const addTodo = (name, todoInfo) => (dispatch) => {
 
   dispatch(setAlert("Todo successfully added!"));
 };
+
+export const editGroup = (index, newName) => (dispatch) => {
+  const todoGroups = cloneDeep(store.getState().todo.todoGroups);
+  const selectedGroup = store.getState().todo.selectedTodoGroup;
+
+  const oldName = todoGroups[index].name;
+
+  todoGroups[index].name = newName;
+  dispatch({
+    type: actionTypes.EDIT_GROUP,
+    newToDoGroups: todoGroups,
+  });
+
+  if (selectedGroup.name === oldName) {
+    dispatch(selectTodoGroup(index, todoGroups));
+  }
+};
