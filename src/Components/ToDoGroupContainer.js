@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { teal, cyan } from "@material-ui/core/colors";
 import {
   Grid,
@@ -30,6 +30,7 @@ import SearchIcon from "@material-ui/icons/Search";
 import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
 import { CheckBox } from "@material-ui/icons";
 import Modal from "../UI/Modal";
+import { connect } from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
   groupContainer: {
@@ -125,12 +126,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const arrays = [...new Array(30)].map((el) => [
-  "Home",
-  "Garden, Kitchen, Bedroom, Roof, Toilet",
-]);
-
-function TodoGroupContainer() {
+function TodoGroupContainer({ selectedTodoGroup }) {
   const classes = useStyles();
   const theme = useTheme();
   const matchesXS = useMediaQuery(theme.breakpoints.down("xs"));
@@ -224,7 +220,7 @@ function TodoGroupContainer() {
                   >
                     <Grid item>
                       <Typography variant="h3" className={classes.groupTitle}>
-                        Locations
+                        {selectedTodoGroup.name}
                       </Typography>
                     </Grid>
                   </Grid>
@@ -315,7 +311,7 @@ function TodoGroupContainer() {
         <Grid item className={classes.todos}>
           {/* --- Todos list --- */}
           <List style={{ marginLeft: "0.4rem" }}>
-            {arrays.map((value, index) => {
+            {selectedTodoGroup.todos.map((value, index) => {
               const labelId = `checkbox-list-label-${index}`;
               return (
                 <div key={index}>
@@ -373,9 +369,13 @@ function TodoGroupContainer() {
                       />
                     </ListItemIcon>
                     <ListItemText
-                      primary={<Typography variant="h6">{value[0]}</Typography>}
+                      primary={
+                        <Typography variant="h6">{value.name}</Typography>
+                      }
                       secondary={
-                        <Typography variant="body1">{value[1]}</Typography>
+                        <Typography variant="body1">
+                          {value.description}
+                        </Typography>
                       }
                       className={classes.listText}
                     />
@@ -403,4 +403,8 @@ function TodoGroupContainer() {
   );
 }
 
-export default TodoGroupContainer;
+const mapStateToProps = (state) => ({
+  selectedTodoGroup: state.todo.selectedTodoGroup,
+});
+
+export default connect(mapStateToProps)(TodoGroupContainer);
