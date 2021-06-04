@@ -113,11 +113,9 @@ export const checkAuthState = () => (dispatch) => {
     const expirationDate = localStorage.getItem("expirationDate");
     console.log(expirationDate);
     if (new Date(expirationDate) >= new Date()) {
-      console.log("ok");
       dispatch(autoLogin());
     } else {
       dispatch(logout());
-      console.log(token);
     }
   }
 };
@@ -125,7 +123,7 @@ export const checkAuthState = () => (dispatch) => {
 export const autoLogin = () => (dispatch) => {
   const token = localStorage.getItem("token");
   const expirationDate = localStorage.getItem("expirationDate");
-  console.log("inside auto login");
+
   axios
     .post(
       "https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=AIzaSyCLDHvRZv8ufkm6vcmWf6xH4oXLBA9x258",
@@ -146,7 +144,6 @@ export const autoLogin = () => (dispatch) => {
       );
     })
     .catch((error) => {
-      console.log("auto login error");
       console.log(error.response.data.error.message);
       dispatch(logout());
     });

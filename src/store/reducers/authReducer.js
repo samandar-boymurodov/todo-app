@@ -36,11 +36,10 @@ export const authReducer = (state = initialState, action) => {
         error: null,
       };
     case actionTypes.AUTO_LOGIN:
-      console.log(authData);
       return {
         ...state,
         token: authData.idToken,
-        userId: authData.localId,
+        userId: authData.userId,
       };
     default:
       return state;

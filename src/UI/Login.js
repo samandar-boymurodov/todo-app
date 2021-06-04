@@ -154,12 +154,9 @@ function Login({ onAuth, loading, isAuth }) {
                 fullWidth
                 className={classes.submitButton}
                 color="primary"
+                disabled={loading}
               >
-                {loading ? (
-                  <CircularProgress style={{ color: "#fff" }} />
-                ) : (
-                  "Submit"
-                )}
+                {loading ? <CircularProgress color="primary" /> : "Submit"}
               </Button>
             </Grid>
             <Grid item style={{ marginTop: "1rem" }}>

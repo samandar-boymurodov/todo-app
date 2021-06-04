@@ -189,12 +189,9 @@ function Register({ onAuth, loading, isAuth }) {
               type="submit"
               fullWidth
               className={classes.submitButton}
+              disabled={loading}
             >
-              {loading ? (
-                <CircularProgress style={{ color: "#fff" }} />
-              ) : (
-                "Submit"
-              )}
+              {loading ? <CircularProgress color="primary" /> : "Submit"}
             </Button>
           </Grid>
           <Grid item>
