@@ -31,6 +31,7 @@ import { makeStyles, useTheme } from "@material-ui/styles";
 import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
 import CloseIcon from "@material-ui/icons/Close";
 import { useHistory } from "react-router-dom";
+import { AddGroupArea } from "./AddGroupArea";
 
 const useStyles = makeStyles((theme) => ({
   toolbarMargin: {
@@ -72,14 +73,7 @@ const useStyles = makeStyles((theme) => ({
 
     color: theme.palette.primary.dark,
   },
-  AddArea: {
-    position: "absolute",
-    width: "35%",
-    [theme.breakpoints.down("xs")]: {
-      width: "100%",
-    },
-    bottom: 0,
-  },
+
   addText: {
     fontSize: "1.5rem",
     paddingTop: "14px",
@@ -87,11 +81,7 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: 400,
     fontFamily: "Raleway",
   },
-  addGroupButton: {
-    height: "100%",
-    fontSize: "1.5rem",
-    fontWeight: 400,
-  },
+
   icon: {
     fill: "#fff",
     [theme.breakpoints.down("sm")]: {
@@ -103,11 +93,7 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: 600,
     fontFamily: "Raleway",
   },
-  textField: {
-    "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
-      borderWidth: 1,
-    },
-  },
+
   closeIcon: {
     fill: "#fff",
     fontSize: "2.5rem",
@@ -118,13 +104,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="right" ref={ref} {...props} />;
 });
 
-function TodoGroupsContainer({
-  isAuth,
-  onInit,
-  todoGroups,
-  selectTodoGroup,
-  onAddGroup,
-}) {
+function TodoGroupsContainer({ isAuth, onInit, todoGroups, selectTodoGroup }) {
   const classes = useStyles();
   const theme = useTheme();
   const history = useHistory();
@@ -172,15 +152,6 @@ function TodoGroupsContainer({
     setOpenMenu(!openMenu);
   };
 
-  const handleGroupTitle = (e) => {
-    setNewGroupTitle(e.target.value);
-  };
-  const handleAddButton = () => {
-    console.log(newGroupTitle);
-    if (newGroupTitle) {
-      onAddGroup(newGroupTitle);
-    } else return;
-  };
   return (
     <div>
       <Header handleMenu={handleMenu} />
@@ -261,29 +232,7 @@ function TodoGroupsContainer({
                 ))}
               </List>
             </Grid>
-            <Grid item container className={classes.AddArea}>
-              <Grid item xs={9}>
-                <TextField
-                  inputProps={{
-                    className: classes.addText,
-                  }}
-                  fullWidth
-                  variant="outlined"
-                  className={classes.textField}
-                  placeholder="Add your Todo Group"
-                />
-              </Grid>
-              <Grid item xs={3}>
-                <Button
-                  variant="contained"
-                  fullWidth
-                  color="secondary"
-                  className={classes.addGroupButton}
-                >
-                  ADD
-                </Button>
-              </Grid>
-            </Grid>
+            <AddGroupArea />
           </Grid>
         </Hidden>
         <Dialog
@@ -380,32 +329,7 @@ function TodoGroupsContainer({
                 ))}
               </List>
             </Grid>
-            <Grid item container className={classes.AddArea}>
-              <Grid item xs={9}>
-                <TextField
-                  inputProps={{
-                    className: classes.addText,
-                  }}
-                  fullWidth
-                  variant="outlined"
-                  className={classes.textField}
-                  placeholder="Add your Todo Group"
-                  value={newGroupTitle}
-                  onChange={handleGroupTitle}
-                />
-              </Grid>
-              <Grid item xs={3}>
-                <Button
-                  variant="contained"
-                  fullWidth
-                  color="secondary"
-                  className={classes.addGroupButton}
-                  onClick={handleAddButton}
-                >
-                  ADD
-                </Button>
-              </Grid>
-            </Grid>
+            <AddGroupArea />
           </Grid>
         </Dialog>
         <Grid item>
@@ -426,7 +350,6 @@ const mapDispatchToProps = (dispatch) => ({
   onInit: () => dispatch(actions.initTodos()),
   selectTodoGroup: (index, todoGroups) =>
     dispatch(actions.selectTodoGroup(index, todoGroups)),
-  onAddGroup: (name) => dispatch(actions.addTodoGroup(name)),
 });
 
 export default connect(
