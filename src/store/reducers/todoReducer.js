@@ -18,7 +18,11 @@ export const todoReducer = (state = initialState, action) => {
         ...state,
         selectedTodoGroup: action.todoGroup,
       };
-
+    case actionTypes.ADD_GROUP:
+      return {
+        ...state,
+        todoGroups: action.newToDoGroups,
+      };
     default:
       return state;
   }

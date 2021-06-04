@@ -2,6 +2,7 @@ import axios from "axios";
 import * as actionTypes from "./actionTypes";
 import { setAlert } from "./index";
 import { random } from "./utils/random";
+import { store } from "../store";
 
 export const initTodos = () => (dispatch) => {
   axios
@@ -34,8 +35,16 @@ export const selectTodoGroup = (index, todoGroups) => {
 };
 
 export const addTodoGroup = (name) => {
+  const newToDoGroups = [
+    {
+      name: name,
+      todos: [],
+    },
+    ...store.getState().todo.todoGroups,
+  ];
+
   return {
     type: actionTypes.ADD_GROUP,
-    name: name,
+    newToDoGroups,
   };
 };
