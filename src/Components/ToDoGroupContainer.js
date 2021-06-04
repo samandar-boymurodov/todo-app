@@ -31,6 +31,8 @@ import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
 import { CheckBox } from "@material-ui/icons";
 import Modal from "../UI/Modal";
 import { connect } from "react-redux";
+import * as modalTypes from "../store/actions/utils/modalTypes";
+import * as actions from "../store/actions/index";
 
 const useStyles = makeStyles((theme) => ({
   groupContainer: {
@@ -126,7 +128,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function TodoGroupContainer({ selectedTodoGroup }) {
+function TodoGroupContainer({ selectedTodoGroup, onModalOpen }) {
   const classes = useStyles();
   const theme = useTheme();
   const matchesXS = useMediaQuery(theme.breakpoints.down("xs"));
@@ -136,7 +138,6 @@ function TodoGroupContainer({ selectedTodoGroup }) {
   const [checked, setChecked] = useState([0]);
   const [openPopper, setOpenPopper] = useState(null);
   const [anchorEl, setAnchorEl] = useState(null);
-  const [modalType, setModalType] = useState(null);
   const [tab, setTab] = useState("todos");
 
   const handlePopper = (index) => (e) => {
@@ -163,12 +164,12 @@ function TodoGroupContainer({ selectedTodoGroup }) {
   const editTodoHandler = (e) => {
     setOpenPopper(null);
     setAnchorEl(null);
-    setModalType("EditTodo");
+    onModalOpen(modalTypes.EDIT_TODO);
   };
   const deleteTodoHandler = (e) => {
     setOpenPopper(null);
     setAnchorEl(null);
-    setModalType("DeleteTodo");
+    onModalOpen(modalTypes.DELETE_TODO);
   };
   const handleClosePopper = () => {
     setOpenPopper(null);
@@ -271,7 +272,7 @@ function TodoGroupContainer({ selectedTodoGroup }) {
                         variant="contained"
                         color="primary"
                         style={{ color: "#fff", boxShadow: "none" }}
-                        onClick={() => setModalType("AddTodo")}
+                        onClick={() => onModalOpen(modalTypes.ADD_TODO)}
                       >
                         Add todo
                       </Button>
@@ -398,7 +399,7 @@ function TodoGroupContainer({ selectedTodoGroup }) {
           </List>
         </Grid>
       </Grid>
-      <Modal type={modalType} />
+      <Modal />
     </>
   );
 }
@@ -407,4 +408,8 @@ const mapStateToProps = (state) => ({
   selectedTodoGroup: state.todo.selectedTodoGroup,
 });
 
-export default connect(mapStateToProps)(TodoGroupContainer);
+const mapDispatchToProps = (dispatch) => ({
+  onModalOpen: (type) => dispatch(actions.setModal(type)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(TodoGroupContainer);

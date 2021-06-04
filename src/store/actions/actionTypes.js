@@ -8,3 +8,6 @@ export const AUTO_LOGIN = "AUTO_LOGIN";
 export const INIT_TODOS = "INIT_TODOS";
 export const SELECT_TODOGROUP = "SELECT_TODOGROUP";
 export const ADD_GROUP = "ADD_GROUP";
+export const ADD_TODO = "ADD_TODO";
+export const SET_MODAL = "SET_MODAL";
+export const REMOVE_MODAL = "REMOVE_MODAL";

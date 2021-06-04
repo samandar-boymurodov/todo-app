@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   Dialog,
   DialogContent,
@@ -12,9 +12,11 @@ import {
   Checkbox,
   Grow,
 } from "@material-ui/core";
-
 import { makeStyles } from "@material-ui/styles";
 import { CheckBox } from "@material-ui/icons";
+import { connect } from "react-redux";
+import * as actions from "../store/actions/index";
+import * as modalTypes from "../store/actions/utils/modalTypes";
 
 const useStyles = makeStyles((theme) => ({
   deleteGroupTitle: {
@@ -45,20 +47,17 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-const Modal = ({ type }) => {
+const Modal = ({ open, onRemoveModal, type }) => {
   const classes = useStyles();
 
-  const [open, setOpen] = React.useState(false);
-  const [check, setCheck] = React.useState(false);
-
-  React.useEffect(() => {
-    if (type) {
-      setOpen(true);
-    }
-  }, [type]);
+  const [check, setCheck] = useState(false);
+  const [addTodoInfo, setAddTodoInfo] = useState({
+    name: "",
+    description: "",
+  });
 
   const handleClose = () => {
-    setOpen(false);
+    onRemoveModal();
   };
 
   const handleCheck = (e) => {
@@ -115,13 +114,51 @@ const Modal = ({ type }) => {
       <DialogContent>
         <Grid container direction="column" justify="center">
           <Grid item>
+            <TextField
+              className={classes.textField}
+              label="Enter a name"
+              autoFocus={true}
+              variant="outlined"
+              color="primary"
+              onChange={(e) =>
+                setAddTodoInfo({
+                  ...addTodoInfo,
+                  name: e.target.value,
+                })
+              }
+              value={addTodoInfo.name}
+            />
+          </Grid>
+          {check ? (
+            <Grid item style={{ marginTop: "1rem" }}>
+              <Grow in={check}>
+                <TextField
+                  className={classes.textField}
+                  label="Enter a description"
+                  autoFocus={check}
+                  variant="outlined"
+                  color="primary"
+                  multiline
+                  rowsMax={4}
+                  onChange={(e) =>
+                    setAddTodoInfo({
+                      ...addTodoInfo,
+                      description: e.target.value,
+                    })
+                  }
+                  value={addTodoInfo.description}
+                />
+              </Grow>
+            </Grid>
+          ) : null}
+          <Grid item>
             <FormControlLabel
               className={classes.descriptionQuestion}
               control={
                 <Checkbox
                   checked={check}
                   onChange={handleCheck}
-                  name="checkedB"
+                  name="description-check"
                   color="primary"
                 />
               }
@@ -138,22 +175,6 @@ const Modal = ({ type }) => {
                 </Typography>
               }
             />
-          </Grid>
-          <Grid item>
-            <Grow
-              in={check}
-              style={{ marginTop: "0.6rem", marginBottom: "0.5rem" }}
-            >
-              <TextField
-                className={classes.textField}
-                label="Enter description"
-                autoFocus={check}
-                variant="outlined"
-                color="primary"
-                multiline
-                rowsMax={4}
-              />
-            </Grow>
           </Grid>
         </Grid>
         <DialogActions>
@@ -242,19 +263,28 @@ const Modal = ({ type }) => {
       TransitionComponent={Transition}
       onClose={handleClose}
     >
-      {type === "DeleteGroup"
+      {type === modalTypes.DELETE_GROUP
         ? deleteGroup
-        : type === "EditGroup"
+        : type === modalTypes.EDIT_GROUP
         ? editGroup
-        : type === "AddTodo"
+        : type === modalTypes.ADD_TODO
         ? addTodo
-        : type === "EditTodo"
+        : type === modalTypes.EDIT_TODO
         ? editTodo
-        : type === "DeleteTodo"
+        : type === modalTypes.DELETE_TODO
         ? deleteTodo
         : null}
     </Dialog>
   );
 };
 
-export default Modal;
+const mapStateToProps = (state) => ({
+  open: state.modal.open,
+  type: state.modal.type,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  onRemoveModal: () => dispatch(actions.removeModal()),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Modal);

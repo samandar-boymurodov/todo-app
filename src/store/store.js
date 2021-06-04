@@ -6,6 +6,7 @@ const rootReducer = combineReducers({
   auth: reducers.authReducer,
   alert: reducers.alertReducer,
   todo: reducers.todoReducer,
+  modal: reducers.modalReducer,
 });
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;

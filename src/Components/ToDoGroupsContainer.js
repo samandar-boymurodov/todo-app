@@ -32,6 +32,7 @@ import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
 import CloseIcon from "@material-ui/icons/Close";
 import { useHistory } from "react-router-dom";
 import { AddGroupArea } from "./AddGroupArea";
+import * as modalTypes from "../store/actions/utils/modalTypes";
 
 const useStyles = makeStyles((theme) => ({
   toolbarMargin: {
@@ -116,6 +117,7 @@ function TodoGroupsContainer({
   todoGroups,
   selectTodoGroup,
   selectedTodoGroup,
+  onModalOpen,
 }) {
   const classes = useStyles();
   const theme = useTheme();
@@ -129,14 +131,9 @@ function TodoGroupsContainer({
     }
   }, [isAuth, onInit]);
 
-  useEffect(() => {
-    console.log(todoGroups);
-  }, [todoGroups]);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [openPopper, setOpenPopper] = React.useState(null);
-  const [modalType, setModalType] = React.useState(null);
   const [openMenu, setOpenMenu] = React.useState(false);
-  const [newGroupTitle, setNewGroupTitle] = useState("");
 
   const handlePopper = (index) => (e) => {
     setOpenPopper(index);
@@ -149,12 +146,12 @@ function TodoGroupsContainer({
   const editGroupHandler = (e) => {
     setOpenPopper(null);
     setAnchorEl(null);
-    setModalType("EditGroup");
+    onModalOpen(modalTypes.EDIT_GROUP);
   };
   const deleGroupteHandler = (e) => {
     setOpenPopper(null);
     setAnchorEl(null);
-    setModalType("DeleteGroup");
+    onModalOpen(modalTypes.DELETE_GROUP);
   };
   const handleClosePopper = () => {
     setOpenPopper(null);
@@ -354,7 +351,7 @@ function TodoGroupsContainer({
           <ToDoGroupContainer />
         </Grid>
       </Grid>
-      <Modal type={modalType} />
+      <Modal />
     </div>
   );
 }
@@ -369,6 +366,7 @@ const mapDispatchToProps = (dispatch) => ({
   onInit: () => dispatch(actions.initTodos()),
   selectTodoGroup: (index, todoGroups) =>
     dispatch(actions.selectTodoGroup(index, todoGroups)),
+  onModalOpen: (type) => dispatch(actions.setModal(type)),
 });
 
 export default connect(
