@@ -5,3 +5,6 @@ export const SET_ALERT = "SET_ALERT";
 export const REMOVE_ALERT = "REMOVE_ALERT";
 export const LOGOUT = "LOGOUT";
 export const AUTO_LOGIN = "AUTO_LOGIN";
+export const INIT_TODOS = "INIT_TODOS";
+export const SELECT_TODOGROUP = "SELECT_TODOGROUP";
+export const ADD_GROUP = "ADD_GROUP";

@@ -1,8 +1,9 @@
 import Header from "../UI/Header";
 import Modal from "../UI/Modal";
 import ToDoGroupContainer from "./ToDoGroupContainer";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
+import * as actions from "../store/actions/index";
 import {
   Grid,
   List,
@@ -113,13 +114,17 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const arrays = [...new Array(30).fill("Mnemonics")];
-
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="right" ref={ref} {...props} />;
 });
 
-function TodoGroupsContainer({ isAuth }) {
+function TodoGroupsContainer({
+  isAuth,
+  onInit,
+  todoGroups,
+  selectTodoGroup,
+  onAddGroup,
+}) {
   const classes = useStyles();
   const theme = useTheme();
   const history = useHistory();
@@ -127,13 +132,19 @@ function TodoGroupsContainer({ isAuth }) {
   useEffect(() => {
     if (!isAuth) {
       history.push("/login");
+    } else {
+      onInit();
     }
-  }, [isAuth]);
+  }, [isAuth, onInit]);
 
+  useEffect(() => {
+    console.log(todoGroups);
+  }, [todoGroups]);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [openPopper, setOpenPopper] = React.useState(null);
   const [modalType, setModalType] = React.useState(null);
   const [openMenu, setOpenMenu] = React.useState(false);
+  const [newGroupTitle, setNewGroupTitle] = useState("");
 
   const handlePopper = (index) => (e) => {
     setOpenPopper(index);
@@ -160,6 +171,16 @@ function TodoGroupsContainer({ isAuth }) {
   const handleMenu = () => {
     setOpenMenu(!openMenu);
   };
+
+  const handleGroupTitle = (e) => {
+    setNewGroupTitle(e.target.value);
+  };
+  const handleAddButton = () => {
+    console.log(newGroupTitle);
+    if (newGroupTitle) {
+      onAddGroup(newGroupTitle);
+    } else return;
+  };
   return (
     <div>
       <Header handleMenu={handleMenu} />
@@ -169,7 +190,7 @@ function TodoGroupsContainer({ isAuth }) {
           <Grid item container direction="column">
             <Grid item className={classes.todoGroupsContainer}>
               <List>
-                {arrays.map((item, index) => (
+                {todoGroups.map((todoGroup, index) => (
                   <div key={index}>
                     <Popper
                       placement="left"
@@ -211,6 +232,7 @@ function TodoGroupsContainer({ isAuth }) {
                     <ListItem
                       onMouseLeave={handleClosePopper}
                       button
+                      onClick={() => selectTodoGroup(index, todoGroups)}
                       className={classes.groupContainer}
                       divider
                     >
@@ -220,7 +242,7 @@ function TodoGroupsContainer({ isAuth }) {
                             variant="h5"
                             className={classes.groupText}
                           >
-                            {item}
+                            {todoGroup.name}
                           </Typography>
                         }
                       />
@@ -287,7 +309,7 @@ function TodoGroupsContainer({ isAuth }) {
           <Grid item container direction="column">
             <Grid item className={classes.todoGroupsContainer}>
               <List>
-                {arrays.map((item, index) => (
+                {todoGroups.map((todoGroup, index) => (
                   <div key={index}>
                     <Popper
                       placement="left"
@@ -329,6 +351,7 @@ function TodoGroupsContainer({ isAuth }) {
                     <ListItem
                       onMouseLeave={handleClosePopper}
                       button
+                      onClick={() => selectTodoGroup(index, todoGroups)}
                       className={classes.groupContainer}
                       divider
                     >
@@ -338,7 +361,7 @@ function TodoGroupsContainer({ isAuth }) {
                             variant="h5"
                             className={classes.groupText}
                           >
-                            {item}
+                            {todoGroup.name}
                           </Typography>
                         }
                       />
@@ -367,6 +390,8 @@ function TodoGroupsContainer({ isAuth }) {
                   variant="outlined"
                   className={classes.textField}
                   placeholder="Add your Todo Group"
+                  value={newGroupTitle}
+                  onChange={handleGroupTitle}
                 />
               </Grid>
               <Grid item xs={3}>
@@ -375,6 +400,7 @@ function TodoGroupsContainer({ isAuth }) {
                   fullWidth
                   color="secondary"
                   className={classes.addGroupButton}
+                  onClick={handleAddButton}
                 >
                   ADD
                 </Button>
@@ -393,6 +419,17 @@ function TodoGroupsContainer({ isAuth }) {
 
 const mapStateToProps = (state) => ({
   isAuth: !!state.auth.token,
+  todoGroups: state.todo.todoGroups,
 });
 
-export default connect(mapStateToProps)(TodoGroupsContainer);
+const mapDispatchToProps = (dispatch) => ({
+  onInit: () => dispatch(actions.initTodos()),
+  selectTodoGroup: (index, todoGroups) =>
+    dispatch(actions.selectTodoGroup(index, todoGroups)),
+  onAddGroup: (name) => dispatch(actions.addTodoGroup(name)),
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(TodoGroupsContainer);
