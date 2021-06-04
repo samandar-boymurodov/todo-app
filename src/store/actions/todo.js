@@ -34,7 +34,14 @@ export const selectTodoGroup = (index, todoGroups) => {
   };
 };
 
-export const addTodoGroup = (name) => {
+export const addTodoGroup = (name) => (dispatch) => {
+  const isExist = store
+    .getState()
+    .todo.todoGroups.some((todoGroup) => todoGroup.name === name);
+  if (isExist) {
+    dispatch(setAlert("Todo Group already exists", "error"));
+    return;
+  }
   const newToDoGroups = [
     {
       name: name,
@@ -43,8 +50,9 @@ export const addTodoGroup = (name) => {
     ...store.getState().todo.todoGroups,
   ];
 
-  return {
+  dispatch(setAlert("Todo Group successfully added!", "success"));
+  dispatch({
     type: actionTypes.ADD_GROUP,
     newToDoGroups,
-  };
+  });
 };
