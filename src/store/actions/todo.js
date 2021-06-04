@@ -3,6 +3,7 @@ import * as actionTypes from "./actionTypes";
 import { setAlert } from "./index";
 import { random } from "./utils/random";
 import { store } from "../store";
+import { cloneDeep } from "lodash";
 
 export const initTodos = () => (dispatch) => {
   axios
@@ -56,4 +57,22 @@ export const addTodoGroup = (name) => (dispatch) => {
   });
 };
 
-export const addTodo = (name, todoInfo) => (dispatch) => {};
+export const addTodo = (name, todoInfo) => (dispatch) => {
+  const todoGroups = cloneDeep(store.getState().todo.todoGroups);
+
+  const selectedGroup = todoGroups.filter((el) => el.name === name);
+  const selectedIndex = todoGroups.findIndex((el) => el.name === name);
+
+  selectedGroup[0].todos.unshift({
+    name: todoInfo.name,
+    description: todoInfo.description,
+  });
+
+  dispatch({
+    type: actionTypes.ADD_TODO,
+    newToDoGroups: todoGroups,
+  });
+  dispatch(selectTodoGroup(selectedIndex, todoGroups));
+
+  dispatch(setAlert("Todo successfully added!"));
+};

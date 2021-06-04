@@ -1,7 +1,7 @@
 import * as actionTypes from "../actions/actionTypes";
 const initialState = {
   todoGroups: [],
-  selectedTodoGroup: { name: "", todos: [] },
+  selectedTodoGroup: { todos: [] },
 };
 
 export const todoReducer = (state = initialState, action) => {
@@ -19,6 +19,11 @@ export const todoReducer = (state = initialState, action) => {
         selectedTodoGroup: action.todoGroup,
       };
     case actionTypes.ADD_GROUP:
+      return {
+        ...state,
+        todoGroups: action.newToDoGroups,
+      };
+    case actionTypes.ADD_TODO:
       return {
         ...state,
         todoGroups: action.newToDoGroups,

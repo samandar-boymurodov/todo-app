@@ -226,59 +226,61 @@ function TodoGroupContainer({ selectedTodoGroup, onModalOpen }) {
                     </Grid>
                   </Grid>
                 ) : null}
-                <Grid
-                  item
-                  container
-                  xs={8}
-                  justify="flex-end"
-                  alignItems="center"
-                >
-                  <Grid item>
-                    {!openSearch ? (
-                      <IconButton
-                        onClick={() => setOpenSearch(true)}
-                        disableRipple
-                      >
-                        <SearchIcon color="secondary" />
-                      </IconButton>
-                    ) : !(openSearch && matchesXS) ? (
-                      <ClickAwayListener
-                        onClickAway={() => setOpenSearch(false)}
-                      >
-                        <TextField
-                          className={classes.searchInput}
-                          autoFocus
-                          inputProps={{
-                            style: {
-                              padding: "8px 5px",
-                            },
-                          }}
-                          InputProps={{
-                            endAdornment: (
-                              <InputAdornment position="end">
-                                <SearchIcon color="primary" />
-                              </InputAdornment>
-                            ),
-                          }}
-                          placeholder="Type to search"
-                        />
-                      </ClickAwayListener>
+                {selectedTodoGroup.name ? (
+                  <Grid
+                    item
+                    container
+                    xs={8}
+                    justify="flex-end"
+                    alignItems="center"
+                  >
+                    <Grid item>
+                      {!openSearch ? (
+                        <IconButton
+                          onClick={() => setOpenSearch(true)}
+                          disableRipple
+                        >
+                          <SearchIcon color="secondary" />
+                        </IconButton>
+                      ) : !(openSearch && matchesXS) ? (
+                        <ClickAwayListener
+                          onClickAway={() => setOpenSearch(false)}
+                        >
+                          <TextField
+                            className={classes.searchInput}
+                            autoFocus
+                            inputProps={{
+                              style: {
+                                padding: "8px 5px",
+                              },
+                            }}
+                            InputProps={{
+                              endAdornment: (
+                                <InputAdornment position="end">
+                                  <SearchIcon color="primary" />
+                                </InputAdornment>
+                              ),
+                            }}
+                            placeholder="Type to search"
+                          />
+                        </ClickAwayListener>
+                      ) : null}
+                    </Grid>
+
+                    {!(matchesSM && openSearch) ? (
+                      <Grid item>
+                        <Button
+                          variant="contained"
+                          color="primary"
+                          style={{ color: "#fff", boxShadow: "none" }}
+                          onClick={() => onModalOpen(modalTypes.ADD_TODO)}
+                        >
+                          Add todo
+                        </Button>
+                      </Grid>
                     ) : null}
                   </Grid>
-
-                  {!(matchesSM && openSearch) ? (
-                    <Grid item>
-                      <Button
-                        variant="contained"
-                        color="primary"
-                        style={{ color: "#fff", boxShadow: "none" }}
-                        onClick={() => onModalOpen(modalTypes.ADD_TODO)}
-                      >
-                        Add todo
-                      </Button>
-                    </Grid>
-                  ) : null}
-                </Grid>
+                ) : null}
               </Grid>
             </Grid>
             <Divider />

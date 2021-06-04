@@ -47,17 +47,54 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-const Modal = ({ open, onRemoveModal, type }) => {
+const Modal = ({ open, onRemoveModal, type, selectedGroupName, onAddTodo }) => {
   const classes = useStyles();
 
   const [check, setCheck] = useState(false);
   const [addTodoInfo, setAddTodoInfo] = useState({
     name: "",
     description: "",
+    error: "",
   });
 
-  const handleClose = () => {
+  const handleClose = (e) => {
+    if (e.target.innerText !== "ADD") {
+      onRemoveModal();
+      setAddTodoInfo({
+        name: "",
+        description: "",
+        error: "",
+      });
+      setCheck(false);
+      return;
+    }
+    switch (type) {
+      case modalTypes.ADD_TODO:
+        if (!addTodoInfo.name) {
+          setAddTodoInfo({ ...addTodoInfo, error: "this field is required" });
+          return;
+        } else {
+          if (check && addTodoInfo.description) {
+            onAddTodo(selectedGroupName, {
+              name: addTodoInfo.name,
+              description: addTodoInfo.description,
+            });
+          } else {
+            onAddTodo(selectedGroupName, { name: addTodoInfo.name });
+          }
+        }
+
+        break;
+      default:
+        break;
+    }
     onRemoveModal();
+    setAddTodoInfo({
+      name: "",
+      description: "",
+      error: "",
+    });
+    setCheck(false);
   };
 
   const handleCheck = (e) => {
@@ -117,15 +154,18 @@ const Modal = ({ open, onRemoveModal, type }) => {
             <TextField
               className={classes.textField}
               label="Enter a name"
-              autoFocus={true}
+              autoFocus
               variant="outlined"
               color="primary"
-              onChange={(e) =>
+              error={!!addTodoInfo.error}
+              helperText={addTodoInfo.error}
+              onChange={(e) => {
                 setAddTodoInfo({
                   ...addTodoInfo,
                   name: e.target.value,
-                })
-              }
+                  error: e.target.value ? "" : addTodoInfo.error,
+                });
+              }}
               value={addTodoInfo.name}
             />
           </Grid>
@@ -281,10 +321,12 @@ const Modal = ({ open, onRemoveModal, type }) => {
 const mapStateToProps = (state) => ({
   open: state.modal.open,
   type: state.modal.type,
+  selectedGroupName: state.todo.selectedTodoGroup.name,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   onRemoveModal: () => dispatch(actions.removeModal()),
+  onAddTodo: (name, todoInfo) => dispatch(actions.addTodo(name, todoInfo)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Modal);
