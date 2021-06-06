@@ -119,6 +119,9 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.down("xs")]: {
       width: "100%",
     },
+    "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
+      borderWidth: 1,
+    },
   },
   icon: {
     fill: "#fff",
@@ -243,7 +246,7 @@ function TodoGroupContainer({
                   onChange={handleSearchQuery}
                   inputProps={{
                     style: {
-                      padding: "8px 5px",
+                      padding: "8.5px 5px",
                     },
                   }}
                   style={{ marginTop: 10 }}
@@ -294,7 +297,7 @@ function TodoGroupContainer({
                           onChange={handleSearchQuery}
                           inputProps={{
                             style: {
-                              padding: "8px 5px",
+                              padding: "8.5px 5px",
                             },
                           }}
                           InputProps={{
