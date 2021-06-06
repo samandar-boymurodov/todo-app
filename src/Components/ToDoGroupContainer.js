@@ -54,8 +54,11 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: cyan[100],
   },
   groupTitle: {
-    fontSize: "2.5rem",
+    fontSize: "2.1rem",
     color: theme.palette.secondary.main,
+    textOverflow: "ellipsis",
+    overflow: "hidden",
+    whiteSpace: "nowrap",
     [theme.breakpoints.down("md")]: {
       fontSize: "1.8rem",
     },
@@ -67,18 +70,18 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   groupTitleContainer: {
-    overflow: "auto",
-    "&::-webkit-scrollbar": {
-      height: 5,
+    maxWidth: 300,
+    [theme.breakpoints.down("md")]: {
+      fontSize: "1.8rem",
+      maxWidth: 250,
     },
-    "&::-webkit-scrollbar-track": {
-      background: theme.palette.grey[300],
+    [theme.breakpoints.down("sm")]: {
+      fontSize: "1.6rem",
+      maxWidth: 150,
     },
-    "&::-webkit-scrollbar-thumb": {
-      background: theme.palette.primary.main,
-    },
-    "&::-webkit-scrollbar-thumb:hover": {
-      background: theme.palette.primary.light,
+    [theme.breakpoints.down("xs")]: {
+      fontSize: "1.4rem",
+      maxWidth: 140,
     },
   },
   todos: {
@@ -211,26 +214,17 @@ function TodoGroupContainer({ selectedTodoGroup, onModalOpen }) {
 
               <Grid container alignItems="center" style={{ height: "100%" }}>
                 {!(openSearch && matchesXS) ? (
-                  <Grid
-                    item
-                    xs={4}
-                    container
-                    justify="flex-start"
-                    alignItems="center"
-                    className={classes.groupTitleContainer}
-                  >
-                    <Grid item>
-                      <Typography variant="h3" className={classes.groupTitle}>
-                        {selectedTodoGroup.name}
-                      </Typography>
-                    </Grid>
+                  <Grid item className={classes.groupTitleContainer}>
+                    <Typography variant="h3" className={classes.groupTitle}>
+                      {selectedTodoGroup.name}
+                    </Typography>
                   </Grid>
                 ) : null}
                 {selectedTodoGroup.name ? (
                   <Grid
                     item
                     container
-                    xs={8}
+                    xs
                     justify="flex-end"
                     alignItems="center"
                   >
