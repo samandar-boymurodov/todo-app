@@ -118,6 +118,7 @@ function TodoGroupsContainer({
   selectTodoGroup,
   selectedTodoGroup,
   onModalOpen,
+  open,
 }) {
   const classes = useStyles();
   const theme = useTheme();
@@ -354,7 +355,7 @@ function TodoGroupsContainer({
           <ToDoGroupContainer />
         </Grid>
       </Grid>
-      <Modal selected={selected} />
+      {open ? <Modal selected={selected} /> : null}
     </div>
   );
 }
@@ -363,6 +364,7 @@ const mapStateToProps = (state) => ({
   isAuth: !!state.auth.token,
   todoGroups: state.todo.todoGroups,
   selectedTodoGroup: state.todo.selectedTodoGroup,
+  open: state.modal.open,
 });
 
 const mapDispatchToProps = (dispatch) => ({

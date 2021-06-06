@@ -131,7 +131,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function TodoGroupContainer({ selectedTodoGroup, onModalOpen }) {
+function TodoGroupContainer({ selectedTodoGroup, onModalOpen, open }) {
   const classes = useStyles();
   const theme = useTheme();
   const matchesXS = useMediaQuery(theme.breakpoints.down("xs"));
@@ -142,7 +142,7 @@ function TodoGroupContainer({ selectedTodoGroup, onModalOpen }) {
   const [openPopper, setOpenPopper] = useState(null);
   const [anchorEl, setAnchorEl] = useState(null);
   const [tab, setTab] = useState("todos");
-  const [selected, setSelected] = useState(null);
+  const [selectedTodo, setSelectedTodo] = useState(null);
 
   const handlePopper = (index) => (e) => {
     setOpenPopper(index);
@@ -169,13 +169,13 @@ function TodoGroupContainer({ selectedTodoGroup, onModalOpen }) {
     setOpenPopper(null);
     setAnchorEl(null);
     onModalOpen(modalTypes.EDIT_TODO);
-    setSelected(index);
+    setSelectedTodo(index);
   };
   const deleteTodoHandler = (index) => {
     setOpenPopper(null);
     setAnchorEl(null);
     onModalOpen(modalTypes.DELETE_TODO);
-    setSelected(index);
+    setSelectedTodo(index);
   };
   const handleClosePopper = () => {
     setOpenPopper(null);
@@ -398,13 +398,14 @@ function TodoGroupContainer({ selectedTodoGroup, onModalOpen }) {
           </List>
         </Grid>
       </Grid>
-      <Modal selected={selected} />
+      {open ? <Modal selectedTodo={selectedTodo} /> : null}
     </>
   );
 }
 
 const mapStateToProps = (state) => ({
   selectedTodoGroup: state.todo.selectedTodoGroup,
+  open: state.modal.open,
 });
 
 const mapDispatchToProps = (dispatch) => ({

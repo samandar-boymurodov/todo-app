@@ -48,6 +48,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 });
 
 const Modal = ({
+  selectedTodo,
   open,
   onRemoveModal,
   type,
@@ -56,6 +57,7 @@ const Modal = ({
   onEditGroup,
   onDeleteGroup,
   selected,
+  onEditTodo,
 }) => {
   const classes = useStyles();
 
@@ -117,6 +119,8 @@ const Modal = ({
         break;
       case modalTypes.DELETE_GROUP:
         onDeleteGroup(selected);
+      case modalTypes.EDIT_TODO:
+        onEditTodo(selectedTodo);
       default:
         break;
     }
@@ -390,6 +394,7 @@ const mapDispatchToProps = (dispatch) => ({
   onEditGroup: (oldName, newName) =>
     dispatch(actions.editGroup(oldName, newName)),
   onDeleteGroup: (index) => dispatch(actions.deleteGroup(index)),
+  onEditTodo: (index) => dispatch(actions.editTodo(index)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Modal);

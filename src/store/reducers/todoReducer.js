@@ -33,12 +33,6 @@ export const todoReducer = (state = initialState, action) => {
         ...state,
         todoGroups: action.newToDoGroups,
       };
-    case actionTypes.DELETE_GROUP:
-      console.log(action.newToDoGroups);
-      return {
-        ...state,
-        todoGroups: action.newToDoGroups,
-      };
     default:
       return state;
   }
