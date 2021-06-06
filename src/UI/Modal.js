@@ -65,6 +65,11 @@ const Modal = ({
     description: "",
     error: "",
   });
+  const [editTodoIndo, setEditTodoInfo] = useState({
+    name: "",
+    description: "",
+    error: "",
+  });
   const [newGroupName, setNewGroupName] = useState({
     name: "",
     error: "",
@@ -280,6 +285,15 @@ const Modal = ({
               variant="outlined"
               color="primary"
               autoFocus
+              error={!!editTodoIndo.error}
+              helperText={editTodoIndo.error}
+              onChange={(e) =>
+                setEditTodoInfo({
+                  ...editTodoIndo,
+                  name: e.target.value,
+                  error: e.target.value ? "" : editTodoIndo.error,
+                })
+              }
             />
           </Grid>
           <Grid item>
@@ -289,6 +303,12 @@ const Modal = ({
               variant="outlined"
               color="primary"
               placeholder="This is optional"
+              onChange={(e) =>
+                setEditTodoInfo({
+                  ...editTodoIndo,
+                  description: e.target.value,
+                })
+              }
               style={{
                 marginTop: "1.4rem",
               }}

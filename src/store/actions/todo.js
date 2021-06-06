@@ -112,3 +112,10 @@ export const deleteGroup = (index) => (dispatch) => {
   }
   dispatch(setAlert("Todo Group successfully removed"));
 };
+
+export const editTodo = (index) => {
+  console.log(index);
+  return {
+    type: actionTypes.EDIT_TODO,
+  };
+};

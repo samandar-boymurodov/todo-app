@@ -92,9 +92,13 @@ export const theme = createMuiTheme({
     MuiInputLabel: {
       root: {
         color: cyan[500],
+        fontSize: "1.3rem",
       },
     },
     MuiOutlinedInput: {
+      notchedOutline: {
+        fontSize: "1.3rem",
+      },
       root: {
         borderRadius: 0,
         "&.MuiOutlinedInput-root": {
