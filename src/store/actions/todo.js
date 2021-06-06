@@ -156,4 +156,5 @@ export const deleteTodo = (index) => (dispatch) => {
     newToDoGroups: todoGroups,
   });
   dispatch(selectTodoGroup(groupIndex, todoGroups));
+  dispatch(setAlert("Todo sucessfully removed"));
 };
