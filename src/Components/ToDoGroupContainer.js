@@ -136,6 +136,7 @@ function TodoGroupContainer({
   onModalOpen,
   open,
   onOptionIndexTodo,
+  toggleComplete,
 }) {
   const classes = useStyles();
   const theme = useTheme();
@@ -143,7 +144,7 @@ function TodoGroupContainer({
   const matchesSM = useMediaQuery(theme.breakpoints.down("sm"));
 
   const [openSearch, setOpenSearch] = useState(false);
-  const [checked, setChecked] = useState([0]);
+  const [checked, setChecked] = useState([]);
   const [openPopper, setOpenPopper] = useState(null);
   const [anchorEl, setAnchorEl] = useState(null);
   const [tab, setTab] = useState("todos");
@@ -157,12 +158,13 @@ function TodoGroupContainer({
     setAnchorEl(e.currentTarget);
   };
 
-  const handleToggle = (value) => () => {
+  const handleToggle = (index, value) => () => {
     const currentIndex = checked.indexOf(value);
     const newChecked = [...checked];
 
     if (currentIndex === -1) {
       newChecked.push(value);
+      toggleComplete(index, selectedTodoGroup.name);
     } else {
       newChecked.splice(currentIndex, 1);
     }
@@ -364,11 +366,17 @@ function TodoGroupContainer({
                     <ListItemIcon>
                       <Checkbox
                         edge="start"
-                        checked={checked.indexOf(value) !== -1}
+                        checked={
+                          checked.indexOf(
+                            `${value.name}-${value.description}`
+                          ) !== -1
+                        }
                         tabIndex={-1}
-                        disableRipple
                         inputProps={{ "aria-labelledby": labelId }}
-                        onClick={handleToggle(value)}
+                        onClick={handleToggle(
+                          index,
+                          `${value.name}-${value.description}`
+                        )}
                         color="secondary"
                       />
                     </ListItemIcon>
@@ -415,6 +423,8 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   onModalOpen: (type) => dispatch(actions.setModal(type)),
   onOptionIndexTodo: (index) => dispatch(actions.optionIndexTodo(index)),
+  toggleComplete: (index, groupName) =>
+    dispatch(actions.toggleComplete(index, groupName)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(TodoGroupContainer);

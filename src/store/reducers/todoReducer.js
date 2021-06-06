@@ -60,6 +60,11 @@ export const todoReducer = (state = initialState, action) => {
         ...state,
         todoGroups: action.newToDoGroups,
       };
+    case actionTypes.COMPLETE_TODO:
+      return {
+        ...state,
+        todoGroups: action.newToDoGroups,
+      };
     default:
       return state;
   }

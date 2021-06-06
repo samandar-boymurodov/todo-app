@@ -16,6 +16,7 @@ export const initTodos = () => (dispatch) => {
         todos: [...new Array(20)].map(() => ({
           name: random(response.data),
           description: `${random(response.data)} ${random(response.data)}`,
+          completed: false,
         })),
       }));
       dispatch({
@@ -66,6 +67,7 @@ export const addTodo = (name, todoInfo) => (dispatch) => {
   selectedGroup[0].todos.unshift({
     name: todoInfo.name,
     description: todoInfo.description,
+    completed: false,
   });
 
   dispatch({
@@ -157,4 +159,24 @@ export const deleteTodo = (index) => (dispatch) => {
   });
   dispatch(selectTodoGroup(groupIndex, todoGroups));
   dispatch(setAlert("Todo sucessfully removed"));
+};
+
+export const toggleComplete = (index, groupName) => (dispatch) => {
+  const todoGroups = cloneDeep(store.getState().todo.todoGroups);
+  const currentGroup = todoGroups.filter((e) => e.name === groupName);
+
+  console.log(currentGroup);
+
+  currentGroup[0].todos[index].completed = true;
+
+  dispatch({
+    type: actionTypes.COMPLETE_TODO,
+    newToDoGroups: todoGroups,
+  });
+  dispatch(
+    selectTodoGroup(
+      todoGroups.findIndex((e) => e.name === groupName),
+      todoGroups
+    )
+  );
 };

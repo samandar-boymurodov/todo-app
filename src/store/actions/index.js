@@ -11,5 +11,6 @@ export {
   optionIndexGroup,
   optionIndexTodo,
   deleteTodo,
+  toggleComplete,
 } from "./todo";
 export { setModal, removeModal } from "./modal";
