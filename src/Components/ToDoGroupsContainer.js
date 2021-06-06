@@ -316,7 +316,10 @@ function TodoGroupsContainer({
                     <ListItem
                       onMouseLeave={handleClosePopper}
                       button
-                      onClick={() => selectTodoGroup(index, todoGroups)}
+                      onClick={() => {
+                        selectTodoGroup(index, todoGroups);
+                        setOpenMenu(false);
+                      }}
                       classes={{
                         root: classes.groupContainer,
                       }}
