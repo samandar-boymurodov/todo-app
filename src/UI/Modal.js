@@ -58,6 +58,7 @@ const Modal = ({
   onEditGroup,
   onDeleteGroup,
   onEditTodo,
+  onDeleteTodo,
 }) => {
   const classes = useStyles();
 
@@ -77,23 +78,10 @@ const Modal = ({
     error: "",
   });
 
-  useEffect(() => {
-    console.log(optionIndexGroup);
-  }, [optionIndexGroup]);
   const handleClose = (e) => {
     let buttonText = e.target.innerText;
     if (buttonText !== "ADD" && buttonText !== "SAVE" && buttonText !== "YES") {
       onRemoveModal();
-      setAddTodoInfo({
-        name: "",
-        description: "",
-        error: "",
-      });
-      setCheck(false);
-      setNewGroupName({
-        name: "",
-        error: "",
-      });
       return;
     }
     switch (type) {
@@ -134,20 +122,14 @@ const Modal = ({
             description: editTodoIndo.description,
           });
         }
+        break;
+      case modalTypes.DELETE_TODO:
+        onDeleteTodo(optionIndexTodo);
+        break;
       default:
         break;
     }
     onRemoveModal();
-    setAddTodoInfo({
-      name: "",
-      description: "",
-      error: "",
-    });
-    setCheck(false);
-    setNewGroupName({
-      name: "",
-      error: "",
-    });
   };
 
   const handleCheck = (e) => {
@@ -410,6 +392,7 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(actions.editGroup(oldName, newName)),
   onDeleteGroup: (index) => dispatch(actions.deleteGroup(index)),
   onEditTodo: (index, editInfo) => dispatch(actions.editTodo(index, editInfo)),
+  onDeleteTodo: (index) => dispatch(actions.deleteTodo(index)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Modal);

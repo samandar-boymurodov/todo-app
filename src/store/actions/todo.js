@@ -142,3 +142,18 @@ export const editTodo = (index, editInfo) => (dispatch) => {
     newToDoGroups: todoGroups,
   });
 };
+
+export const deleteTodo = (index) => (dispatch) => {
+  const todoGroups = cloneDeep(store.getState().todo.todoGroups);
+  const groupIndex = todoGroups.findIndex(
+    (group) => group.name === store.getState().todo.selectedTodoGroup.name
+  );
+
+  todoGroups[groupIndex].todos.splice(index, 1);
+
+  dispatch({
+    type: actionTypes.DELETE_TODO,
+    newToDoGroups: todoGroups,
+  });
+  dispatch(selectTodoGroup(groupIndex, todoGroups));
+};

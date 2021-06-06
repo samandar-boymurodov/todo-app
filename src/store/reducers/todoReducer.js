@@ -55,6 +55,11 @@ export const todoReducer = (state = initialState, action) => {
         ...state,
         optionIndexTodo: action.optionTodo,
       };
+    case actionTypes.DELETE_TODO:
+      return {
+        ...state,
+        todoGroups: action.newToDoGroups,
+      };
     default:
       return state;
   }
