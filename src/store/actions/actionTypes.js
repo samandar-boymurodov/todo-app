@@ -15,3 +15,5 @@ export const DELETE_GROUP = "DELETE_GROUP";
 export const DELETE_TODO = "DELETE_TODO";
 export const SET_MODAL = "SET_MODAL";
 export const REMOVE_MODAL = "REMOVE_MODAL";
+export const OPTION_INDEX_GROUP = "OPTION_INDEX_GROUP";
+export const OPTION_INDEX_TODO = "OPTION_INDEX_TODO";

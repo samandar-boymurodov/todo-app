@@ -113,9 +113,32 @@ export const deleteGroup = (index) => (dispatch) => {
   dispatch(setAlert("Todo Group successfully removed"));
 };
 
-export const editTodo = (index) => {
-  console.log(index);
+export const optionIndexGroup = (index) => {
   return {
-    type: actionTypes.EDIT_TODO,
+    type: actionTypes.OPTION_INDEX_GROUP,
+    optionGroup: index,
   };
+};
+
+export const optionIndexTodo = (index) => {
+  return {
+    type: actionTypes.OPTION_INDEX_TODO,
+    optionTodo: index,
+  };
+};
+
+export const editTodo = (index, editInfo) => (dispatch) => {
+  const todoGroups = cloneDeep(store.getState().todo.todoGroups);
+  const groupIndex = todoGroups.findIndex(
+    (group) => group.name === store.getState().todo.selectedTodoGroup.name
+  );
+  todoGroups[groupIndex].todos[index].name = editInfo.name;
+  todoGroups[groupIndex].todos[index].description = editInfo.description;
+
+  dispatch(selectTodoGroup(groupIndex, todoGroups));
+
+  dispatch({
+    type: actionTypes.EDIT_TODO,
+    newToDoGroups: todoGroups,
+  });
 };

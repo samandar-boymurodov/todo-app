@@ -2,6 +2,8 @@ import * as actionTypes from "../actions/actionTypes";
 const initialState = {
   todoGroups: [],
   selectedTodoGroup: { todos: [] },
+  optionIndexGroup: null,
+  optionIndexTodo: null,
 };
 
 export const todoReducer = (state = initialState, action) => {
@@ -32,6 +34,26 @@ export const todoReducer = (state = initialState, action) => {
       return {
         ...state,
         todoGroups: action.newToDoGroups,
+      };
+    case actionTypes.EDIT_TODO:
+      return {
+        ...state,
+        todoGroups: action.newToDoGroups,
+      };
+    case actionTypes.DELETE_GROUP:
+      return {
+        ...state,
+        todoGroups: action.newToDoGroups,
+      };
+    case actionTypes.OPTION_INDEX_GROUP:
+      return {
+        ...state,
+        optionIndexGroup: action.optionGroup,
+      };
+    case actionTypes.OPTION_INDEX_TODO:
+      return {
+        ...state,
+        optionIndexTodo: action.optionTodo,
       };
     default:
       return state;

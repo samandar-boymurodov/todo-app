@@ -119,6 +119,7 @@ function TodoGroupsContainer({
   selectedTodoGroup,
   onModalOpen,
   open,
+  onOptionIndexGroup,
 }) {
   const classes = useStyles();
   const theme = useTheme();
@@ -135,7 +136,6 @@ function TodoGroupsContainer({
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [openPopper, setOpenPopper] = React.useState(null);
   const [openMenu, setOpenMenu] = React.useState(false);
-  const [selected, setSelected] = React.useState(null);
 
   const handlePopper = (index) => (e) => {
     setOpenPopper(index);
@@ -149,13 +149,13 @@ function TodoGroupsContainer({
     setOpenPopper(null);
     setAnchorEl(null);
     onModalOpen(modalTypes.EDIT_GROUP);
-    setSelected(index);
+    onOptionIndexGroup(index);
   };
   const deleGroupteHandler = (index) => {
     setOpenPopper(null);
     setAnchorEl(null);
     onModalOpen(modalTypes.DELETE_GROUP);
-    setSelected(index);
+    onOptionIndexGroup(index);
   };
   const handleClosePopper = () => {
     setOpenPopper(null);
@@ -355,7 +355,7 @@ function TodoGroupsContainer({
           <ToDoGroupContainer />
         </Grid>
       </Grid>
-      {open ? <Modal selected={selected} /> : null}
+      {open ? <Modal /> : null}
     </div>
   );
 }
@@ -372,6 +372,7 @@ const mapDispatchToProps = (dispatch) => ({
   selectTodoGroup: (index, todoGroups) =>
     dispatch(actions.selectTodoGroup(index, todoGroups)),
   onModalOpen: (type) => dispatch(actions.setModal(type)),
+  onOptionIndexGroup: (index) => dispatch(actions.optionIndexGroup(index)),
 });
 
 export default connect(

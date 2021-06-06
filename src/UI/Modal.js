@@ -48,7 +48,8 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 });
 
 const Modal = ({
-  selectedTodo,
+  optionIndexTodo,
+  optionIndexGroup,
   open,
   onRemoveModal,
   type,
@@ -56,7 +57,6 @@ const Modal = ({
   onAddTodo,
   onEditGroup,
   onDeleteGroup,
-  selected,
   onEditTodo,
 }) => {
   const classes = useStyles();
@@ -77,6 +77,9 @@ const Modal = ({
     error: "",
   });
 
+  useEffect(() => {
+    console.log(optionIndexGroup);
+  }, [optionIndexGroup]);
   const handleClose = (e) => {
     let buttonText = e.target.innerText;
     if (buttonText !== "ADD" && buttonText !== "SAVE" && buttonText !== "YES") {
@@ -114,13 +117,23 @@ const Modal = ({
           setNewGroupName({ ...newGroupName, error: "this field is required" });
           return;
         } else {
-          onEditGroup(selected, newGroupName.name);
+          onEditGroup(optionIndexGroup, newGroupName.name);
         }
         break;
       case modalTypes.DELETE_GROUP:
-        onDeleteGroup(selected);
+        onDeleteGroup(optionIndexGroup);
+        console.log("here");
+        break;
       case modalTypes.EDIT_TODO:
-        onEditTodo(selectedTodo);
+        if (!editTodoIndo.name) {
+          setEditTodoInfo({ ...editTodoIndo, error: "This field is required" });
+          return;
+        } else {
+          onEditTodo(optionIndexTodo, {
+            name: editTodoIndo.name,
+            description: editTodoIndo.description,
+          });
+        }
       default:
         break;
     }
@@ -386,6 +399,8 @@ const mapStateToProps = (state) => ({
   open: state.modal.open,
   type: state.modal.type,
   selectedGroupName: state.todo.selectedTodoGroup.name,
+  optionIndexGroup: state.todo.optionIndexGroup,
+  optionIndexTodo: state.todo.optionIndexTodo,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -394,7 +409,7 @@ const mapDispatchToProps = (dispatch) => ({
   onEditGroup: (oldName, newName) =>
     dispatch(actions.editGroup(oldName, newName)),
   onDeleteGroup: (index) => dispatch(actions.deleteGroup(index)),
-  onEditTodo: (index) => dispatch(actions.editTodo(index)),
+  onEditTodo: (index, editInfo) => dispatch(actions.editTodo(index, editInfo)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Modal);
