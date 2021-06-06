@@ -124,20 +124,23 @@ export const optionIndexGroup = (index) => {
   };
 };
 
-export const optionIndexTodo = (index) => {
+export const optionIndexTodo = (id) => {
   return {
     type: actionTypes.OPTION_INDEX_TODO,
-    optionTodo: index,
+    optionTodo: id,
   };
 };
 
-export const editTodo = (index, editInfo) => (dispatch) => {
+export const editTodo = (id, editInfo) => (dispatch) => {
   const todoGroups = cloneDeep(store.getState().todo.todoGroups);
   const groupIndex = todoGroups.findIndex(
     (group) => group.name === store.getState().todo.selectedTodoGroup.name
   );
-  todoGroups[groupIndex].todos[index].name = editInfo.name;
-  todoGroups[groupIndex].todos[index].description = editInfo.description;
+  const todoIndex = todoGroups[groupIndex].todos.findIndex(
+    (todo) => todo.id === id
+  );
+  todoGroups[groupIndex].todos[todoIndex].name = editInfo.name;
+  todoGroups[groupIndex].todos[todoIndex].description = editInfo.description;
 
   dispatch(selectTodoGroup(groupIndex, todoGroups));
 
@@ -147,13 +150,17 @@ export const editTodo = (index, editInfo) => (dispatch) => {
   });
 };
 
-export const deleteTodo = (index) => (dispatch) => {
+export const deleteTodo = (id) => (dispatch) => {
   const todoGroups = cloneDeep(store.getState().todo.todoGroups);
   const groupIndex = todoGroups.findIndex(
     (group) => group.name === store.getState().todo.selectedTodoGroup.name
   );
 
-  todoGroups[groupIndex].todos.splice(index, 1);
+  const todoIndex = todoGroups[groupIndex].todos.findIndex(
+    (todo) => todo.id === id
+  );
+
+  todoGroups[groupIndex].todos.splice(todoIndex, 1);
 
   dispatch({
     type: actionTypes.DELETE_TODO,
@@ -163,24 +170,23 @@ export const deleteTodo = (index) => (dispatch) => {
   dispatch(setAlert("Todo sucessfully removed"));
 };
 
-export const toggleComplete = (index, groupName) => (dispatch) => {
+export const toggleComplete = (id, groupName) => (dispatch) => {
   const todoGroups = cloneDeep(store.getState().todo.todoGroups);
-  const currentGroup = todoGroups.filter((e) => e.name === groupName);
+  const groupIndex = todoGroups.findIndex((e) => e.name === groupName);
 
-  if (currentGroup[0].todos[index].completed) {
-    currentGroup[0].todos[index].completed = false;
+  const todoIndex = todoGroups[groupIndex].todos.findIndex(
+    (todo) => todo.id === id
+  );
+
+  if (todoGroups[groupIndex].todos[todoIndex].completed) {
+    todoGroups[groupIndex].todos[todoIndex].completed = false;
   } else {
-    currentGroup[0].todos[index].completed = true;
+    todoGroups[groupIndex].todos[todoIndex].completed = true;
   }
 
   dispatch({
     type: actionTypes.COMPLETE_TODO,
     newToDoGroups: todoGroups,
   });
-  dispatch(
-    selectTodoGroup(
-      todoGroups.findIndex((e) => e.name === groupName),
-      todoGroups
-    )
-  );
+  dispatch(selectTodoGroup(groupIndex, todoGroups));
 };

@@ -158,31 +158,31 @@ function TodoGroupContainer({
     setAnchorEl(e.currentTarget);
   };
 
-  const handleToggle = (index, value) => () => {
-    const currentIndex = checked.indexOf(value);
+  const handleToggle = (id) => () => {
+    const currentIndex = checked.indexOf(id);
     const newChecked = [...checked];
 
     if (currentIndex === -1) {
-      newChecked.push(value);
-      toggleComplete(index, selectedTodoGroup.name);
+      newChecked.push(id);
+      toggleComplete(id, selectedTodoGroup.name);
     } else {
       newChecked.splice(currentIndex, 1);
-      toggleComplete(index, selectedTodoGroup.name);
+      toggleComplete(id, selectedTodoGroup.name);
     }
 
     setChecked(newChecked);
   };
-  const editTodoHandler = (index) => {
+  const editTodoHandler = (id) => {
     setOpenPopper(null);
     setAnchorEl(null);
     onModalOpen(modalTypes.EDIT_TODO);
-    onOptionIndexTodo(index);
+    onOptionIndexTodo(id);
   };
-  const deleteTodoHandler = (index) => {
+  const deleteTodoHandler = (id) => {
     setOpenPopper(null);
     setAnchorEl(null);
     onModalOpen(modalTypes.DELETE_TODO);
-    onOptionIndexTodo(index);
+    onOptionIndexTodo(id);
   };
   const handleClosePopper = () => {
     setOpenPopper(null);
@@ -347,13 +347,13 @@ function TodoGroupContainer({
                           <ClickAwayListener onClickAway={handleClosePopper}>
                             <MenuList id="menu-list-grow">
                               <MenuItem
-                                onClick={() => editTodoHandler(index)}
+                                onClick={() => editTodoHandler(value.id)}
                                 className={classes.menuItem}
                               >
                                 Edit
                               </MenuItem>
                               <MenuItem
-                                onClick={() => deleteTodoHandler(index)}
+                                onClick={() => deleteTodoHandler(value.id)}
                                 className={classes.menuItem}
                               >
                                 Delete
@@ -372,17 +372,10 @@ function TodoGroupContainer({
                     <ListItemIcon>
                       <Checkbox
                         edge="start"
-                        checked={
-                          checked.indexOf(
-                            `${value.name}-${value.description}`
-                          ) !== -1
-                        }
+                        checked={checked.indexOf(value.id) !== -1}
                         tabIndex={-1}
                         inputProps={{ "aria-labelledby": labelId }}
-                        onClick={handleToggle(
-                          index,
-                          `${value.name}-${value.description}`
-                        )}
+                        onClick={handleToggle(value.id)}
                         color="secondary"
                       />
                     </ListItemIcon>
@@ -428,9 +421,9 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   onModalOpen: (type) => dispatch(actions.setModal(type)),
-  onOptionIndexTodo: (index) => dispatch(actions.optionIndexTodo(index)),
-  toggleComplete: (index, groupName) =>
-    dispatch(actions.toggleComplete(index, groupName)),
+  onOptionIndexTodo: (id) => dispatch(actions.optionIndexTodo(id)),
+  toggleComplete: (id, groupName) =>
+    dispatch(actions.toggleComplete(id, groupName)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(TodoGroupContainer);
