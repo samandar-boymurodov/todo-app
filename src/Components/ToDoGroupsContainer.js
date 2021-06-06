@@ -150,10 +150,11 @@ function TodoGroupsContainer({
     onModalOpen(modalTypes.EDIT_GROUP);
     setSelected(index);
   };
-  const deleGroupteHandler = (e) => {
+  const deleGroupteHandler = (index) => {
     setOpenPopper(null);
     setAnchorEl(null);
     onModalOpen(modalTypes.DELETE_GROUP);
+    setSelected(index);
   };
   const handleClosePopper = () => {
     setOpenPopper(null);
@@ -200,7 +201,7 @@ function TodoGroupsContainer({
                                   Edit
                                 </MenuItem>
                                 <MenuItem
-                                  onClick={deleGroupteHandler}
+                                  onClick={() => deleGroupteHandler(index)}
                                   className={classes.menuItem}
                                 >
                                   Delete
@@ -300,7 +301,7 @@ function TodoGroupsContainer({
                                   Edit
                                 </MenuItem>
                                 <MenuItem
-                                  onClick={deleGroupteHandler}
+                                  onClick={() => deleGroupteHandler(index)}
                                   className={classes.menuItem}
                                 >
                                   Delete

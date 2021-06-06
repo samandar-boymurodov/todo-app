@@ -54,6 +54,7 @@ const Modal = ({
   selectedGroupName,
   onAddTodo,
   onEditGroup,
+  onDeleteGroup,
   selected,
 }) => {
   const classes = useStyles();
@@ -70,7 +71,8 @@ const Modal = ({
   });
 
   const handleClose = (e) => {
-    if (e.target.innerText !== "ADD" && e.target.innerText !== "SAVE") {
+    let buttonText = e.target.innerText;
+    if (buttonText !== "ADD" && buttonText !== "SAVE" && buttonText !== "YES") {
       onRemoveModal();
       setAddTodoInfo({
         name: "",
@@ -108,6 +110,8 @@ const Modal = ({
           onEditGroup(selected, newGroupName.name);
         }
         break;
+      case modalTypes.DELETE_GROUP:
+        onDeleteGroup(selected);
       default:
         break;
     }
@@ -365,6 +369,7 @@ const mapDispatchToProps = (dispatch) => ({
   onAddTodo: (name, todoInfo) => dispatch(actions.addTodo(name, todoInfo)),
   onEditGroup: (oldName, newName) =>
     dispatch(actions.editGroup(oldName, newName)),
+  onDeleteGroup: (index) => dispatch(actions.deleteGroup(index)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Modal);

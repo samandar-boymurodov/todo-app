@@ -6,5 +6,6 @@ export {
   addTodoGroup,
   addTodo,
   editGroup,
+  deleteGroup,
 } from "./todo";
 export { setModal, removeModal } from "./modal";

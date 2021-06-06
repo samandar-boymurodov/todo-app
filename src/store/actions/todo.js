@@ -31,7 +31,7 @@ export const initTodos = () => (dispatch) => {
 export const selectTodoGroup = (index, todoGroups) => {
   return {
     type: actionTypes.SELECT_TODOGROUP,
-    todoGroup: todoGroups[index],
+    todoGroup: index < 0 ? { todos: [] } : todoGroups[index],
   };
 };
 
@@ -92,4 +92,23 @@ export const editGroup = (index, newName) => (dispatch) => {
   if (selectedGroup.name === oldName) {
     dispatch(selectTodoGroup(index, todoGroups));
   }
+};
+
+export const deleteGroup = (index) => (dispatch) => {
+  const todoGroups = store.getState().todo.todoGroups;
+  const selectedGroup = store.getState().todo.selectedTodoGroup;
+
+  const newToDoGroups = todoGroups.filter(
+    (e) => e.name !== todoGroups[index].name
+  );
+
+  dispatch({
+    type: actionTypes.DELETE_GROUP,
+    newToDoGroups,
+  });
+
+  if (selectedGroup.name === todoGroups[index].name) {
+    dispatch(selectTodoGroup(-1, todoGroups));
+  }
+  dispatch(setAlert("Todo Group successfully removed"));
 };

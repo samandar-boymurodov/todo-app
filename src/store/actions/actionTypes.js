@@ -10,5 +10,7 @@ export const SELECT_TODOGROUP = "SELECT_TODOGROUP";
 export const ADD_GROUP = "ADD_GROUP";
 export const ADD_TODO = "ADD_TODO";
 export const EDIT_GROUP = "EDIT_GROUP";
+export const DELETE_GROUP = "DELETE_GROUP";
+export const DELETE_TODO = "DELETE_TODO";
 export const SET_MODAL = "SET_MODAL";
 export const REMOVE_MODAL = "REMOVE_MODAL";
