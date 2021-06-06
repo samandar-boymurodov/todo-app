@@ -148,6 +148,7 @@ function TodoGroupContainer({
   const [openPopper, setOpenPopper] = useState(null);
   const [anchorEl, setAnchorEl] = useState(null);
   const [tab, setTab] = useState("todos");
+  const [searchQuery, setSearchQuery] = useState("");
 
   const handlePopper = (index) => (e) => {
     setOpenPopper(index);
@@ -164,7 +165,9 @@ function TodoGroupContainer({
 
     if (currentIndex === -1) {
       newChecked.push(id);
-      toggleComplete(id, selectedTodoGroup.name);
+      setTimeout(() => {
+        toggleComplete(id, selectedTodoGroup.name);
+      }, 0);
     } else {
       newChecked.splice(currentIndex, 1);
       toggleComplete(id, selectedTodoGroup.name);
@@ -192,6 +195,10 @@ function TodoGroupContainer({
     setTab(newValue);
   };
 
+  const handleSearchQuery = (e) => {
+    setSearchQuery(e.target.value);
+  };
+
   const todos =
     tab === "todos"
       ? selectedTodoGroup.todos.filter((e) => !e.completed)
@@ -205,10 +212,17 @@ function TodoGroupContainer({
           <Grid container direction="column">
             <Grid item style={{ height: 50 }}>
               {openSearch && matchesXS ? (
-                <ClickAwayListener onClickAway={() => setOpenSearch(false)}>
+                <ClickAwayListener
+                  onClickAway={() => {
+                    setOpenSearch(false);
+                    setSearchQuery("");
+                  }}
+                >
                   <TextField
                     className={classes.searchInput}
                     autoFocus
+                    value={searchQuery}
+                    onChange={handleSearchQuery}
                     inputProps={{
                       style: {
                         padding: "8px 5px",
@@ -253,11 +267,16 @@ function TodoGroupContainer({
                         </IconButton>
                       ) : !(openSearch && matchesXS) ? (
                         <ClickAwayListener
-                          onClickAway={() => setOpenSearch(false)}
+                          onClickAway={() => {
+                            setOpenSearch(false);
+                            setSearchQuery("");
+                          }}
                         >
                           <TextField
                             className={classes.searchInput}
                             autoFocus
+                            value={searchQuery}
+                            onChange={handleSearchQuery}
                             inputProps={{
                               style: {
                                 padding: "8px 5px",
@@ -374,6 +393,7 @@ function TodoGroupContainer({
                         edge="start"
                         checked={checked.indexOf(value.id) !== -1}
                         tabIndex={-1}
+                        disableRipple
                         inputProps={{ "aria-labelledby": labelId }}
                         onClick={handleToggle(value.id)}
                         color="secondary"
