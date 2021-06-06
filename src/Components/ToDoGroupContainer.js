@@ -25,6 +25,7 @@ import {
   Tab,
   useMediaQuery,
 } from "@material-ui/core";
+import CloseIcon from "@material-ui/icons/Close";
 import { makeStyles, useTheme } from "@material-ui/styles";
 import SearchIcon from "@material-ui/icons/Search";
 import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
@@ -129,6 +130,9 @@ const useStyles = makeStyles((theme) => ({
     wordWrap: "break-word",
     marginRight: "1.5rem",
   },
+  closeIcon: {
+    cursor: "pointer",
+  },
 }));
 
 function TodoGroupContainer({
@@ -149,6 +153,20 @@ function TodoGroupContainer({
   const [anchorEl, setAnchorEl] = useState(null);
   const [tab, setTab] = useState("todos");
   const [searchQuery, setSearchQuery] = useState("");
+  const [searchResult, setSearchResult] = useState(null);
+
+  useEffect(() => {
+    setSearchResult(
+      selectedTodoGroup.todos.filter(
+        (e) =>
+          e.name.includes(searchQuery) ||
+          (e.description ? e.description.includes(searchQuery) : false)
+      )
+    );
+    if (!searchQuery) {
+      setSearchResult(null);
+    }
+  }, [searchQuery, selectedTodoGroup]);
 
   const handlePopper = (index) => (e) => {
     setOpenPopper(index);
@@ -198,11 +216,17 @@ function TodoGroupContainer({
   const handleSearchQuery = (e) => {
     setSearchQuery(e.target.value);
   };
+  const closeSearchHandler = () => {
+    setOpenSearch(false);
+    setSearchQuery("");
+    setSearchResult(null);
+  };
 
-  const todos =
-    tab === "todos"
-      ? selectedTodoGroup.todos.filter((e) => !e.completed)
-      : selectedTodoGroup.todos.filter((e) => e.completed);
+  const todos = searchResult
+    ? searchResult
+    : tab === "todos"
+    ? selectedTodoGroup.todos.filter((e) => !e.completed)
+    : selectedTodoGroup.todos.filter((e) => e.completed);
 
   return (
     <>
@@ -212,33 +236,30 @@ function TodoGroupContainer({
           <Grid container direction="column">
             <Grid item style={{ height: 50 }}>
               {openSearch && matchesXS ? (
-                <ClickAwayListener
-                  onClickAway={() => {
-                    setOpenSearch(false);
-                    setSearchQuery("");
+                <TextField
+                  className={classes.searchInput}
+                  autoFocus
+                  value={searchQuery}
+                  onChange={handleSearchQuery}
+                  inputProps={{
+                    style: {
+                      padding: "8px 5px",
+                    },
                   }}
-                >
-                  <TextField
-                    className={classes.searchInput}
-                    autoFocus
-                    value={searchQuery}
-                    onChange={handleSearchQuery}
-                    inputProps={{
-                      style: {
-                        padding: "8px 5px",
-                      },
-                    }}
-                    style={{ marginTop: 10 }}
-                    InputProps={{
-                      endAdornment: (
-                        <InputAdornment position="end">
-                          <SearchIcon color="primary" />
-                        </InputAdornment>
-                      ),
-                    }}
-                    placeholder="Type to search"
-                  />
-                </ClickAwayListener>
+                  style={{ marginTop: 10 }}
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <CloseIcon
+                          className={classes.closeIcon}
+                          onClick={closeSearchHandler}
+                          color="primary"
+                        />
+                      </InputAdornment>
+                    ),
+                  }}
+                  placeholder="Type to search"
+                />
               ) : null}
 
               <Grid container alignItems="center" style={{ height: "100%" }}>
@@ -266,32 +287,29 @@ function TodoGroupContainer({
                           <SearchIcon color="secondary" />
                         </IconButton>
                       ) : !(openSearch && matchesXS) ? (
-                        <ClickAwayListener
-                          onClickAway={() => {
-                            setOpenSearch(false);
-                            setSearchQuery("");
+                        <TextField
+                          className={classes.searchInput}
+                          autoFocus
+                          value={searchQuery}
+                          onChange={handleSearchQuery}
+                          inputProps={{
+                            style: {
+                              padding: "8px 5px",
+                            },
                           }}
-                        >
-                          <TextField
-                            className={classes.searchInput}
-                            autoFocus
-                            value={searchQuery}
-                            onChange={handleSearchQuery}
-                            inputProps={{
-                              style: {
-                                padding: "8px 5px",
-                              },
-                            }}
-                            InputProps={{
-                              endAdornment: (
-                                <InputAdornment position="end">
-                                  <SearchIcon color="primary" />
-                                </InputAdornment>
-                              ),
-                            }}
-                            placeholder="Type to search"
-                          />
-                        </ClickAwayListener>
+                          InputProps={{
+                            endAdornment: (
+                              <InputAdornment position="end">
+                                <CloseIcon
+                                  className={classes.closeIcon}
+                                  onClick={closeSearchHandler}
+                                  color="primary"
+                                />
+                              </InputAdornment>
+                            ),
+                          }}
+                          placeholder="Type to search"
+                        />
                       ) : null}
                     </Grid>
 
