@@ -167,6 +167,7 @@ function TodoGroupContainer({
       toggleComplete(index, selectedTodoGroup.name);
     } else {
       newChecked.splice(currentIndex, 1);
+      toggleComplete(index, selectedTodoGroup.name);
     }
 
     setChecked(newChecked);
@@ -190,6 +191,11 @@ function TodoGroupContainer({
   const handleTabChange = (e, newValue) => {
     setTab(newValue);
   };
+
+  const todos =
+    tab === "todos"
+      ? selectedTodoGroup.todos.filter((e) => !e.completed)
+      : selectedTodoGroup.todos.filter((e) => e.completed);
 
   return (
     <>
@@ -317,7 +323,7 @@ function TodoGroupContainer({
         <Grid item className={classes.todos}>
           {/* --- Todos list --- */}
           <List style={{ marginLeft: "0.4rem" }}>
-            {selectedTodoGroup.todos.map((value, index) => {
+            {todos.map((value, index) => {
               const labelId = `checkbox-list-label-${index}`;
               return (
                 <div key={index}>

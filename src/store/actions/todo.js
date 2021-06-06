@@ -17,6 +17,7 @@ export const initTodos = () => (dispatch) => {
           name: random(response.data),
           description: `${random(response.data)} ${random(response.data)}`,
           completed: false,
+          id: "_" + Math.random().toString(36).substr(2, 9),
         })),
       }));
       dispatch({
@@ -68,6 +69,7 @@ export const addTodo = (name, todoInfo) => (dispatch) => {
     name: todoInfo.name,
     description: todoInfo.description,
     completed: false,
+    id: "_" + Math.random().toString(36).substr(2, 9),
   });
 
   dispatch({
@@ -165,9 +167,11 @@ export const toggleComplete = (index, groupName) => (dispatch) => {
   const todoGroups = cloneDeep(store.getState().todo.todoGroups);
   const currentGroup = todoGroups.filter((e) => e.name === groupName);
 
-  console.log(currentGroup);
-
-  currentGroup[0].todos[index].completed = true;
+  if (currentGroup[0].todos[index].completed) {
+    currentGroup[0].todos[index].completed = false;
+  } else {
+    currentGroup[0].todos[index].completed = true;
+  }
 
   dispatch({
     type: actionTypes.COMPLETE_TODO,
