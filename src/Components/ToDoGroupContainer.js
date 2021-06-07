@@ -405,7 +405,7 @@ function TodoGroupContainer({
                     className={classes.listItem}
                     onMouseLeave={handleClosePopper}
                   >
-                    <ListItemIcon>
+                    <ListItemIcon style={{ marginRight: "-32px" }}>
                       <Checkbox
                         edge="start"
                         checked={checked.indexOf(value.id) !== -1}
