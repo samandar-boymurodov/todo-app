@@ -5,8 +5,10 @@ import {
   Hidden,
   useMediaQuery,
   Typography,
+  InputAdornment,
+  IconButton,
 } from "@material-ui/core";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { makeStyles, useTheme } from "@material-ui/styles";
 import { useFormik } from "formik";
 import * as yup from "yup";
@@ -18,6 +20,8 @@ import { connect } from "react-redux";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import * as actions from "../store/actions/index";
 import { useHistory } from "react-router-dom";
+import Visibility from "@material-ui/icons/Visibility";
+import VisibilityOff from "@material-ui/icons/VisibilityOff";
 
 const validationSchema = yup.object({
   password: yup
@@ -71,6 +75,7 @@ function Login({ onAuth, loading, isAuth }) {
   const classes = useStyles();
   const history = useHistory();
   const theme = useTheme();
+  const [showPassword, setShowPassword] = useState(false);
 
   useEffect(() => {
     if (isAuth) {
@@ -88,6 +93,14 @@ function Login({ onAuth, loading, isAuth }) {
       onAuth(values.email, values.password);
     },
   });
+  const handleClickShowPassword = () => {
+    setShowPassword(!showPassword);
+    console.log("called");
+  };
+
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
+  };
   return (
     <Grid container className={classes.mainContainer} alignItems="center">
       <Hidden xsDown>
@@ -135,8 +148,9 @@ function Login({ onAuth, loading, isAuth }) {
             <Grid item style={{ marginTop: "1.25rem" }}>
               <TextField
                 name="password"
+                aria-label="toggle password visibility"
                 id="password"
-                type="password"
+                type={showPassword ? "text" : "password"}
                 label="Password"
                 fullWidth
                 value={formik.values.password}
@@ -145,6 +159,22 @@ function Login({ onAuth, loading, isAuth }) {
                   formik.touched.password && Boolean(formik.errors.password)
                 }
                 helperText={formik.touched.password && formik.errors.password}
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton
+                        onClick={handleClickShowPassword}
+                        onMouseDown={handleMouseDownPassword}
+                      >
+                        {showPassword ? (
+                          <Visibility color="primary" />
+                        ) : (
+                          <VisibilityOff color="primary" />
+                        )}
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
               />
             </Grid>
             <Grid item style={{ marginTop: "1.5rem" }}>
