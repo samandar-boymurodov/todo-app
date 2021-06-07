@@ -422,7 +422,7 @@ function TodoGroupContainer({
                       classes={{
                         root: classes.accordion,
                       }}
-                      ransitionProps={{ unmountOnExit: true }}
+                      transitionProps={{ unmountOnExit: true }}
                       onChange={(e, isExpanded) =>
                         handleAccordion(value.id, e, isExpanded)
                       }

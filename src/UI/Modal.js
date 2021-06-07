@@ -78,12 +78,7 @@ const Modal = ({
     error: "",
   });
 
-  const handleClose = (e) => {
-    let buttonText = e.target.innerText;
-    if (buttonText !== "ADD" && buttonText !== "SAVE" && buttonText !== "YES") {
-      onRemoveModal();
-      return;
-    }
+  const actionTrigger = () => {
     switch (type) {
       case modalTypes.ADD_TODO:
         if (!addTodoInfo.name) {
@@ -95,8 +90,10 @@ const Modal = ({
               name: addTodoInfo.name,
               description: addTodoInfo.description,
             });
+            onRemoveModal();
           } else {
             onAddTodo(selectedGroupName, { name: addTodoInfo.name });
+            onRemoveModal();
           }
         }
         break;
@@ -106,11 +103,12 @@ const Modal = ({
           return;
         } else {
           onEditGroup(optionIndexGroup, newGroupName.name);
+          onRemoveModal();
         }
         break;
       case modalTypes.DELETE_GROUP:
         onDeleteGroup(optionIndexGroup);
-        console.log("here");
+        onRemoveModal();
         break;
       case modalTypes.EDIT_TODO:
         if (!editTodoIndo.name) {
@@ -121,15 +119,31 @@ const Modal = ({
             name: editTodoIndo.name,
             description: editTodoIndo.description,
           });
+          onRemoveModal();
         }
         break;
       case modalTypes.DELETE_TODO:
         onDeleteTodo(optionIndexTodo);
+        onRemoveModal();
         break;
       default:
         break;
     }
-    onRemoveModal();
+  };
+
+  const handleClose = (e) => {
+    let buttonText = e.target.innerText;
+    if (buttonText !== "ADD" && buttonText !== "SAVE" && buttonText !== "YES") {
+      onRemoveModal();
+      return;
+    }
+    actionTrigger();
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.code === "Enter") {
+      actionTrigger();
+    }
   };
 
   const handleCheck = (e) => {
@@ -352,6 +366,7 @@ const Modal = ({
   );
   return (
     <Dialog
+      onKeyDown={handleKeyDown}
       PaperProps={{
         classes: {
           root: classes.paper,

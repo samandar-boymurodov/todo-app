@@ -63,7 +63,6 @@ export const addTodoGroup = (name) => (dispatch) => {
 };
 
 export const addTodo = (name, todoInfo) => (dispatch) => {
-  console.log(name, todoInfo);
   const todoGroups = cloneDeep(store.getState().todo.todoGroups);
 
   const selectedGroup = todoGroups.filter((el) => el.name === name);
