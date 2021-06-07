@@ -117,7 +117,7 @@ export const deleteGroup = (id) => (dispatch) => {
   });
 
   if (selectedGroup.name === todoGroups[groupIndex].name) {
-    dispatch(selectTodoGroup(-1, todoGroups));
+    dispatch(selectTodoGroup(-1, []));
   }
   dispatch(setAlert("Todo Group successfully removed"));
 };

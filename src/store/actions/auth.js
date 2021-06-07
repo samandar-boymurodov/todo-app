@@ -1,5 +1,6 @@
 import axios from "axios";
 import * as actionTypes from "./actionTypes";
+import { selectTodoGroup } from "../actions/index";
 
 import { setAlert } from "./index";
 
@@ -23,12 +24,13 @@ export const authFail = (error) => {
   };
 };
 
-export const logout = () => {
+export const logout = () => (dispatch) => {
   localStorage.removeItem("token");
   localStorage.removeItem("expirationDate");
-  return {
+  dispatch({
     type: actionTypes.LOGOUT,
-  };
+  });
+  dispatch(selectTodoGroup(-1, []));
 };
 
 export const checkAuthTimeOut = (expirationTime) => (dispatch) => {
