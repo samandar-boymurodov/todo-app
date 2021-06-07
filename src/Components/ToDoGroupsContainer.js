@@ -1,7 +1,7 @@
 import Header from "../UI/Header";
 import Modal from "../UI/Modal";
 import ToDoGroupContainer from "./ToDoGroupContainer";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState, forwardRef } from "react";
 import { connect } from "react-redux";
 import * as actions from "../store/actions/index";
 import {
@@ -26,9 +26,11 @@ import {
   Toolbar,
   ListItemSecondaryAction,
   ListItemText,
+  InputAdornment,
 } from "@material-ui/core";
 import { makeStyles, useTheme } from "@material-ui/styles";
 import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
+import ClearIcon from "@material-ui/icons/Clear";
 import CloseIcon from "@material-ui/icons/Close";
 import { useHistory } from "react-router-dom";
 import { AddGroupArea } from "./AddGroupArea";
@@ -47,7 +49,7 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.down("xs")]: {
       width: "100%",
     },
-    top: 63,
+    top: 105,
     bottom: 55,
     "&::-webkit-scrollbar": {
       width: 10,
@@ -61,6 +63,23 @@ const useStyles = makeStyles((theme) => ({
     "&::-webkit-scrollbar-thumb:hover": {
       background: theme.palette.primary.light,
     },
+  },
+  searchArea: {
+    position: "absolute",
+    top: 65,
+    width: "35%",
+    [theme.breakpoints.down("xs")]: {
+      width: "100%",
+    },
+  },
+  searchInput: {
+    "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
+      borderWidth: 2,
+    },
+    "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
+      borderWidth: 2,
+    },
+    backgroundColor: "#fff",
   },
   groupText: {
     color: "#fff",
@@ -109,7 +128,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Transition = React.forwardRef(function Transition(props, ref) {
+const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="right" ref={ref} {...props} />;
 });
 
@@ -133,11 +152,24 @@ function TodoGroupsContainer({
     } else {
       onInit();
     }
-  }, [isAuth, onInit]);
+  }, [isAuth]);
 
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const [openPopper, setOpenPopper] = React.useState(null);
-  const [openMenu, setOpenMenu] = React.useState(false);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [openPopper, setOpenPopper] = useState(null);
+  const [openMenu, setOpenMenu] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [searchResult, setSearchResult] = useState([]);
+
+  useEffect(() => {
+    setSearchResult(todoGroups.filter((e) => e.name.includes(searchQuery)));
+  }, [searchQuery, todoGroups]);
+
+  const handleSearchQuery = (e) => {
+    setSearchQuery(e.target.value);
+  };
+  const closeSearchHandler = () => {
+    setSearchQuery("");
+  };
 
   const handlePopper = (index) => (e) => {
     setOpenPopper(index);
@@ -173,10 +205,36 @@ function TodoGroupsContainer({
       <div className={classes.toolbarMargin} />
       <Grid container>
         <Hidden xsDown>
+          <Grid item className={classes.searchArea}>
+            <TextField
+              value={searchQuery}
+              onChange={handleSearchQuery}
+              color="primary"
+              fullWidth
+              placeholder="Search"
+              className={classes.searchInput}
+              inputProps={{
+                style: {
+                  padding: "10px 5px",
+                },
+              }}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <ClearIcon
+                      onClick={closeSearchHandler}
+                      color="primary"
+                      style={{ cursor: "pointer" }}
+                    />
+                  </InputAdornment>
+                ),
+              }}
+            />
+          </Grid>
           <Grid item container direction="column">
             <Grid item className={classes.todoGroupsContainer}>
               <List>
-                {todoGroups.map((todoGroup, index) => (
+                {searchResult.map((todoGroup, index) => (
                   <div key={index}>
                     <Popper
                       placement="left"
@@ -276,9 +334,35 @@ function TodoGroupsContainer({
             </Toolbar>
           </AppBar>
           <Grid item container direction="column">
+            <Grid item className={classes.searchArea}>
+              <TextField
+                value={searchQuery}
+                onChange={handleSearchQuery}
+                color="primary"
+                fullWidth
+                placeholder="Search"
+                className={classes.searchInput}
+                inputProps={{
+                  style: {
+                    padding: "10px 5px",
+                  },
+                }}
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <ClearIcon
+                        onClick={closeSearchHandler}
+                        color="primary"
+                        style={{ cursor: "pointer" }}
+                      />
+                    </InputAdornment>
+                  ),
+                }}
+              />
+            </Grid>
             <Grid item className={classes.todoGroupsContainer}>
               <List>
-                {todoGroups.map((todoGroup, index) => (
+                {searchResult.map((todoGroup, index) => (
                   <div key={index}>
                     <Popper
                       placement="left"

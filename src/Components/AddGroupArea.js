@@ -24,6 +24,7 @@ const useStyles = makeStyles((theme) => ({
     "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
       borderWidth: 1,
     },
+    backgroundColor: "#fff",
   },
   addGroupButton: {
     height: "100%",

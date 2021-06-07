@@ -184,8 +184,6 @@ function TodoGroupContainer({
 
   const [openSearch, setOpenSearch] = useState(false);
   const [checked, setChecked] = useState([]);
-  const [openPopper, setOpenPopper] = useState(null);
-  const [anchorEl, setAnchorEl] = useState(null);
   const [tab, setTab] = useState("todos");
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResult, setSearchResult] = useState([]);
@@ -200,15 +198,6 @@ function TodoGroupContainer({
       )
     );
   }, [searchQuery, selectedTodoGroup]);
-
-  const handlePopper = (index) => (e) => {
-    setOpenPopper(index);
-    setAnchorEl(e.currentTarget);
-  };
-  const clickOpenPopper = (index) => (e) => {
-    setOpenPopper((prev) => (prev === index ? null : index));
-    setAnchorEl(e.currentTarget);
-  };
 
   const handleToggle = (id) => () => {
     const currentIndex = checked.indexOf(id);
@@ -228,22 +217,17 @@ function TodoGroupContainer({
 
     setChecked(newChecked);
   };
+
   const editTodoHandler = (id) => {
-    setOpenPopper(null);
-    setAnchorEl(null);
     onModalOpen(modalTypes.EDIT_TODO);
     onOptionIndexTodo(id);
   };
+
   const deleteTodoHandler = (id) => {
-    setOpenPopper(null);
-    setAnchorEl(null);
     onModalOpen(modalTypes.DELETE_TODO);
     onOptionIndexTodo(id);
   };
-  const handleClosePopper = () => {
-    setOpenPopper(null);
-    setAnchorEl(null);
-  };
+
   const handleTabChange = (e, newValue) => {
     setTab(newValue);
   };
@@ -400,11 +384,7 @@ function TodoGroupContainer({
               const labelId = `checkbox-list-label-${index}`;
               return (
                 <div key={index}>
-                  <ListItem
-                    divider
-                    className={classes.listItem}
-                    onMouseLeave={handleClosePopper}
-                  >
+                  <ListItem divider className={classes.listItem}>
                     <ListItemIcon style={{ marginRight: "-32px" }}>
                       <Checkbox
                         edge="start"
@@ -422,7 +402,6 @@ function TodoGroupContainer({
                       classes={{
                         root: classes.accordion,
                       }}
-                      transitionProps={{ unmountOnExit: true }}
                       onChange={(e, isExpanded) =>
                         handleAccordion(value.id, e, isExpanded)
                       }
