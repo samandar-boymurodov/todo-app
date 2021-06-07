@@ -55,7 +55,7 @@ export const addTodoGroup = (name) => (dispatch) => {
     },
     ...store.getState().todo.todoGroups,
   ];
-  dispatch(setAlert("Todo Group successfully added!", "success"));
+  dispatch(setAlert("Todo Group added", "info"));
   dispatch({
     type: actionTypes.ADD_GROUP,
     newToDoGroups,
@@ -81,7 +81,7 @@ export const addTodo = (name, todoInfo) => (dispatch) => {
   });
   dispatch(selectTodoGroup(selectedGroup[0].id, todoGroups));
 
-  dispatch(setAlert("Todo successfully added!"));
+  dispatch(setAlert("Todo added", "info"));
 };
 
 export const editGroup = (id, newName) => (dispatch) => {
@@ -119,7 +119,7 @@ export const deleteGroup = (id) => (dispatch) => {
   if (selectedGroup.name === todoGroups[groupIndex].name) {
     dispatch(selectTodoGroup(-1, []));
   }
-  dispatch(setAlert("Todo Group successfully removed"));
+  dispatch(setAlert("Todo Group removed", "info"));
 };
 
 export const optionIndexGroup = (id) => {
@@ -172,7 +172,7 @@ export const deleteTodo = (id) => (dispatch) => {
     newToDoGroups: todoGroups,
   });
   dispatch(selectTodoGroup(todoGroups[groupIndex].id, todoGroups));
-  dispatch(setAlert("Todo sucessfully removed"));
+  dispatch(setAlert("Todo removed", "info"));
 };
 
 export const toggleComplete = (id, groupName) => (dispatch) => {
