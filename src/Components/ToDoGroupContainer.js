@@ -27,6 +27,7 @@ import {
   Accordion,
   AccordionSummary,
   AccordionDetails,
+  AccordionActions,
 } from "@material-ui/core";
 import CloseIcon from "@material-ui/icons/Close";
 import { makeStyles, useTheme } from "@material-ui/styles";
@@ -113,11 +114,21 @@ const useStyles = makeStyles((theme) => ({
   },
   menuItem: {
     color: "#fff",
-    fontWeight: 600,
+    fontWeight: 400,
     fontFamily: "Raleway",
+    backgroundColor: teal[400],
   },
   listItem: {
     backgroundColor: teal[300],
+    paddingTop: 0,
+    paddingBottom: 0,
+  },
+  accordion: {
+    backgroundColor: "transparent",
+    width: "100%",
+    "&:before": {
+      backgroundColor: "transparent",
+    },
   },
   searchInput: {
     [theme.breakpoints.down("md")]: {
@@ -371,61 +382,29 @@ function TodoGroupContainer({
               const labelId = `checkbox-list-label-${index}`;
               return (
                 <div key={index}>
-                  <Popper
-                    placement="left"
-                    style={{ zIndex: theme.zIndex.modal }}
-                    open={openPopper === index}
-                    anchorEl={anchorEl}
-                    onMouseLeave={handleClosePopper}
-                    transition
-                    disablePortal
-                  >
-                    {({ TransitionProps, placement }) => (
-                      <Grow
-                        {...TransitionProps}
-                        style={{
-                          transformOrigin: "right",
-                        }}
-                      >
-                        <Paper>
-                          <ClickAwayListener onClickAway={handleClosePopper}>
-                            <MenuList id="menu-list-grow">
-                              <MenuItem
-                                onClick={() => editTodoHandler(value.id)}
-                                className={classes.menuItem}
-                              >
-                                Edit
-                              </MenuItem>
-                              <MenuItem
-                                onClick={() => deleteTodoHandler(value.id)}
-                                className={classes.menuItem}
-                              >
-                                Delete
-                              </MenuItem>
-                            </MenuList>
-                          </ClickAwayListener>
-                        </Paper>
-                      </Grow>
-                    )}
-                  </Popper>
                   <ListItem
                     divider
                     className={classes.listItem}
                     onMouseLeave={handleClosePopper}
                   >
-                    <Accordion square elevation={0}>
+                    <ListItemIcon>
+                      <Checkbox
+                        edge="start"
+                        checked={checked.indexOf(value.id) !== -1}
+                        tabIndex={-1}
+                        disableRipple
+                        inputProps={{ "aria-labelledby": labelId }}
+                        onClick={handleToggle(value.id)}
+                        color="secondary"
+                      />
+                    </ListItemIcon>
+                    <Accordion
+                      square
+                      elevation={0}
+                      className={classes.accordion}
+                      ransitionProps={{ unmountOnExit: true }}
+                    >
                       <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                        <ListItemIcon>
-                          <Checkbox
-                            edge="start"
-                            checked={checked.indexOf(value.id) !== -1}
-                            tabIndex={-1}
-                            disableRipple
-                            inputProps={{ "aria-labelledby": labelId }}
-                            onClick={handleToggle(value.id)}
-                            color="secondary"
-                          />
-                        </ListItemIcon>
                         <ListItemText
                           primary={
                             <Typography variant="h6">{value.name}</Typography>
@@ -438,19 +417,21 @@ function TodoGroupContainer({
                           {value.description}
                         </Typography>
                       </AccordionDetails>
+                      <AccordionActions>
+                        <Button
+                          onClick={() => editTodoHandler(value.id)}
+                          className={classes.menuItem}
+                        >
+                          Edit
+                        </Button>
+                        <Button
+                          onClick={() => deleteTodoHandler(value.id)}
+                          className={classes.menuItem}
+                        >
+                          Delete
+                        </Button>
+                      </AccordionActions>
                     </Accordion>
-                    <ListItemSecondaryAction>
-                      <IconButton
-                        disableRipple
-                        onMouseOver={handlePopper(index)}
-                        onClick={clickOpenPopper(index)}
-                      >
-                        <MoreHorizIcon
-                          className={classes.icon}
-                          style={{ fill: "#fff" }}
-                        />
-                      </IconButton>
-                    </ListItemSecondaryAction>
                   </ListItem>
                 </div>
               );
