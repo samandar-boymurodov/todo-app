@@ -76,9 +76,9 @@ const useStyles = makeStyles((theme) => ({
   searchInput: {
     "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {},
     "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
-      backgroundColor: fade(cyan[500], 0.2),
+      backgroundColor: fade(cyan[200], 0.2),
       border: "none",
-      color: cyan[600],
+      color: cyan[500],
     },
   },
   groupText: {
