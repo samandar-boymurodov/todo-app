@@ -28,7 +28,8 @@ import {
   ListItemText,
   InputAdornment,
 } from "@material-ui/core";
-import { makeStyles, useTheme } from "@material-ui/styles";
+import { makeStyles, useTheme, color } from "@material-ui/styles";
+import { fade } from "@material-ui/core/styles/colorManipulator";
 import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
 import ClearIcon from "@material-ui/icons/Clear";
 import CloseIcon from "@material-ui/icons/Close";
@@ -42,14 +43,13 @@ const useStyles = makeStyles((theme) => ({
     ...theme.mixins.toolbar,
   },
   todoGroupsContainer: {
-    backgroundColor: cyan[100],
     position: "absolute",
     overflow: "auto",
     width: "35%",
     [theme.breakpoints.down("xs")]: {
       width: "100%",
     },
-    top: 105,
+    top: 102,
     bottom: 55,
     "&::-webkit-scrollbar": {
       width: 10,
@@ -66,21 +66,19 @@ const useStyles = makeStyles((theme) => ({
   },
   searchArea: {
     position: "absolute",
-    top: 65,
+    top: 63,
     width: "35%",
     [theme.breakpoints.down("xs")]: {
       width: "100%",
     },
   },
   searchInput: {
-    "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
-      borderWidth: 2,
-    },
+    "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {},
     "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
-      borderWidth: 2,
-      borderColor: cyan,
+      backgroundColor: fade(cyan[500], 0.2),
+      border: "none",
+      color: cyan[600],
     },
-    backgroundColor: "#fff",
   },
   groupText: {
     color: "#fff",
@@ -217,7 +215,7 @@ function TodoGroupsContainer({
               className={classes.searchInput}
               inputProps={{
                 style: {
-                  padding: "10px 5px",
+                  padding: "10px 16px",
                 },
               }}
               InputProps={{
@@ -321,7 +319,7 @@ function TodoGroupsContainer({
           keepMounted
           fullScreen
         >
-          <AppBar color="secondary">
+          <AppBar color="secondary" elevation={0}>
             <Toolbar>
               <Grid container justify="space-between" alignItems="center">
                 <Grid item>
@@ -346,7 +344,7 @@ function TodoGroupsContainer({
                 className={classes.searchInput}
                 inputProps={{
                   style: {
-                    padding: "10px 5px",
+                    padding: "10px 16px",
                   },
                 }}
                 InputProps={{
