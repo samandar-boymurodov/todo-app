@@ -7,7 +7,7 @@ import { cloneDeep } from "lodash";
 
 export const initTodos = () => (dispatch) => {
   axios
-    .get("https://random-word-api.herokuapp.com//word?number=1")
+    .get("https://random-word-api.herokuapp.com//word?number=20")
     .then((response) => {
       console.log(response);
 

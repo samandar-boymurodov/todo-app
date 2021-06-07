@@ -24,11 +24,15 @@ import {
   Tabs,
   Tab,
   useMediaQuery,
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
 } from "@material-ui/core";
 import CloseIcon from "@material-ui/icons/Close";
 import { makeStyles, useTheme } from "@material-ui/styles";
 import SearchIcon from "@material-ui/icons/Search";
 import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import { CheckBox } from "@material-ui/icons";
 import Modal from "../UI/Modal";
 import { connect } from "react-redux";
@@ -409,28 +413,32 @@ function TodoGroupContainer({
                     className={classes.listItem}
                     onMouseLeave={handleClosePopper}
                   >
-                    <ListItemIcon>
-                      <Checkbox
-                        edge="start"
-                        checked={checked.indexOf(value.id) !== -1}
-                        tabIndex={-1}
-                        disableRipple
-                        inputProps={{ "aria-labelledby": labelId }}
-                        onClick={handleToggle(value.id)}
-                        color="secondary"
-                      />
-                    </ListItemIcon>
-                    <ListItemText
-                      primary={
-                        <Typography variant="h6">{value.name}</Typography>
-                      }
-                      secondary={
+                    <Accordion square elevation={0}>
+                      <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                        <ListItemIcon>
+                          <Checkbox
+                            edge="start"
+                            checked={checked.indexOf(value.id) !== -1}
+                            tabIndex={-1}
+                            disableRipple
+                            inputProps={{ "aria-labelledby": labelId }}
+                            onClick={handleToggle(value.id)}
+                            color="secondary"
+                          />
+                        </ListItemIcon>
+                        <ListItemText
+                          primary={
+                            <Typography variant="h6">{value.name}</Typography>
+                          }
+                          className={classes.listText}
+                        />
+                      </AccordionSummary>
+                      <AccordionDetails>
                         <Typography variant="body1">
                           {value.description}
                         </Typography>
-                      }
-                      className={classes.listText}
-                    />
+                      </AccordionDetails>
+                    </Accordion>
                     <ListItemSecondaryAction>
                       <IconButton
                         disableRipple
