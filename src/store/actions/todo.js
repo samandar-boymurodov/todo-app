@@ -13,6 +13,7 @@ export const initTodos = () => (dispatch) => {
 
       const todos = response.data.map((el) => ({
         name: el,
+        id: "_" + Math.random().toString(36).substr(2, 9),
         todos: [...new Array(20)].map(() => ({
           name: random(response.data),
           description: `${random(response.data)} ${random(response.data)}`,
@@ -30,10 +31,11 @@ export const initTodos = () => (dispatch) => {
     });
 };
 
-export const selectTodoGroup = (index, todoGroups) => {
+export const selectTodoGroup = (id, todoGroups) => {
+  const groupIndex = todoGroups.findIndex((e) => e.id === id);
   return {
     type: actionTypes.SELECT_TODOGROUP,
-    todoGroup: index < 0 ? { todos: [] } : todoGroups[index],
+    todoGroup: id < 0 ? { todos: [] } : todoGroups[groupIndex],
   };
 };
 
@@ -48,6 +50,7 @@ export const addTodoGroup = (name) => (dispatch) => {
   const newToDoGroups = [
     {
       name: name,
+      id: "_" + Math.random().toString(36).substr(2, 9),
       todos: [],
     },
     ...store.getState().todo.todoGroups,
@@ -60,6 +63,7 @@ export const addTodoGroup = (name) => (dispatch) => {
 };
 
 export const addTodo = (name, todoInfo) => (dispatch) => {
+  console.log(name, todoInfo);
   const todoGroups = cloneDeep(store.getState().todo.todoGroups);
 
   const selectedGroup = todoGroups.filter((el) => el.name === name);
@@ -76,34 +80,36 @@ export const addTodo = (name, todoInfo) => (dispatch) => {
     type: actionTypes.ADD_TODO,
     newToDoGroups: todoGroups,
   });
-  dispatch(selectTodoGroup(selectedIndex, todoGroups));
+  dispatch(selectTodoGroup(selectedGroup[0].id, todoGroups));
 
   dispatch(setAlert("Todo successfully added!"));
 };
 
-export const editGroup = (index, newName) => (dispatch) => {
+export const editGroup = (id, newName) => (dispatch) => {
   const todoGroups = cloneDeep(store.getState().todo.todoGroups);
   const selectedGroup = store.getState().todo.selectedTodoGroup;
+  const groupIndex = todoGroups.findIndex((e) => e.id === id);
 
-  const oldName = todoGroups[index].name;
+  const oldName = todoGroups[groupIndex].name;
 
-  todoGroups[index].name = newName;
+  todoGroups[groupIndex].name = newName;
   dispatch({
     type: actionTypes.EDIT_GROUP,
     newToDoGroups: todoGroups,
   });
 
   if (selectedGroup.name === oldName) {
-    dispatch(selectTodoGroup(index, todoGroups));
+    dispatch(selectTodoGroup(id, todoGroups));
   }
 };
 
-export const deleteGroup = (index) => (dispatch) => {
+export const deleteGroup = (id) => (dispatch) => {
   const todoGroups = store.getState().todo.todoGroups;
   const selectedGroup = store.getState().todo.selectedTodoGroup;
+  const groupIndex = todoGroups.findIndex((e) => e.id === id);
 
   const newToDoGroups = todoGroups.filter(
-    (e) => e.name !== todoGroups[index].name
+    (e) => e.name !== todoGroups[groupIndex].name
   );
 
   dispatch({
@@ -111,16 +117,16 @@ export const deleteGroup = (index) => (dispatch) => {
     newToDoGroups,
   });
 
-  if (selectedGroup.name === todoGroups[index].name) {
+  if (selectedGroup.name === todoGroups[groupIndex].name) {
     dispatch(selectTodoGroup(-1, todoGroups));
   }
   dispatch(setAlert("Todo Group successfully removed"));
 };
 
-export const optionIndexGroup = (index) => {
+export const optionIndexGroup = (id) => {
   return {
     type: actionTypes.OPTION_INDEX_GROUP,
-    optionGroup: index,
+    optionGroup: id,
   };
 };
 
@@ -142,7 +148,7 @@ export const editTodo = (id, editInfo) => (dispatch) => {
   todoGroups[groupIndex].todos[todoIndex].name = editInfo.name;
   todoGroups[groupIndex].todos[todoIndex].description = editInfo.description;
 
-  dispatch(selectTodoGroup(groupIndex, todoGroups));
+  dispatch(selectTodoGroup(todoGroups[groupIndex].id, todoGroups));
 
   dispatch({
     type: actionTypes.EDIT_TODO,
@@ -166,7 +172,7 @@ export const deleteTodo = (id) => (dispatch) => {
     type: actionTypes.DELETE_TODO,
     newToDoGroups: todoGroups,
   });
-  dispatch(selectTodoGroup(groupIndex, todoGroups));
+  dispatch(selectTodoGroup(todoGroups[groupIndex].id, todoGroups));
   dispatch(setAlert("Todo sucessfully removed"));
 };
 
@@ -188,5 +194,5 @@ export const toggleComplete = (id, groupName) => (dispatch) => {
     type: actionTypes.COMPLETE_TODO,
     newToDoGroups: todoGroups,
   });
-  dispatch(selectTodoGroup(groupIndex, todoGroups));
+  dispatch(selectTodoGroup(todoGroups[groupIndex].id, todoGroups));
 };

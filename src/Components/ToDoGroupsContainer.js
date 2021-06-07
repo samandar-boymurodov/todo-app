@@ -145,17 +145,17 @@ function TodoGroupsContainer({
     setOpenPopper((prev) => (prev === index ? null : index));
     setAnchorEl(e.currentTarget);
   };
-  const editGroupHandler = (index) => {
+  const editGroupHandler = (id) => {
     setOpenPopper(null);
     setAnchorEl(null);
     onModalOpen(modalTypes.EDIT_GROUP);
-    onOptionIndexGroup(index);
+    onOptionIndexGroup(id);
   };
-  const deleGroupteHandler = (index) => {
+  const deleGroupteHandler = (id) => {
     setOpenPopper(null);
     setAnchorEl(null);
     onModalOpen(modalTypes.DELETE_GROUP);
-    onOptionIndexGroup(index);
+    onOptionIndexGroup(id);
   };
   const handleClosePopper = () => {
     setOpenPopper(null);
@@ -196,13 +196,15 @@ function TodoGroupsContainer({
                             <ClickAwayListener onClickAway={handleClosePopper}>
                               <MenuList id="menu-list-grow">
                                 <MenuItem
-                                  onClick={() => editGroupHandler(index)}
+                                  onClick={() => editGroupHandler(todoGroup.id)}
                                   className={classes.menuItem}
                                 >
                                   Edit
                                 </MenuItem>
                                 <MenuItem
-                                  onClick={() => deleGroupteHandler(index)}
+                                  onClick={() =>
+                                    deleGroupteHandler(todoGroup.id)
+                                  }
                                   className={classes.menuItem}
                                 >
                                   Delete
@@ -216,7 +218,7 @@ function TodoGroupsContainer({
                     <ListItem
                       onMouseLeave={handleClosePopper}
                       button
-                      onClick={() => selectTodoGroup(index, todoGroups)}
+                      onClick={() => selectTodoGroup(todoGroup.id, todoGroups)}
                       selected={todoGroup.name === selectedTodoGroup.name}
                       classes={{
                         root: classes.groupContainer,
@@ -296,13 +298,15 @@ function TodoGroupsContainer({
                             <ClickAwayListener onClickAway={handleClosePopper}>
                               <MenuList id="menu-list-grow">
                                 <MenuItem
-                                  onClick={() => editGroupHandler(index)}
+                                  onClick={() => editGroupHandler(todoGroup.id)}
                                   className={classes.menuItem}
                                 >
                                   Edit
                                 </MenuItem>
                                 <MenuItem
-                                  onClick={() => deleGroupteHandler(index)}
+                                  onClick={() =>
+                                    deleGroupteHandler(todoGroup.id)
+                                  }
                                   className={classes.menuItem}
                                 >
                                   Delete
@@ -317,7 +321,7 @@ function TodoGroupsContainer({
                       onMouseLeave={handleClosePopper}
                       button
                       onClick={() => {
-                        selectTodoGroup(index, todoGroups);
+                        selectTodoGroup(todoGroup.id, todoGroups);
                         setOpenMenu(false);
                       }}
                       classes={{
@@ -372,10 +376,10 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   onInit: () => dispatch(actions.initTodos()),
-  selectTodoGroup: (index, todoGroups) =>
-    dispatch(actions.selectTodoGroup(index, todoGroups)),
+  selectTodoGroup: (id, todoGroups) =>
+    dispatch(actions.selectTodoGroup(id, todoGroups)),
   onModalOpen: (type) => dispatch(actions.setModal(type)),
-  onOptionIndexGroup: (index) => dispatch(actions.optionIndexGroup(index)),
+  onOptionIndexGroup: (id) => dispatch(actions.optionIndexGroup(id)),
 });
 
 export default connect(
