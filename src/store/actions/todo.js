@@ -7,14 +7,14 @@ import { cloneDeep } from "lodash";
 
 export const initTodos = () => (dispatch) => {
   axios
-    .get("https://random-word-api.herokuapp.com//word?number=30")
+    .get("https://random-word-api.herokuapp.com//word?number=1")
     .then((response) => {
       console.log(response);
 
       const todos = response.data.map((el) => ({
         name: el,
         id: "_" + Math.random().toString(36).substr(2, 9),
-        todos: [...new Array(20)].map(() => ({
+        todos: [...new Array(15)].map(() => ({
           name: random(response.data),
           description: `${random(response.data)} ${random(response.data)}`,
           completed: false,

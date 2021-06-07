@@ -68,7 +68,7 @@ export const AddGroupArea = () => {
           fullWidth
           variant="outlined"
           className={classes.textField}
-          placeholder="Add your Todo Group"
+          placeholder="Add a Group"
           value={newGroupTitle}
           onChange={handleGroupTitle}
           ref={textRef}
