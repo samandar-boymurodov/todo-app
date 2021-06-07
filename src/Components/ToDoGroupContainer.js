@@ -129,6 +129,20 @@ const useStyles = makeStyles((theme) => ({
     "&:before": {
       backgroundColor: "transparent",
     },
+    "&.Mui-expanded": {
+      margin: 0,
+    },
+  },
+  accordionSummary: {
+    "&.Mui-expanded": {
+      margin: 0,
+    },
+  },
+  accordionDetails: {
+    paddingBottom: 0,
+    paddingTop: 0,
+    paddingLeft: 16,
+    paddingRight: 8,
   },
   searchInput: {
     [theme.breakpoints.down("md")]: {
@@ -175,6 +189,7 @@ function TodoGroupContainer({
   const [tab, setTab] = useState("todos");
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResult, setSearchResult] = useState([]);
+  const [expanded, setExpanded] = useState(false);
 
   useEffect(() => {
     setSearchResult(
@@ -239,6 +254,9 @@ function TodoGroupContainer({
   const closeSearchHandler = () => {
     setOpenSearch(false);
     setSearchQuery("");
+  };
+  const handleAccordion = (id, e, isExpanded) => {
+    setExpanded(isExpanded ? id : false);
   };
 
   const todos =
@@ -401,10 +419,21 @@ function TodoGroupContainer({
                     <Accordion
                       square
                       elevation={0}
-                      className={classes.accordion}
+                      classes={{
+                        root: classes.accordion,
+                      }}
                       ransitionProps={{ unmountOnExit: true }}
+                      onChange={(e, isExpanded) =>
+                        handleAccordion(value.id, e, isExpanded)
+                      }
+                      expanded={expanded === value.id}
                     >
-                      <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                      <AccordionSummary
+                        expandIcon={<ExpandMoreIcon />}
+                        classes={{
+                          content: classes.accordionSummary,
+                        }}
+                      >
                         <ListItemText
                           primary={
                             <Typography variant="h6">{value.name}</Typography>
@@ -412,7 +441,9 @@ function TodoGroupContainer({
                           className={classes.listText}
                         />
                       </AccordionSummary>
-                      <AccordionDetails>
+                      <AccordionDetails
+                        classes={{ root: classes.accordionDetails }}
+                      >
                         <Typography variant="body1">
                           {value.description}
                         </Typography>
