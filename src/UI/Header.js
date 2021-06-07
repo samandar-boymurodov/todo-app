@@ -41,7 +41,7 @@ export default function Header({ handleMenu }) {
         <Grid container justify="space-between" alignItems="center">
           <Grid item>
             <Hidden xsDown>
-              <Typography variant="h4">Samandar</Typography>
+              <Typography variant="h4">Todo App</Typography>
             </Hidden>
             <Hidden smUp>
               <IconButton onClick={handleMenu}>
