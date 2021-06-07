@@ -48,6 +48,11 @@ const useStyles = makeStyles((theme) => ({
     fontFamily: "Raleway",
     fontWeight: 600,
   },
+  cautionText: {
+    [theme.breakpoints.down("xs")]: {
+      fontSize: "0.8rem",
+    },
+  },
 }));
 
 function Register({ onAuth, loading, isAuth }) {
@@ -195,7 +200,11 @@ function Register({ onAuth, loading, isAuth }) {
             </Button>
           </Grid>
           <Grid item>
-            <Typography variant="body1" color="secondary">
+            <Typography
+              variant="body1"
+              color="secondary"
+              className={classes.cautionText}
+            >
               If you are already signup up, then you can{" "}
               <Link to="/login" style={{ color: cyan[500] }}>
                 login

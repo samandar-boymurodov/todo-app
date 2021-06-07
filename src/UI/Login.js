@@ -69,6 +69,11 @@ const useStyles = makeStyles((theme) => ({
     height: "100vh",
     backgroundColor: "rgb(51, 201, 220, 0.1 )",
   },
+  cautionText: {
+    [theme.breakpoints.down("xs")]: {
+      fontSize: "0.8rem",
+    },
+  },
 }));
 
 function Login({ onAuth, loading, isAuth }) {
@@ -190,7 +195,11 @@ function Login({ onAuth, loading, isAuth }) {
               </Button>
             </Grid>
             <Grid item style={{ marginTop: "1rem" }}>
-              <Typography variant="body1" color="secondary">
+              <Typography
+                variant="body1"
+                color="secondary"
+                className={classes.cautionText}
+              >
                 If you are not signed up, then you can{" "}
                 <Link to="/register" style={{ color: cyan[500] }}>
                   sign up

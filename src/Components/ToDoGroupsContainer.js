@@ -78,6 +78,7 @@ const useStyles = makeStyles((theme) => ({
     },
     "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
       borderWidth: 2,
+      borderColor: cyan,
     },
     backgroundColor: "#fff",
   },
