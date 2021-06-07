@@ -156,7 +156,7 @@ function TodoGroupContainer({
   const [anchorEl, setAnchorEl] = useState(null);
   const [tab, setTab] = useState("todos");
   const [searchQuery, setSearchQuery] = useState("");
-  const [searchResult, setSearchResult] = useState(null);
+  const [searchResult, setSearchResult] = useState([]);
 
   useEffect(() => {
     setSearchResult(
@@ -166,9 +166,6 @@ function TodoGroupContainer({
           (e.description ? e.description.includes(searchQuery) : false)
       )
     );
-    if (!searchQuery) {
-      setSearchResult(null);
-    }
   }, [searchQuery, selectedTodoGroup]);
 
   const handlePopper = (index) => (e) => {
@@ -188,10 +185,12 @@ function TodoGroupContainer({
       newChecked.push(id);
       setTimeout(() => {
         toggleComplete(id, selectedTodoGroup.name);
-      }, 0);
+      }, 50);
     } else {
       newChecked.splice(currentIndex, 1);
-      toggleComplete(id, selectedTodoGroup.name);
+      setTimeout(() => {
+        toggleComplete(id, selectedTodoGroup.name);
+      }, 50);
     }
 
     setChecked(newChecked);
@@ -222,14 +221,12 @@ function TodoGroupContainer({
   const closeSearchHandler = () => {
     setOpenSearch(false);
     setSearchQuery("");
-    setSearchResult(null);
   };
 
-  const todos = searchResult
-    ? searchResult
-    : tab === "todos"
-    ? selectedTodoGroup.todos.filter((e) => !e.completed)
-    : selectedTodoGroup.todos.filter((e) => e.completed);
+  const todos =
+    tab === "todos"
+      ? searchResult.filter((e) => !e.completed)
+      : searchResult.filter((e) => e.completed);
 
   return (
     <>
