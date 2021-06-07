@@ -207,6 +207,7 @@ function TodoGroupsContainer({
         <Hidden xsDown>
           <Grid item className={classes.searchArea}>
             <TextField
+              autoFocus
               value={searchQuery}
               onChange={handleSearchQuery}
               color="primary"
