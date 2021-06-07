@@ -101,7 +101,6 @@ function Login({ onAuth, loading, isAuth }) {
   });
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
-    console.log("called");
   };
 
   const handleMouseDownPassword = (event) => {

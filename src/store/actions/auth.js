@@ -40,7 +40,7 @@ export const checkAuthTimeOut = (expirationTime) => (dispatch) => {
   }, expirationTime * 1000);
 };
 
-export const register = (username, email, password) => (dispatch) => {
+export const register = (email, password) => (dispatch) => {
   dispatch(authStart());
   const authData = {
     email,
