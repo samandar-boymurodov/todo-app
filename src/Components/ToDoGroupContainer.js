@@ -90,6 +90,9 @@ const useStyles = makeStyles((theme) => ({
     bottom: 0,
     top: 102,
     width: "100%",
+    right: "0.4rem",
+    boxSizing: "border-box",
+    paddingLeft: "0.4rem",
     overflow: "auto",
     "&::-webkit-scrollbar": {
       width: 10,
