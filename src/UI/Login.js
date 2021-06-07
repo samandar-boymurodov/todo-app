@@ -13,7 +13,8 @@ import { makeStyles, useTheme } from "@material-ui/styles";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import LockOpenIcon from "@material-ui/icons/LockOpen";
-import bulb from "../assets/bulb.jpg";
+import teal4 from "../assets/teal4.jpg";
+
 import { Link } from "react-router-dom";
 import cyan from "@material-ui/core/colors/cyan";
 import { connect } from "react-redux";
@@ -38,7 +39,7 @@ const validationSchema = yup.object({
 
 const useStyles = makeStyles((theme) => ({
   imgBg: {
-    backgroundImage: `url("${bulb}")`,
+    backgroundImage: `url("${teal4}")`,
     height: "100%",
     width: "100%",
     backgroundPosition: "center",
@@ -200,7 +201,7 @@ function Login({ onAuth, loading, isAuth }) {
                 color="secondary"
                 className={classes.cautionText}
               >
-                If you are not signed up, then you can{" "}
+                If you have not signed up, then you can{" "}
                 <Link to="/register" style={{ color: cyan[500] }}>
                   sign up
                 </Link>

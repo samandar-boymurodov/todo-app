@@ -205,7 +205,7 @@ function Register({ onAuth, loading, isAuth }) {
               color="secondary"
               className={classes.cautionText}
             >
-              If you are already signup up, then you can{" "}
+              If you have already signed in, then you can{" "}
               <Link to="/login" style={{ color: cyan[500] }}>
                 login
               </Link>
