@@ -59,6 +59,7 @@ const Modal = ({
   onDeleteGroup,
   onEditTodo,
   onDeleteTodo,
+  todoGroups,
 }) => {
   const classes = useStyles();
 
@@ -77,6 +78,34 @@ const Modal = ({
     name: "",
     error: "",
   });
+
+  useEffect(() => {
+    if (type === modalTypes.EDIT_GROUP) {
+      if (optionIndexGroup) {
+        setNewGroupName({
+          ...newGroupName,
+          name: todoGroups.filter((e) => e.id === optionIndexGroup)[0].name,
+        });
+      }
+    }
+  }, [optionIndexGroup]);
+
+  useEffect(() => {
+    if (type === modalTypes.EDIT_TODO) {
+      const groupIndex = todoGroups.findIndex(
+        (e) => e.name === selectedGroupName
+      );
+      const todoIndex = todoGroups[groupIndex].todos.findIndex(
+        (e) => e.id === optionIndexTodo
+      );
+
+      setEditTodoInfo({
+        ...editTodoIndo,
+        name: todoGroups[groupIndex].todos[todoIndex].name,
+        description: todoGroups[groupIndex].todos[todoIndex].description,
+      });
+    }
+  }, [optionIndexTodo]);
 
   const actionTrigger = () => {
     switch (type) {
@@ -179,7 +208,7 @@ const Modal = ({
       <DialogContent>
         <TextField
           className={classes.textField}
-          label="Enter new name"
+          label="Edit name"
           variant="outlined"
           color="primary"
           error={!!newGroupName.error}
@@ -294,12 +323,13 @@ const Modal = ({
           <Grid item>
             <TextField
               className={classes.textField}
-              label="Enter new name"
+              label="Edit name"
               variant="outlined"
               color="primary"
               autoFocus
               error={!!editTodoIndo.error}
               helperText={editTodoIndo.error}
+              value={editTodoIndo.name}
               onChange={(e) =>
                 setEditTodoInfo({
                   ...editTodoIndo,
@@ -312,10 +342,11 @@ const Modal = ({
           <Grid item>
             <TextField
               className={classes.textField}
-              label="Enter new description"
+              label="Edit description"
               variant="outlined"
               color="primary"
               placeholder="This is optional"
+              value={editTodoIndo.description}
               onChange={(e) =>
                 setEditTodoInfo({
                   ...editTodoIndo,
@@ -398,6 +429,7 @@ const mapStateToProps = (state) => ({
   selectedGroupName: state.todo.selectedTodoGroup.name,
   optionIndexGroup: state.todo.optionIndexGroup,
   optionIndexTodo: state.todo.optionIndexTodo,
+  todoGroups: state.todo.todoGroups,
 });
 
 const mapDispatchToProps = (dispatch) => ({
