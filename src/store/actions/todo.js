@@ -5,7 +5,16 @@ import { random } from "./utils/random";
 import { store } from "../store";
 import { cloneDeep } from "lodash";
 
+const startInit = () => ({
+  type: actionTypes.START_FETCH_LOADING,
+});
+
+const endInit = () => ({
+  type: actionTypes.END_FETCH_LOADING,
+});
+
 export const initTodos = () => (dispatch) => {
+  dispatch(startInit());
   axios
     .get("https://random-word-api.herokuapp.com//word?number=20")
     .then((response) => {
@@ -21,13 +30,15 @@ export const initTodos = () => (dispatch) => {
           id: "_" + Math.random().toString(36).substr(2, 9),
         })),
       }));
+      dispatch(endInit());
       dispatch({
         type: actionTypes.INIT_TODOS,
         todos: todos,
       });
     })
     .catch((error) => {
-      setAlert("Something went wrong!", "error");
+      dispatch(endInit());
+      dispatch(setAlert("Something went wrong!", "error"));
     });
 };
 

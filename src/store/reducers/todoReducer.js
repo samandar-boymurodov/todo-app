@@ -4,6 +4,7 @@ const initialState = {
   selectedTodoGroup: { todos: [] },
   optionIndexGroup: null,
   optionIndexTodo: null,
+  fetchLoading: true,
 };
 
 export const todoReducer = (state = initialState, action) => {
@@ -64,6 +65,16 @@ export const todoReducer = (state = initialState, action) => {
       return {
         ...state,
         todoGroups: action.newToDoGroups,
+      };
+    case actionTypes.START_FETCH_LOADING:
+      return {
+        ...state,
+        fetchLoading: true,
+      };
+    case actionTypes.END_FETCH_LOADING:
+      return {
+        ...state,
+        fetchLoading: false,
       };
     default:
       return state;

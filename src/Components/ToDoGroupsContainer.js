@@ -37,6 +37,7 @@ import { useHistory } from "react-router-dom";
 import { AddGroupArea } from "./AddGroupArea";
 import * as modalTypes from "../store/actions/utils/modalTypes";
 import { cyan, teal } from "@material-ui/core/colors";
+import Skeleton from "@material-ui/lab/Skeleton";
 
 const useStyles = makeStyles((theme) => ({
   toolbarMargin: {
@@ -125,6 +126,11 @@ const useStyles = makeStyles((theme) => ({
     fill: "#fff",
     fontSize: "2.5rem",
   },
+  skeleton: {
+    width: "100%",
+    marginBottom: 1,
+    height: 57,
+  },
 }));
 
 const Transition = forwardRef(function Transition(props, ref) {
@@ -140,6 +146,7 @@ function TodoGroupsContainer({
   onModalOpen,
   open,
   onOptionIndexGroup,
+  fetchLoading,
 }) {
   const classes = useStyles();
   const theme = useTheme();
@@ -198,6 +205,15 @@ function TodoGroupsContainer({
     setOpenMenu(!openMenu);
   };
 
+  const skeletons = [...new Array(8)].map((e, i) => (
+    <Skeleton
+      key={i}
+      variant="rect"
+      className={classes.skeleton}
+      animation="wave"
+    />
+  ));
+
   return (
     <div>
       <Header handleMenu={handleMenu} />
@@ -234,80 +250,88 @@ function TodoGroupsContainer({
           <Grid item container direction="column">
             <Grid item className={classes.todoGroupsContainer}>
               <List>
-                {searchResult.map((todoGroup, index) => (
-                  <div key={index}>
-                    <Popper
-                      placement="left"
-                      style={{ zIndex: theme.zIndex.modal }}
-                      open={openPopper === index}
-                      anchorEl={anchorEl}
-                      onMouseLeave={handleClosePopper}
-                      transition
-                      disablePortal
-                    >
-                      {({ TransitionProps }) => (
-                        <Grow
-                          {...TransitionProps}
-                          style={{
-                            transformOrigin: "right",
+                {fetchLoading
+                  ? skeletons
+                  : searchResult.map((todoGroup, index) => (
+                      <div key={index}>
+                        <Popper
+                          placement="left"
+                          style={{ zIndex: theme.zIndex.modal }}
+                          open={openPopper === index}
+                          anchorEl={anchorEl}
+                          onMouseLeave={handleClosePopper}
+                          transition
+                          disablePortal
+                        >
+                          {({ TransitionProps }) => (
+                            <Grow
+                              {...TransitionProps}
+                              style={{
+                                transformOrigin: "right",
+                              }}
+                            >
+                              <Paper>
+                                <ClickAwayListener
+                                  onClickAway={handleClosePopper}
+                                >
+                                  <MenuList id="menu-list-grow">
+                                    <MenuItem
+                                      onClick={() =>
+                                        editGroupHandler(todoGroup.id)
+                                      }
+                                      className={classes.menuItem}
+                                    >
+                                      Edit
+                                    </MenuItem>
+                                    <MenuItem
+                                      onClick={() =>
+                                        deleGroupteHandler(todoGroup.id)
+                                      }
+                                      className={classes.menuItem}
+                                    >
+                                      Delete
+                                    </MenuItem>
+                                  </MenuList>
+                                </ClickAwayListener>
+                              </Paper>
+                            </Grow>
+                          )}
+                        </Popper>
+                        <ListItem
+                          onMouseLeave={handleClosePopper}
+                          button
+                          onClick={() =>
+                            selectTodoGroup(todoGroup.id, todoGroups)
+                          }
+                          selected={todoGroup.name === selectedTodoGroup.name}
+                          classes={{
+                            root: classes.groupContainer,
                           }}
+                          divider
                         >
-                          <Paper>
-                            <ClickAwayListener onClickAway={handleClosePopper}>
-                              <MenuList id="menu-list-grow">
-                                <MenuItem
-                                  onClick={() => editGroupHandler(todoGroup.id)}
-                                  className={classes.menuItem}
-                                >
-                                  Edit
-                                </MenuItem>
-                                <MenuItem
-                                  onClick={() =>
-                                    deleGroupteHandler(todoGroup.id)
-                                  }
-                                  className={classes.menuItem}
-                                >
-                                  Delete
-                                </MenuItem>
-                              </MenuList>
-                            </ClickAwayListener>
-                          </Paper>
-                        </Grow>
-                      )}
-                    </Popper>
-                    <ListItem
-                      onMouseLeave={handleClosePopper}
-                      button
-                      onClick={() => selectTodoGroup(todoGroup.id, todoGroups)}
-                      selected={todoGroup.name === selectedTodoGroup.name}
-                      classes={{
-                        root: classes.groupContainer,
-                      }}
-                      divider
-                    >
-                      <ListItemText
-                        primary={
-                          <Typography
-                            variant="h5"
-                            className={classes.groupText}
-                          >
-                            {todoGroup.name}
-                          </Typography>
-                        }
-                      />
+                          <ListItemText
+                            primary={
+                              <Typography
+                                variant="h5"
+                                className={classes.groupText}
+                              >
+                                {todoGroup.name}
+                              </Typography>
+                            }
+                          />
 
-                      <ListItemSecondaryAction>
-                        <IconButton
-                          disableRipple
-                          onMouseOver={handlePopper(index)}
-                          onClick={clickOpenPopper(index)}
-                        >
-                          <MoreHorizIcon className={classes.icon} />
-                        </IconButton>
-                      </ListItemSecondaryAction>
-                    </ListItem>
-                  </div>
-                ))}
+                          <ListItemSecondaryAction>
+                            <IconButton
+                              disableRipple
+                              onMouseOver={handlePopper(index)}
+                              onClick={clickOpenPopper(index)}
+                            >
+                              <MoreHorizIcon className={classes.icon} />
+                            </IconButton>
+                          </ListItemSecondaryAction>
+                        </ListItem>
+                      </div>
+                    ))}
               </List>
             </Grid>
             <AddGroupArea />
@@ -362,83 +386,89 @@ function TodoGroupsContainer({
             </Grid>
             <Grid item className={classes.todoGroupsContainer}>
               <List>
-                {searchResult.map((todoGroup, index) => (
-                  <div key={index}>
-                    <Popper
-                      placement="left"
-                      style={{ zIndex: theme.zIndex.modal }}
-                      open={openPopper === index}
-                      anchorEl={anchorEl}
-                      onMouseLeave={handleClosePopper}
-                      transition
-                      disablePortal
-                    >
-                      {({ TransitionProps }) => (
-                        <Grow
-                          {...TransitionProps}
-                          style={{
-                            transformOrigin: "right",
+                {fetchLoading
+                  ? skeletons
+                  : searchResult.map((todoGroup, index) => (
+                      <div key={index}>
+                        <Popper
+                          placement="left"
+                          style={{ zIndex: theme.zIndex.modal }}
+                          open={openPopper === index}
+                          anchorEl={anchorEl}
+                          onMouseLeave={handleClosePopper}
+                          transition
+                          disablePortal
+                        >
+                          {({ TransitionProps }) => (
+                            <Grow
+                              {...TransitionProps}
+                              style={{
+                                transformOrigin: "right",
+                              }}
+                            >
+                              <Paper>
+                                <ClickAwayListener
+                                  onClickAway={handleClosePopper}
+                                >
+                                  <MenuList id="menu-list-grow">
+                                    <MenuItem
+                                      onClick={() =>
+                                        editGroupHandler(todoGroup.id)
+                                      }
+                                      className={classes.menuItem}
+                                    >
+                                      Edit
+                                    </MenuItem>
+                                    <MenuItem
+                                      onClick={() =>
+                                        deleGroupteHandler(todoGroup.id)
+                                      }
+                                      className={classes.menuItem}
+                                    >
+                                      Delete
+                                    </MenuItem>
+                                  </MenuList>
+                                </ClickAwayListener>
+                              </Paper>
+                            </Grow>
+                          )}
+                        </Popper>
+                        <ListItem
+                          onMouseLeave={handleClosePopper}
+                          button
+                          onClick={() => {
+                            selectTodoGroup(todoGroup.id, todoGroups);
+                            setOpenMenu(false);
                           }}
+                          classes={{
+                            root: classes.groupContainer,
+                          }}
+                          selected={todoGroup.name === selectedTodoGroup.name}
+                          divider
                         >
-                          <Paper>
-                            <ClickAwayListener onClickAway={handleClosePopper}>
-                              <MenuList id="menu-list-grow">
-                                <MenuItem
-                                  onClick={() => editGroupHandler(todoGroup.id)}
-                                  className={classes.menuItem}
-                                >
-                                  Edit
-                                </MenuItem>
-                                <MenuItem
-                                  onClick={() =>
-                                    deleGroupteHandler(todoGroup.id)
-                                  }
-                                  className={classes.menuItem}
-                                >
-                                  Delete
-                                </MenuItem>
-                              </MenuList>
-                            </ClickAwayListener>
-                          </Paper>
-                        </Grow>
-                      )}
-                    </Popper>
-                    <ListItem
-                      onMouseLeave={handleClosePopper}
-                      button
-                      onClick={() => {
-                        selectTodoGroup(todoGroup.id, todoGroups);
-                        setOpenMenu(false);
-                      }}
-                      classes={{
-                        root: classes.groupContainer,
-                      }}
-                      selected={todoGroup.name === selectedTodoGroup.name}
-                      divider
-                    >
-                      <ListItemText
-                        primary={
-                          <Typography
-                            variant="h5"
-                            className={classes.groupText}
-                          >
-                            {todoGroup.name}
-                          </Typography>
-                        }
-                      />
+                          <ListItemText
+                            primary={
+                              <Typography
+                                variant="h5"
+                                className={classes.groupText}
+                              >
+                                {todoGroup.name}
+                              </Typography>
+                            }
+                          />
 
-                      <ListItemSecondaryAction>
-                        <IconButton
-                          disableRipple
-                          onMouseOver={handlePopper(index)}
-                          onClick={clickOpenPopper(index)}
-                        >
-                          <MoreHorizIcon className={classes.icon} />
-                        </IconButton>
-                      </ListItemSecondaryAction>
-                    </ListItem>
-                  </div>
-                ))}
+                          <ListItemSecondaryAction>
+                            <IconButton
+                              disableRipple
+                              onMouseOver={handlePopper(index)}
+                              onClick={clickOpenPopper(index)}
+                            >
+                              <MoreHorizIcon className={classes.icon} />
+                            </IconButton>
+                          </ListItemSecondaryAction>
+                        </ListItem>
+                      </div>
+                    ))}
               </List>
             </Grid>
             <AddGroupArea />
@@ -458,6 +488,7 @@ const mapStateToProps = (state) => ({
   todoGroups: state.todo.todoGroups,
   selectedTodoGroup: state.todo.selectedTodoGroup,
   open: state.modal.open,
+  fetchLoading: state.todo.fetchLoading,
 });
 
 const mapDispatchToProps = (dispatch) => ({
