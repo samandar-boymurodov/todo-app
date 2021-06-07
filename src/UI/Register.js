@@ -52,6 +52,10 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "center",
     height: "100vh",
     backgroundImage: `url("${tel2}")`,
+    [theme.breakpoints.down("xs")]: {
+      backgroundImage: "none",
+      backgroundColor: teal[50],
+    },
     backgroundPosition: "center",
     backgroundSize: "cover",
     backgroundRepeat: "no-repeat",
@@ -64,11 +68,12 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: teal[50],
     padding: "2rem",
     boxSizing: "border-box",
+    boxShadow: theme.shadows[15],
     [theme.breakpoints.down("xs")]: {
       width: "100%",
       padding: "1rem",
+      boxShadow: "none",
     },
-    boxShadow: theme.shadows[15],
   },
 }));
 

@@ -64,12 +64,12 @@ export const register = (email, password) => (dispatch) => {
 
       dispatch(authSuccess(response.data));
       dispatch(checkAuthTimeOut(response.data.expiresIn));
-      dispatch(setAlert("Successfully signed up!", "success"));
+      dispatch(setAlert("Successfully signed up", "success"));
     })
     .catch((error) => {
       console.log(error.response.data.error.message);
       dispatch(authFail(error.response.data.error.message));
-      dispatch(setAlert("Something went wrong!", "error"));
+      dispatch(setAlert("Something went wrong", "error"));
     });
 };
 
@@ -97,12 +97,12 @@ export const login = (email, password) => (dispatch) => {
 
       dispatch(authSuccess(response.data));
       dispatch(checkAuthTimeOut(response.data.expiresIn));
-      dispatch(setAlert("Successfully signed in!", "success"));
+      dispatch(setAlert("Successfully signed in", "success"));
     })
     .catch((error) => {
       console.log(error.response.data.error.message);
       dispatch(authFail(error.response.data.error.message));
-      dispatch(setAlert("Something went wrong!", "error"));
+      dispatch(setAlert("Something went wrong", "error"));
     });
 };
 
