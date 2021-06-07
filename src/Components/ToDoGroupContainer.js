@@ -8,19 +8,13 @@ import {
   IconButton,
   Paper,
   Divider,
-  Fade,
-  ClickAwayListener,
   InputAdornment,
   List,
   ListItem,
   ListItemText,
   Checkbox,
   ListItemIcon,
-  ListItemSecondaryAction,
-  Popper,
-  Grow,
-  MenuList,
-  MenuItem,
+  Fade,
   Tabs,
   Tab,
   useMediaQuery,
@@ -256,30 +250,32 @@ function TodoGroupContainer({
           <Grid container direction="column">
             <Grid item style={{ height: 50 }}>
               {openSearch && matchesXS ? (
-                <TextField
-                  className={classes.searchInput}
-                  autoFocus
-                  value={searchQuery}
-                  onChange={handleSearchQuery}
-                  inputProps={{
-                    style: {
-                      padding: "8.5px 5px",
-                    },
-                  }}
-                  style={{ marginTop: 10 }}
-                  InputProps={{
-                    endAdornment: (
-                      <InputAdornment position="end">
-                        <CloseIcon
-                          className={classes.closeIcon}
-                          onClick={closeSearchHandler}
-                          color="primary"
-                        />
-                      </InputAdornment>
-                    ),
-                  }}
-                  placeholder="Type to search"
-                />
+                <Fade in={openSearch}>
+                  <TextField
+                    className={classes.searchInput}
+                    autoFocus
+                    value={searchQuery}
+                    onChange={handleSearchQuery}
+                    inputProps={{
+                      style: {
+                        padding: "8.5px 5px",
+                      },
+                    }}
+                    style={{ marginTop: 10 }}
+                    InputProps={{
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          <CloseIcon
+                            className={classes.closeIcon}
+                            onClick={closeSearchHandler}
+                            color="primary"
+                          />
+                        </InputAdornment>
+                      ),
+                    }}
+                    placeholder="Type to search"
+                  />
+                </Fade>
               ) : null}
 
               <Grid container alignItems="center" style={{ height: "100%" }}>
@@ -307,29 +303,31 @@ function TodoGroupContainer({
                           <SearchIcon color="secondary" />
                         </IconButton>
                       ) : !(openSearch && matchesXS) ? (
-                        <TextField
-                          className={classes.searchInput}
-                          autoFocus
-                          value={searchQuery}
-                          onChange={handleSearchQuery}
-                          inputProps={{
-                            style: {
-                              padding: "8.5px 5px",
-                            },
-                          }}
-                          InputProps={{
-                            endAdornment: (
-                              <InputAdornment position="end">
-                                <CloseIcon
-                                  className={classes.closeIcon}
-                                  onClick={closeSearchHandler}
-                                  color="primary"
-                                />
-                              </InputAdornment>
-                            ),
-                          }}
-                          placeholder="Type to search"
-                        />
+                        <Fade in={openSearch}>
+                          <TextField
+                            className={classes.searchInput}
+                            autoFocus
+                            value={searchQuery}
+                            onChange={handleSearchQuery}
+                            inputProps={{
+                              style: {
+                                padding: "8.5px 5px",
+                              },
+                            }}
+                            InputProps={{
+                              endAdornment: (
+                                <InputAdornment position="end">
+                                  <CloseIcon
+                                    className={classes.closeIcon}
+                                    onClick={closeSearchHandler}
+                                    color="primary"
+                                  />
+                                </InputAdornment>
+                              ),
+                            }}
+                            placeholder="Type to search"
+                          />
+                        </Fade>
                       ) : null}
                     </Grid>
 
