@@ -33,7 +33,7 @@ import CloseIcon from "@material-ui/icons/Close";
 import { useHistory } from "react-router-dom";
 import { AddGroupArea } from "./AddGroupArea";
 import * as modalTypes from "../store/actions/utils/modalTypes";
-import { cyan } from "@material-ui/core/colors";
+import { cyan, teal } from "@material-ui/core/colors";
 
 const useStyles = makeStyles((theme) => ({
   toolbarMargin: {
@@ -79,7 +79,7 @@ const useStyles = makeStyles((theme) => ({
       backgroundColor: theme.palette.secondary.light,
     },
     "&.Mui-selected:hover": {
-      backgroundColor: theme.palette.secondary.light,
+      backgroundColor: teal[300],
     },
   },
 
