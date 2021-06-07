@@ -36,7 +36,7 @@ export default function Header({ handleMenu }) {
   const dispatch = useDispatch();
   const history = useHistory();
   return (
-    <AppBar>
+    <AppBar elevation={0}>
       <Toolbar>
         <Grid container justify="space-between" alignItems="center">
           <Grid item>
