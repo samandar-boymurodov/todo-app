@@ -44,7 +44,7 @@ const useStyles = makeStyles((theme) => ({
   },
   cautionText: {
     [theme.breakpoints.down("xs")]: {
-      fontSize: "0.8rem",
+      fontSize: "1rem",
     },
   },
   formContainer: {
@@ -54,7 +54,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundImage: `url("${tel2}")`,
     [theme.breakpoints.down("xs")]: {
       backgroundImage: "none",
-      backgroundColor: teal[50],
+      backgroundColor: "rgb(51, 201, 220, 0.1 )",
     },
     backgroundPosition: "center",
     backgroundSize: "cover",
@@ -65,14 +65,15 @@ const useStyles = makeStyles((theme) => ({
   },
   itemsContainer: {
     width: 420,
-    backgroundColor: teal[50],
     padding: "2rem",
     boxSizing: "border-box",
     boxShadow: theme.shadows[15],
+    backgroundColor: teal[50],
     [theme.breakpoints.down("xs")]: {
       width: "100%",
       padding: "1rem",
       boxShadow: "none",
+      backgroundColor: "transparent",
     },
   },
 }));

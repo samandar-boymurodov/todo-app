@@ -12,7 +12,6 @@ import { useEffect, useState } from "react";
 import { makeStyles, useTheme } from "@material-ui/styles";
 import { useFormik } from "formik";
 import * as yup from "yup";
-import LockOpenIcon from "@material-ui/icons/LockOpen";
 import teal4 from "../assets/teal4.jpg";
 
 import { Link } from "react-router-dom";
@@ -52,19 +51,14 @@ const useStyles = makeStyles((theme) => ({
     fontFamily: "Raleway",
     fontWeight: 600,
   },
-  lockIcon: {
-    backgroundColor: theme.palette.secondary.main,
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    borderRadius: 50,
-    height: "3rem",
-    width: "3rem",
-  },
   formContainer: {
     marginTop: "2.25rem",
     paddingLeft: "2rem",
     paddingRight: "2rem",
+    [theme.breakpoints.down("xs")]: {
+      paddingLeft: "1rem",
+      paddingRight: "1rem",
+    },
   },
   mainContainer: {
     height: "100vh",
@@ -72,7 +66,7 @@ const useStyles = makeStyles((theme) => ({
   },
   cautionText: {
     [theme.breakpoints.down("xs")]: {
-      fontSize: "0.8rem",
+      fontSize: "1rem",
     },
   },
 }));
@@ -120,11 +114,6 @@ function Login({ onAuth, loading, isAuth }) {
         >
           <Grid item>
             <Grid item container direction="column" alignItems="center">
-              <Grid item>
-                <span className={classes.lockIcon}>
-                  <LockOpenIcon style={{ fill: "#fff" }} />
-                </span>
-              </Grid>
               <Grid item>
                 <Typography variant="h1" color="secondary">
                   Sign in

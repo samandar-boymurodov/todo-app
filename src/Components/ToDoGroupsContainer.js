@@ -50,7 +50,7 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.down("xs")]: {
       width: "100%",
     },
-    top: 102,
+    top: 101,
     bottom: 55,
     "&::-webkit-scrollbar": {
       width: 10,
