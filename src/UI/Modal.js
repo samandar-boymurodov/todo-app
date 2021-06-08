@@ -264,8 +264,6 @@ const Modal = ({
                   autoFocus={check}
                   variant="outlined"
                   color="primary"
-                  multiline
-                  rowsMax={4}
                   onChange={(e) =>
                     setAddTodoInfo({
                       ...addTodoInfo,
@@ -344,8 +342,6 @@ const Modal = ({
               label="Edit description"
               variant="outlined"
               color="primary"
-              multiline
-              rowsMax={4}
               placeholder="This is optional"
               value={editTodoIndo.description}
               onChange={(e) =>

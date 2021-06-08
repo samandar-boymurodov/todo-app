@@ -134,6 +134,9 @@ const useStyles = makeStyles((theme) => ({
   accordionDetails: {
     padding: "0px 8px 0px 16px",
   },
+  description: {
+    wordBreak: "break-word",
+  },
   searchInput: {
     [theme.breakpoints.down("md")]: {
       width: 180,
@@ -148,6 +151,7 @@ const useStyles = makeStyles((theme) => ({
   listText: {
     wordWrap: "break-word",
     marginRight: "1.5rem",
+    wordBreak: "break-word",
   },
   closeIcon: {
     cursor: "pointer",
@@ -442,7 +446,10 @@ function TodoGroupContainer({
                           primary={
                             <Typography
                               variant="h6"
-                              style={{ fontWeight: 600, color: teal[800] }}
+                              style={{
+                                fontWeight: 600,
+                                color: teal[800],
+                              }}
                             >
                               {value.name}
                             </Typography>
@@ -453,7 +460,10 @@ function TodoGroupContainer({
                       <AccordionDetails
                         classes={{ root: classes.accordionDetails }}
                       >
-                        <Typography variant="body1">
+                        <Typography
+                          variant="body1"
+                          className={classes.description}
+                        >
                           {value.description}
                         </Typography>
                       </AccordionDetails>
