@@ -36,7 +36,7 @@ export const initTodos = () => (dispatch) => {
         todos: todos,
       });
     })
-    .catch((error) => {
+    .catch(() => {
       dispatch(endInit());
       dispatch(setAlert("Something went wrong!", "error"));
     });
@@ -77,7 +77,6 @@ export const addTodo = (name, todoInfo) => (dispatch) => {
   const todoGroups = cloneDeep(store.getState().todo.todoGroups);
 
   const selectedGroup = todoGroups.filter((el) => el.name === name);
-  const selectedIndex = todoGroups.findIndex((el) => el.name === name);
 
   selectedGroup[0].todos.unshift({
     name: todoInfo.name,
