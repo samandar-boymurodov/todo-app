@@ -22,6 +22,7 @@ import {
   AccordionSummary,
   AccordionDetails,
   AccordionActions,
+  Badge,
 } from "@material-ui/core";
 import CloseIcon from "@material-ui/icons/Close";
 import { makeStyles, useTheme } from "@material-ui/styles";
@@ -87,7 +88,7 @@ const useStyles = makeStyles((theme) => ({
   todos: {
     position: "absolute",
     bottom: 0,
-    top: 102,
+    top: 108,
     width: "100%",
     right: "0.4rem",
     boxSizing: "border-box",
@@ -161,6 +162,11 @@ const useStyles = makeStyles((theme) => ({
   },
   closeIcon: {
     cursor: "pointer",
+  },
+  badge: {
+    color: "#fff",
+    fontFamily: "Roboto",
+    fontWeight: 400,
   },
 }));
 
@@ -242,13 +248,15 @@ function TodoGroupContainer({
       ? searchResult.filter((e) => !e.completed)
       : searchResult.filter((e) => e.completed);
 
+  const completedItemsCount = searchResult.filter((e) => e.completed).length;
+
   return (
     <>
       <Grid container direction="column" className={classes.groupContainer}>
         <Paper square className={classes.infoContainer}>
           {/*--- ToolBar ---*/}
           <Grid container direction="column">
-            <Grid item style={{ height: 50 }}>
+            <Grid item style={{ height: 50, marginBottom: "0.5rem" }}>
               {openSearch && matchesXS ? (
                 <Fade in={openSearch}>
                   <TextField
@@ -349,29 +357,36 @@ function TodoGroupContainer({
             </Grid>
             <Divider />
             <Grid item container justify={matchesXS ? "center" : null}>
-              <Tabs onChange={handleTabChange} value={tab}>
-                <Divider orientation="vertical" flexItem />
-                <Tab
-                  disableTouchRipple
-                  value="todos"
-                  label={
-                    <Typography variant="body1" color="secondary">
-                      Todos
-                    </Typography>
-                  }
-                />
-                <Divider orientation="vertical" flexItem />
-                <Tab
-                  disableTouchRipple
-                  value="completed-todos"
-                  label={
-                    <Typography variant="body1" color="secondary">
-                      Completed Todos
-                    </Typography>
-                  }
-                />
-                <Divider orientation="vertical" flexItem />
-              </Tabs>
+              <Badge
+                badgeContent={completedItemsCount}
+                color="primary"
+                overlab="rectangle"
+                classes={{ colorPrimary: classes.badge }}
+              >
+                <Tabs onChange={handleTabChange} value={tab}>
+                  <Divider orientation="vertical" flexItem />
+                  <Tab
+                    disableTouchRipple
+                    value="todos"
+                    label={
+                      <Typography variant="body1" color="secondary">
+                        Todos
+                      </Typography>
+                    }
+                  />
+                  <Divider orientation="vertical" flexItem />
+                  <Tab
+                    disableTouchRipple
+                    value="completed-todos"
+                    label={
+                      <Typography variant="body1" color="secondary">
+                        Completed Todos
+                      </Typography>
+                    }
+                  />
+                  <Divider orientation="vertical" flexItem />
+                </Tabs>
+              </Badge>
             </Grid>
           </Grid>
         </Paper>
