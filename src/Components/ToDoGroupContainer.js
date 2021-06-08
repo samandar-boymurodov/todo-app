@@ -169,6 +169,13 @@ const useStyles = makeStyles((theme) => ({
     fontFamily: "Roboto",
     fontWeight: 400,
   },
+  cautionText: {
+    position: "absolute",
+    boxSizing: "border-box",
+    top: 20,
+    right: 0,
+    left: 0,
+  },
 }));
 
 function TodoGroupContainer({
@@ -178,7 +185,7 @@ function TodoGroupContainer({
   onOptionIndexTodo,
   toggleComplete,
 }) {
-  const classes = useStyles();
+  const classes = useStyles(selectedTodoGroup);
   const theme = useTheme();
   const matchesXS = useMediaQuery(theme.breakpoints.down("xs"));
   const matchesSM = useMediaQuery(theme.breakpoints.down("sm"));
@@ -290,9 +297,20 @@ function TodoGroupContainer({
               <Grid container alignItems="center" style={{ height: "100%" }}>
                 {!(openSearch && matchesXS) ? (
                   <Grid item className={classes.groupTitleContainer}>
-                    <Typography variant="h3" className={classes.groupTitle}>
-                      {selectedTodoGroup.name}
-                    </Typography>
+                    {selectedTodoGroup.name ? (
+                      <Typography variant="h3" className={classes.groupTitle}>
+                        {selectedTodoGroup.name}
+                      </Typography>
+                    ) : (
+                      <Typography
+                        variant="h6"
+                        color="primary"
+                        align="center"
+                        className={classes.cautionText}
+                      >
+                        Select a Todo Group
+                      </Typography>
+                    )}
                   </Grid>
                 ) : null}
                 {selectedTodoGroup.name ? (
@@ -431,7 +449,12 @@ function TodoGroupContainer({
                       >
                         <ListItemText
                           primary={
-                            <Typography variant="h6">{value.name}</Typography>
+                            <Typography
+                              variant="h6"
+                              style={{ fontWeight: 600, color: teal[800] }}
+                            >
+                              {value.name}
+                            </Typography>
                           }
                           className={classes.listText}
                         />

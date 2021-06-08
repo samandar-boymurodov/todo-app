@@ -41,6 +41,10 @@ export const theme = createMuiTheme({
       fontWeight: 500,
       fontFamily: "Raleway",
     },
+    h6: {
+      fontFamily: "RaleWay",
+      fontWeight: 400,
+    },
   },
   props: {
     MuiTextField: {

@@ -16,14 +16,14 @@ const endInit = () => ({
 export const initTodos = () => (dispatch) => {
   dispatch(startInit());
   axios
-    .get("https://random-word-api.herokuapp.com//word?number=20")
+    .get("https://random-word-api.herokuapp.com//word?number=15")
     .then((response) => {
       console.log(response);
 
       const todos = response.data.map((el) => ({
         name: el,
         id: "_" + Math.random().toString(36).substr(2, 9),
-        todos: [...new Array(15)].map(() => ({
+        todos: [...new Array(10)].map(() => ({
           name: random(response.data),
           description: `${random(response.data)} ${random(response.data)}`,
           completed: false,
