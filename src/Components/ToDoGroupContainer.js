@@ -172,7 +172,7 @@ const useStyles = makeStyles((theme) => ({
   cautionText: {
     position: "absolute",
     boxSizing: "border-box",
-    top: 20,
+    top: 18,
     right: 0,
     left: 0,
   },
