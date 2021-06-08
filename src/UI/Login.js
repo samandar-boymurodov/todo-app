@@ -8,7 +8,6 @@ import {
   InputAdornment,
   IconButton,
 } from "@material-ui/core";
-import { Helmet } from "react-helmet";
 import { useEffect, useState } from "react";
 import { makeStyles, useTheme } from "@material-ui/styles";
 import { useFormik } from "formik";
@@ -103,20 +102,6 @@ function Login({ onAuth, loading, isAuth }) {
   };
   return (
     <Grid container className={classes.mainContainer} alignItems="center">
-      <Helmet>
-        <title>Login | Todo App</title>
-        <meta
-          name="description"
-          key="description"
-          content="Login Page of a Todo App created by Boymurodov Samandar. Here you can sign in to use Todo App. Authentication is made possible thanks to Firebase."
-        />
-        <meta key="og:title" property="og:title" content="Login | Todo App" />
-        <meta
-          key="og:url"
-          property="og:url"
-          content="https://todo-app-lime-eta.vercel.app/login"
-        />
-      </Helmet>
       <Hidden xsDown>
         <Grid item xs={false} sm={4} md={7} className={classes.imgBg} />
       </Hidden>

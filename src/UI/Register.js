@@ -7,7 +7,6 @@ import {
   useMediaQuery,
 } from "@material-ui/core";
 import { useEffect } from "react";
-import { Helmet } from "react-helmet";
 import { useHistory } from "react-router-dom";
 import { makeStyles, useTheme } from "@material-ui/styles";
 import { useFormik } from "formik";
@@ -110,24 +109,6 @@ function Register({ onAuth, loading, isAuth }) {
       onSubmit={formik.handleSubmit}
       className={classes.formContainer}
     >
-      <Helmet>
-        <title>Register | Todo App</title>
-        <meta
-          name="description"
-          key="description"
-          content="Register page of a Todo App created by Boymurodov Samandar. Here you can sign up to use Todo App. Authentication is made possible thanks to Firebase."
-        />
-        <meta
-          key="og:title"
-          property="og:title"
-          content="Register | Todo App"
-        />
-        <meta
-          key="og:url"
-          property="og:url"
-          content="https://todo-app-lime-eta.vercel.app/register"
-        />
-      </Helmet>
       <div className={classes.itemsContainer}>
         <Grid item container justify="center">
           <Typography

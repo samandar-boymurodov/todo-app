@@ -3,7 +3,6 @@ import Modal from "../UI/Modal";
 import ToDoGroupContainer from "./ToDoGroupContainer";
 import { useEffect, useState, forwardRef } from "react";
 import { connect } from "react-redux";
-import { Helmet } from "react-helmet";
 import * as actions from "../store/actions/index";
 import {
   Grid,
@@ -223,24 +222,6 @@ function TodoGroupsContainer({
 
   return (
     <div>
-      <Helmet>
-        <title>Dashboard | Todo App</title>
-        <meta
-          name="description"
-          key="description"
-          content="This is a Dashboard of a Todo App created by Boymurodov Samandar. Here you can create, delete, edit your own Todos for individual Todo Groups. Application is made with React Js. For a UI library,  Material UI is used"
-        />
-        <meta
-          key="og:title"
-          property="og:title"
-          content="Dashboard | Todo App"
-        />
-        <meta
-          key="og:url"
-          property="og:url"
-          content="https://todo-app-lime-eta.vercel.app/dashboard"
-        />
-      </Helmet>
       <Header handleMenu={handleMenu} />
       <div className={classes.toolbarMargin} />
       <Grid container>
