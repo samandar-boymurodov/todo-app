@@ -349,7 +349,7 @@ function TodoGroupsContainer({
             <Toolbar>
               <Grid container justify="space-between" alignItems="center">
                 <Grid item>
-                  <Typography variant="h4">Samandar</Typography>
+                  <Typography variant="h4">Todo App</Typography>
                 </Grid>
                 <Grid item>
                   <IconButton onClick={handleMenu} disableRipple>

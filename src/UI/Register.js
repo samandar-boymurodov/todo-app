@@ -67,7 +67,7 @@ const useStyles = makeStyles((theme) => ({
     width: 420,
     padding: "2rem",
     boxSizing: "border-box",
-    boxShadow: theme.shadows[15],
+    boxShadow: theme.shadows[5],
     backgroundColor: teal[50],
     [theme.breakpoints.down("xs")]: {
       width: "100%",
