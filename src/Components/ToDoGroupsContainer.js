@@ -248,7 +248,7 @@ function TodoGroupsContainer({
                       disableRipple
                       onClick={closeSearchHandler}
                     >
-                      <ClearIcon color="primary" s />
+                      <ClearIcon color="primary" />
                     </IconButton>
                   </InputAdornment>
                 ),
@@ -462,9 +462,10 @@ function TodoGroupsContainer({
                       <ListItem
                         onMouseLeave={handleClosePopper}
                         button
-                        onClick={() =>
-                          selectTodoGroup(todoGroup.id, todoGroups)
-                        }
+                        onClick={() => {
+                          selectTodoGroup(todoGroup.id, todoGroups);
+                          setOpenMenu(false);
+                        }}
                         selected={todoGroup.name === selectedTodoGroup.name}
                         classes={{
                           root: classes.groupContainer,
