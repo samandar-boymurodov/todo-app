@@ -237,11 +237,13 @@ function TodoGroupsContainer({
               InputProps={{
                 endAdornment: (
                   <InputAdornment position="end">
-                    <ClearIcon
+                    <IconButton
+                      size="small"
+                      disableRipple
                       onClick={closeSearchHandler}
-                      color="primary"
-                      style={{ cursor: "pointer" }}
-                    />
+                    >
+                      <ClearIcon color="primary" s />
+                    </IconButton>
                   </InputAdornment>
                 ),
               }}
@@ -374,11 +376,13 @@ function TodoGroupsContainer({
                 InputProps={{
                   endAdornment: (
                     <InputAdornment position="end">
-                      <ClearIcon
+                      <IconButton
+                        size="small"
+                        disableRipple
                         onClick={closeSearchHandler}
-                        color="primary"
-                        style={{ cursor: "pointer" }}
-                      />
+                      >
+                        <ClearIcon color="primary" s />
+                      </IconButton>
                     </InputAdornment>
                   ),
                 }}
