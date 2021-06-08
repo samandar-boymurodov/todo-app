@@ -23,6 +23,7 @@ import {
   AccordionDetails,
   AccordionActions,
   Badge,
+  Tooltip,
 } from "@material-ui/core";
 import CloseIcon from "@material-ui/icons/Close";
 import { makeStyles, useTheme } from "@material-ui/styles";
@@ -308,7 +309,9 @@ function TodoGroupContainer({
                           onClick={() => setOpenSearch(true)}
                           disableRipple
                         >
-                          <SearchIcon color="secondary" />
+                          <Tooltip title="search todos" interactive arrow>
+                            <SearchIcon color="secondary" />
+                          </Tooltip>
                         </IconButton>
                       ) : !(openSearch && matchesXS) ? (
                         <Fade in={openSearch}>

@@ -126,5 +126,11 @@ export const theme = createMuiTheme({
         minHeight: 0,
       },
     },
+    MuiTooltip: {
+      tooltip: {
+        borderRadius: 0,
+        fontWeight: 400,
+      },
+    },
   },
 });
