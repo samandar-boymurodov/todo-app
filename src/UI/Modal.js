@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect, forwardRef } from "react";
 import {
   Dialog,
   DialogContent,
@@ -13,7 +13,6 @@ import {
   Grow,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
-import { CheckBox } from "@material-ui/icons";
 import { connect } from "react-redux";
 import * as actions from "../store/actions/index";
 import * as modalTypes from "../store/actions/utils/modalTypes";
@@ -43,7 +42,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Transition = React.forwardRef(function Transition(props, ref) {
+const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
@@ -176,7 +175,7 @@ const Modal = ({
   };
 
   const handleCheck = (e) => {
-    setCheck((prev) => e.target.checked);
+    setCheck(e.target.checked);
   };
 
   const deleteGroup = (
@@ -345,6 +344,8 @@ const Modal = ({
               label="Edit description"
               variant="outlined"
               color="primary"
+              multiline
+              rowsMax={4}
               placeholder="This is optional"
               value={editTodoIndo.description}
               onChange={(e) =>

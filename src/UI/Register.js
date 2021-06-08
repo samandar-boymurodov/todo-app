@@ -4,7 +4,6 @@ import {
   Button,
   Typography,
   Divider,
-  useMediaQuery,
 } from "@material-ui/core";
 import { useEffect } from "react";
 import { useHistory } from "react-router-dom";
@@ -17,7 +16,7 @@ import { connect } from "react-redux";
 import cyan from "@material-ui/core/colors/cyan";
 import teal from "@material-ui/core/colors/teal";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import tel2 from "../assets/teal2.jpg";
+import teal2 from "../assets/teal2.jpg";
 
 const validationSchema = yup.object({
   email: yup
@@ -42,16 +41,11 @@ const useStyles = makeStyles((theme) => ({
     fontFamily: "Raleway",
     fontWeight: 600,
   },
-  cautionText: {
-    [theme.breakpoints.down("xs")]: {
-      fontSize: "1rem",
-    },
-  },
   formContainer: {
     alignItems: "center",
     justifyContent: "center",
     height: "100vh",
-    backgroundImage: `url("${tel2}")`,
+    backgroundImage: `url("${teal2}")`,
     [theme.breakpoints.down("xs")]: {
       backgroundImage: "none",
       backgroundColor: "rgb(51, 201, 220, 0.1 )",
@@ -65,8 +59,8 @@ const useStyles = makeStyles((theme) => ({
   },
   itemsContainer: {
     width: 420,
-    padding: "2rem",
     boxSizing: "border-box",
+    padding: "2rem",
     boxShadow: theme.shadows[5],
     backgroundColor: teal[50],
     [theme.breakpoints.down("xs")]: {
@@ -89,7 +83,6 @@ function Register({ onAuth, loading, isAuth }) {
     }
   }, [isAuth]);
 
-  const matchesSM = useMediaQuery(theme.breakpoints.down("xs"));
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -181,11 +174,7 @@ function Register({ onAuth, loading, isAuth }) {
           </Button>
         </Grid>
         <Grid item style={{ marginTop: "1rem" }}>
-          <Typography
-            variant="body1"
-            color="secondary"
-            className={classes.cautionText}
-          >
+          <Typography variant="body1" color="secondary">
             If you have already signed up, then you can{" "}
             <Link to="/login" style={{ color: cyan[500] }}>
               login

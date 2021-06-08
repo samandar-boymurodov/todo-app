@@ -28,9 +28,7 @@ import {
 import CloseIcon from "@material-ui/icons/Close";
 import { makeStyles, useTheme } from "@material-ui/styles";
 import SearchIcon from "@material-ui/icons/Search";
-import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import { CheckBox } from "@material-ui/icons";
 import Modal from "../UI/Modal";
 import { connect } from "react-redux";
 import * as modalTypes from "../store/actions/utils/modalTypes";
@@ -74,7 +72,6 @@ const useStyles = makeStyles((theme) => ({
   groupTitleContainer: {
     maxWidth: 300,
     [theme.breakpoints.down("md")]: {
-      fontSize: "1.8rem",
       maxWidth: 250,
     },
     [theme.breakpoints.down("sm")]: {
@@ -135,10 +132,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   accordionDetails: {
-    paddingBottom: 0,
-    paddingTop: 0,
-    paddingLeft: 16,
-    paddingRight: 8,
+    padding: "0px 8px 0px 16px",
   },
   searchInput: {
     [theme.breakpoints.down("md")]: {
@@ -149,12 +143,6 @@ const useStyles = makeStyles((theme) => ({
     },
     "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
       borderWidth: 1,
-    },
-  },
-  icon: {
-    fill: "#fff",
-    [theme.breakpoints.down("sm")]: {
-      fontSize: "2rem",
     },
   },
   listText: {
@@ -171,7 +159,6 @@ const useStyles = makeStyles((theme) => ({
   },
   cautionText: {
     position: "absolute",
-    boxSizing: "border-box",
     top: 18,
     right: 0,
     left: 0,
@@ -197,6 +184,7 @@ function TodoGroupContainer({
   const [searchResult, setSearchResult] = useState([]);
   const [expanded, setExpanded] = useState(false);
 
+  // For controlling search
   useEffect(() => {
     setSearchResult(
       selectedTodoGroup.todos.filter(
@@ -207,6 +195,7 @@ function TodoGroupContainer({
     );
   }, [searchQuery, selectedTodoGroup]);
 
+  // To handle completion of tasks
   const handleToggle = (id) => () => {
     const currentIndex = checked.indexOf(id);
     const newChecked = [...checked];
@@ -256,6 +245,7 @@ function TodoGroupContainer({
       ? searchResult.filter((e) => !e.completed)
       : searchResult.filter((e) => e.completed);
 
+  // To display as a content of a badge
   const completedItemsCount = searchResult.filter((e) => e.completed).length;
 
   return (
@@ -365,7 +355,8 @@ function TodoGroupContainer({
                         <Button
                           variant="contained"
                           color="primary"
-                          style={{ color: "#fff", boxShadow: "none" }}
+                          disableElevation
+                          style={{ color: "#fff" }}
                           onClick={() => onModalOpen(modalTypes.ADD_TODO)}
                         >
                           Add todo
@@ -381,7 +372,7 @@ function TodoGroupContainer({
               <Badge
                 badgeContent={completedItemsCount}
                 color="primary"
-                overlab="rectangle"
+                overlap="rectangle"
                 classes={{ colorPrimary: classes.badge }}
               >
                 <Tabs onChange={handleTabChange} value={tab}>

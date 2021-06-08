@@ -1,6 +1,6 @@
 import { Grid, TextField, Button } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef } from "react";
 import { useDispatch } from "react-redux";
 import { addTodoGroup } from "../store/actions/index";
 
@@ -15,21 +15,22 @@ const useStyles = makeStyles((theme) => ({
   AddArea: {
     position: "absolute",
     width: "35%",
+    bottom: 0,
     [theme.breakpoints.down("xs")]: {
       width: "100%",
     },
-    bottom: 0,
   },
   textField: {
+    backgroundColor: "#fff",
     "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
       borderWidth: 1,
     },
-    backgroundColor: "#fff",
   },
   addGroupButton: {
     height: "100%",
     fontSize: "1.5rem",
     fontWeight: 400,
+    fontFamily: "Raleway",
   },
 }));
 

@@ -16,7 +16,7 @@ import { connect } from "react-redux";
 import { removeAlert, checkAuthState } from "./store/actions/index";
 import CloseIcon from "@material-ui/icons/Close";
 import Slide from "@material-ui/core/Slide";
-import { green, red, cyan } from "@material-ui/core/colors";
+import { green, red } from "@material-ui/core/colors";
 
 function TransitionUp(props) {
   return <Slide {...props} direction="up" />;

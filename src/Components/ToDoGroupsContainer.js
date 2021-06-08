@@ -17,10 +17,8 @@ import {
   ClickAwayListener,
   Paper,
   TextField,
-  Button,
   Hidden,
   Dialog,
-  DialogContent,
   Slide,
   AppBar,
   Toolbar,
@@ -28,21 +26,17 @@ import {
   ListItemText,
   InputAdornment,
 } from "@material-ui/core";
-import { makeStyles, useTheme, color } from "@material-ui/styles";
+import Skeleton from "@material-ui/lab/Skeleton";
+import { makeStyles, useTheme } from "@material-ui/styles";
 import { fade } from "@material-ui/core/styles/colorManipulator";
+import { cyan, teal } from "@material-ui/core/colors";
 import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
 import ClearIcon from "@material-ui/icons/Clear";
 import CloseIcon from "@material-ui/icons/Close";
 import { useHistory } from "react-router-dom";
 import { AddGroupArea } from "./AddGroupArea";
 import * as modalTypes from "../store/actions/utils/modalTypes";
-import { cyan, teal } from "@material-ui/core/colors";
-import Skeleton from "@material-ui/lab/Skeleton";
-
 const useStyles = makeStyles((theme) => ({
-  toolbarMargin: {
-    ...theme.mixins.toolbar,
-  },
   todoGroupsContainer: {
     backgroundColor: "#fff",
     position: "absolute",
@@ -75,7 +69,6 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   searchInput: {
-    "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {},
     "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
       backgroundColor: fade(cyan[200], 0.2),
       border: "none",
@@ -91,9 +84,7 @@ const useStyles = makeStyles((theme) => ({
   groupContainer: {
     "&:hover": {
       backgroundColor: theme.palette.secondary.light,
-      color: "#fff",
     },
-
     color: theme.palette.primary.dark,
     "&.Mui-selected": {
       backgroundColor: theme.palette.secondary.light,
@@ -102,15 +93,6 @@ const useStyles = makeStyles((theme) => ({
       backgroundColor: teal[300],
     },
   },
-
-  addText: {
-    fontSize: "1.5rem",
-    paddingTop: "14px",
-    paddingBottom: "14px",
-    fontWeight: 400,
-    fontFamily: "Raleway",
-  },
-
   icon: {
     fill: "#fff",
     [theme.breakpoints.down("sm")]: {
@@ -223,7 +205,6 @@ function TodoGroupsContainer({
   return (
     <div>
       <Header handleMenu={handleMenu} />
-      <div className={classes.toolbarMargin} />
       <Grid container>
         <Hidden xsDown>
           <Grid item className={classes.searchArea}>
@@ -393,7 +374,7 @@ function TodoGroupsContainer({
                         disableRipple
                         onClick={closeSearchHandler}
                       >
-                        <ClearIcon color="primary" s />
+                        <ClearIcon color="primary" />
                       </IconButton>
                     </InputAdornment>
                   ),

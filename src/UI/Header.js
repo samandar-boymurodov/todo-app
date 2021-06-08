@@ -3,7 +3,6 @@ import {
   AppBar,
   Toolbar,
   Button,
-  useMediaQuery,
   Typography,
   Hidden,
   IconButton,
@@ -30,9 +29,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Header({ handleMenu }) {
   const classes = useStyles();
-  const theme = useTheme();
 
-  const matchesMD = useMediaQuery(theme.breakpoints.down("sm"));
   const dispatch = useDispatch();
   const history = useHistory();
   return (
@@ -53,6 +50,7 @@ export default function Header({ handleMenu }) {
             <Button
               variant="contained"
               className={classes.button}
+              disableElevation
               onClick={() => {
                 dispatch(logout());
                 history.push("/login");

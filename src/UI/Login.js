@@ -3,13 +3,12 @@ import {
   TextField,
   Button,
   Hidden,
-  useMediaQuery,
   Typography,
   InputAdornment,
   IconButton,
 } from "@material-ui/core";
 import { useEffect, useState } from "react";
-import { makeStyles, useTheme } from "@material-ui/styles";
+import { makeStyles } from "@material-ui/styles";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import teal4 from "../assets/teal4.jpg";
@@ -64,17 +63,11 @@ const useStyles = makeStyles((theme) => ({
     height: "100vh",
     backgroundColor: "rgb(51, 201, 220, 0.1 )",
   },
-  cautionText: {
-    [theme.breakpoints.down("xs")]: {
-      fontSize: "1rem",
-    },
-  },
 }));
 
 function Login({ onAuth, loading, isAuth }) {
   const classes = useStyles();
   const history = useHistory();
-  const theme = useTheme();
   const [showPassword, setShowPassword] = useState(false);
 
   useEffect(() => {
@@ -132,6 +125,7 @@ function Login({ onAuth, loading, isAuth }) {
                 name="email"
                 id="email"
                 label="Email"
+                type="email"
                 fullWidth
                 value={formik.values.email}
                 onChange={formik.handleChange}
@@ -184,11 +178,7 @@ function Login({ onAuth, loading, isAuth }) {
               </Button>
             </Grid>
             <Grid item style={{ marginTop: "1rem" }}>
-              <Typography
-                variant="body1"
-                color="secondary"
-                className={classes.cautionText}
-              >
+              <Typography variant="body1" color="secondary">
                 If you have not signed up, then you can{" "}
                 <Link to="/register" style={{ color: cyan[500] }}>
                   sign up
