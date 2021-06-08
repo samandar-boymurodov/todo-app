@@ -4,7 +4,7 @@ made with love ❤️
 
 ---
 
-#### I have recently finished Material UI course on Udemy. To put my knowledge into practice I decided to develop Todo Application. I have not integrated App with backend except for authentication via Firebase. It means that whenever website is closed, all to-do-related data is lost
+#### I have recently finished [Material UI course](https://www.udemy.com/course/implement-high-fidelity-designs-with-material-ui-and-reactjs/) on Udemy. To put my knowledge into practice I decided to develop Todo Application. I have not integrated App with backend except for authentication via Firebase. It means that whenever website is closed, all to-do-related data is lost
 
 #### I would be so happy, if you can contribute to this project.
 
