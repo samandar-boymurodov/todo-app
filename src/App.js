@@ -16,6 +16,7 @@ import { connect } from "react-redux";
 import { removeAlert, checkAuthState } from "./store/actions/index";
 import CloseIcon from "@material-ui/icons/Close";
 import Slide from "@material-ui/core/Slide";
+import { Helmet } from "react-helmet";
 import { green, red, cyan } from "@material-ui/core/colors";
 
 function TransitionUp(props) {
@@ -30,6 +31,17 @@ function App({ open, message, type, onCloseAlert, tryToSignIn }) {
   return (
     <ThemeProvider theme={theme}>
       <BrowserRouter>
+        <Helmet>
+          <meta property="og:type" content="website" />
+          <meta
+            property="og:image"
+            content="https://i.postimg.cc/j2n058hm/todo.png"
+          />
+          <meta property="og:image:type" content="image/png" />
+          <meta property="og:image:width" content="1200" />
+          <meta property="og:image:height" content="630" />
+          <meta property="og:image:alt" content="Dashboard of Todo App" />
+        </Helmet>
         <Switch>
           <Route path="/" exact render={() => <Redirect to="/dashboard" />} />
           <Route path="/dashboard" exact component={ToDoGroupsContainer} />
