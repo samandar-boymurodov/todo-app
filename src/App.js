@@ -35,7 +35,7 @@ function App({ open, message, type, onCloseAlert, tryToSignIn }) {
           <Route path="/dashboard" exact component={ToDoGroupsContainer} />
           <Route exact path="/register" component={Register} />
           <Route exact path="/login" component={Login} />
-          <Route component={() => <>Not Found!</>} />
+          <Route component={() => <Redirect to="/dashboard" />} />
         </Switch>
       </BrowserRouter>
       <Snackbar
