@@ -371,15 +371,17 @@ function TodoGroupsContainer({
                 }}
                 InputProps={{
                   endAdornment: (
-                    <InputAdornment position="end">
-                      <IconButton
-                        size="small"
-                        disableRipple
-                        onClick={closeSearchHandler}
-                      >
-                        <ClearIcon color="primary" />
-                      </IconButton>
-                    </InputAdornment>
+                    <Zoom in={!!searchQuery}>
+                      <InputAdornment position="end">
+                        <IconButton
+                          size="small"
+                          disableRipple
+                          onClick={closeSearchHandler}
+                        >
+                          <ClearIcon color="primary" />
+                        </IconButton>
+                      </InputAdornment>
+                    </Zoom>
                   ),
                 }}
               />

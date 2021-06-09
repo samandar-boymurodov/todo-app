@@ -117,6 +117,7 @@ function Register({ onAuth, loading, isAuth }) {
             label="Email address"
             name="email"
             id="email"
+            type="email"
             fullWidth
             value={formik.values.email}
             onChange={formik.handleChange}
