@@ -10,13 +10,13 @@ made with love ❤️
 
 ### How it looks like when you go through the app
 [![todo-dashboard.png](https://i.postimg.cc/C18rSpLn/todo-dashboard.png)](https://postimg.cc/jws449fR)
-dashboard
+###### dashboard
 
 [![todo-login.png](https://i.postimg.cc/J4rxdkJk/todo-login.png)](https://postimg.cc/fkPYVk8z)
-login page
+###### login page
 
 [![todo-sign-up.png](https://i.postimg.cc/ydJxNnwZ/todo-sign-up.png)](https://postimg.cc/R6B4s1CS)
-register page
+###### register page
 
 see live demo app - https://todo-app-lime-eta.vercel.app/
 
