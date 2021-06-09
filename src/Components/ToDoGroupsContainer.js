@@ -25,6 +25,7 @@ import {
   ListItemSecondaryAction,
   ListItemText,
   InputAdornment,
+  Zoom,
 } from "@material-ui/core";
 import Skeleton from "@material-ui/lab/Skeleton";
 import { makeStyles, useTheme } from "@material-ui/styles";
@@ -223,15 +224,17 @@ function TodoGroupsContainer({
               }}
               InputProps={{
                 endAdornment: (
-                  <InputAdornment position="end">
-                    <IconButton
-                      size="small"
-                      disableRipple
-                      onClick={closeSearchHandler}
-                    >
-                      <ClearIcon color="primary" />
-                    </IconButton>
-                  </InputAdornment>
+                  <Zoom in={!!searchQuery}>
+                    <InputAdornment position="end">
+                      <IconButton
+                        size="small"
+                        disableRipple
+                        onClick={closeSearchHandler}
+                      >
+                        <ClearIcon color="primary" />
+                      </IconButton>
+                    </InputAdornment>
+                  </Zoom>
                 ),
               }}
             />
