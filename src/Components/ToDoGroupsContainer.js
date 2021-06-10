@@ -36,6 +36,7 @@ import ClearIcon from "@material-ui/icons/Clear";
 import CloseIcon from "@material-ui/icons/Close";
 import { useHistory } from "react-router-dom";
 import { AddGroupArea } from "./AddGroupArea";
+import { Helmet } from "react-helmet";
 import * as modalTypes from "../store/actions/utils/modalTypes";
 const useStyles = makeStyles((theme) => ({
   todoGroupsContainer: {
@@ -206,6 +207,9 @@ function TodoGroupsContainer({
   return (
     <div>
       <Header handleMenu={handleMenu} />
+      <Helmet>
+        <title>Todo App | Dashboard</title>
+      </Helmet>
       <Grid container>
         <Hidden xsDown>
           <Grid item className={classes.searchArea}>
