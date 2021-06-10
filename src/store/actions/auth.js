@@ -34,7 +34,6 @@ export const logout = () => (dispatch) => {
 };
 
 export const checkAuthTimeOut = (expirationTime) => (dispatch) => {
-  console.log(expirationTime);
   setTimeout(() => {
     dispatch(logout);
   }, expirationTime * 1000);
@@ -53,8 +52,6 @@ export const register = (email, password) => (dispatch) => {
       authData
     )
     .then((response) => {
-      console.log(response);
-
       // Saving token and expiration date to control autologin and logout
       const expirationDate = new Date(
         new Date().getTime() + response.data.expiresIn * 1000
@@ -86,8 +83,6 @@ export const login = (email, password) => (dispatch) => {
       authData
     )
     .then((response) => {
-      console.log(response);
-
       // Saving token and expiration date to control autologin and logout
       const expirationDate = new Date(
         new Date().getTime() + response.data.expiresIn * 1000
@@ -113,7 +108,6 @@ export const checkAuthState = () => (dispatch) => {
     dispatch(logout);
   } else {
     const expirationDate = localStorage.getItem("expirationDate");
-    console.log(expirationDate);
     if (new Date(expirationDate) >= new Date()) {
       dispatch(autoLogin());
     } else {

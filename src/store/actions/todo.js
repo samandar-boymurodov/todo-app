@@ -16,27 +16,18 @@ const endInit = () => ({
 export const initTodos = () => (dispatch) => {
   dispatch(startInit());
   axios
-    .get("https://random-word-api.herokuapp.com//word?number=15")
+    .get(
+      "https://todo-app-material-ui-default-rtdb.firebaseio.com/todgroups.json/"
+    )
     .then((response) => {
-      console.log(response);
-
-      const todos = response.data.map((el) => ({
-        name: el,
-        id: "_" + Math.random().toString(36).substr(2, 9),
-        todos: [...new Array(10)].map(() => ({
-          name: random(response.data),
-          description: `${random(response.data)} ${random(response.data)}`,
-          completed: false,
-          id: "_" + Math.random().toString(36).substr(2, 9),
-        })),
-      }));
-      dispatch(endInit());
       dispatch({
         type: actionTypes.INIT_TODOS,
-        todos: todos,
+        todos: Object.entries(response.data)[0][1],
       });
+      dispatch(endInit());
     })
-    .catch(() => {
+    .catch((err) => {
+      console.log(err.response.data.error.message);
       dispatch(endInit());
       dispatch(setAlert("Something went wrong!", "error"));
     });
