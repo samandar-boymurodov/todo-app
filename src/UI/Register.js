@@ -5,6 +5,7 @@ import {
   Typography,
   Divider,
 } from "@material-ui/core";
+import { Helmet } from "react-helmet";
 import { useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { makeStyles, useTheme } from "@material-ui/styles";
@@ -95,95 +96,138 @@ function Register({ onAuth, loading, isAuth }) {
     },
   });
   return (
-    <Grid
-      container
-      direction="column"
-      component="form"
-      onSubmit={formik.handleSubmit}
-      className={classes.formContainer}
-    >
-      <div className={classes.itemsContainer}>
-        <Grid item container justify="center">
-          <Typography
-            variant="h1"
-            color="secondary"
-            className={classes.formItem}
-          >
-            Sign up
-          </Typography>
-        </Grid>
-        <Grid item>
-          <TextField
-            label="Email address"
-            name="email"
-            id="email"
-            type="email"
-            fullWidth
-            value={formik.values.email}
-            onChange={formik.handleChange}
-            error={formik.touched.email && Boolean(formik.errors.email)}
-            helperText={formik.touched.email && formik.errors.email}
-            className={classes.formItem}
-          />
-        </Grid>
-        <Grid item>
-          <Divider className={classes.formItem} />
-        </Grid>
-        <Grid item>
-          <TextField
-            label="Password"
-            type="password"
-            name="password"
-            id="password"
-            fullWidth
-            value={formik.values.password}
-            onChange={formik.handleChange}
-            error={formik.touched.password && Boolean(formik.errors.password)}
-            helperText={formik.touched.password && formik.errors.password}
-            className={classes.formItem}
-          />
-        </Grid>
-        <Grid item>
-          <TextField
-            label="Confirm password"
-            type="password"
-            name="confirmpassword"
-            id="confirmpassword"
-            fullWidth
-            value={formik.values.confirmpassword}
-            onChange={formik.handleChange}
-            error={
-              formik.touched.confirmpassword &&
-              Boolean(formik.errors.confirmpassword)
-            }
-            helperText={
-              formik.touched.confirmpassword && formik.errors.confirmpassword
-            }
-            className={classes.formItem}
-          />
-        </Grid>
-        <Grid item>
-          <Button
-            variant="contained"
-            color="primary"
-            type="submit"
-            fullWidth
-            className={classes.submitButton}
-            disabled={loading}
-          >
-            {loading ? <CircularProgress color="primary" /> : "Submit"}
-          </Button>
-        </Grid>
-        <Grid item style={{ marginTop: "1rem" }}>
-          <Typography variant="body1" color="secondary">
-            If you have already signed up, then you can{" "}
-            <Link to="/login" style={{ color: cyan[500] }}>
-              login
-            </Link>
-          </Typography>
-        </Grid>
-      </div>
-    </Grid>
+    <>
+      <Helmet>
+        {/* Primary Meta Tags */}
+        <title>Todo App | Register</title>
+        <meta name="title" content="Todo App | Register" />
+        <meta
+          name="description"
+          content="This is a Todo App created by Boymurodov Samandar. Here you can create your own account for the app"
+        />
+
+        {/* Open Graph / Facebook */}
+        <meta property="og:type" content="website" />
+        <meta
+          property="og:url"
+          content="https://todo-app-lime-eta.vercel.app/register"
+        />
+        <meta property="og:title" content="Todo App | Register" />
+        <meta
+          property="og:description"
+          content="This is a Todo App created by Boymurodov Samandar. Here you can create your own account for the app"
+        />
+        <meta
+          property="og:image"
+          content="https://i.postimg.cc/jj6Yc0Sy/todo-sign-up.png"
+        />
+
+        {/* Twitter */}
+        <meta property="twitter:card" content="summary_large_image" />
+        <meta
+          property="twitter:url"
+          content="https://todo-app-lime-eta.vercel.app/register"
+        />
+        <meta property="twitter:title" content="Todo App | Register" />
+        <meta
+          property="twitter:description"
+          content="This is a Todo App created by Boymurodov Samandar. Here you can create your own account for the app"
+        />
+        <meta
+          property="twitter:image"
+          content="https://i.postimg.cc/jj6Yc0Sy/todo-sign-up.png"
+        />
+      </Helmet>
+      <Grid
+        container
+        direction="column"
+        component="form"
+        onSubmit={formik.handleSubmit}
+        className={classes.formContainer}
+      >
+        <div className={classes.itemsContainer}>
+          <Grid item container justify="center">
+            <Typography
+              variant="h1"
+              color="secondary"
+              className={classes.formItem}
+            >
+              Sign up
+            </Typography>
+          </Grid>
+          <Grid item>
+            <TextField
+              label="Email address"
+              name="email"
+              id="email"
+              type="email"
+              fullWidth
+              value={formik.values.email}
+              onChange={formik.handleChange}
+              error={formik.touched.email && Boolean(formik.errors.email)}
+              helperText={formik.touched.email && formik.errors.email}
+              className={classes.formItem}
+            />
+          </Grid>
+          <Grid item>
+            <Divider className={classes.formItem} />
+          </Grid>
+          <Grid item>
+            <TextField
+              label="Password"
+              type="password"
+              name="password"
+              id="password"
+              fullWidth
+              value={formik.values.password}
+              onChange={formik.handleChange}
+              error={formik.touched.password && Boolean(formik.errors.password)}
+              helperText={formik.touched.password && formik.errors.password}
+              className={classes.formItem}
+            />
+          </Grid>
+          <Grid item>
+            <TextField
+              label="Confirm password"
+              type="password"
+              name="confirmpassword"
+              id="confirmpassword"
+              fullWidth
+              value={formik.values.confirmpassword}
+              onChange={formik.handleChange}
+              error={
+                formik.touched.confirmpassword &&
+                Boolean(formik.errors.confirmpassword)
+              }
+              helperText={
+                formik.touched.confirmpassword && formik.errors.confirmpassword
+              }
+              className={classes.formItem}
+            />
+          </Grid>
+          <Grid item>
+            <Button
+              variant="contained"
+              color="primary"
+              type="submit"
+              fullWidth
+              className={classes.submitButton}
+              disabled={loading}
+            >
+              {loading ? <CircularProgress color="primary" /> : "Submit"}
+            </Button>
+          </Grid>
+          <Grid item style={{ marginTop: "1rem" }}>
+            <Typography variant="body1" color="secondary">
+              If you have already signed up, then you can{" "}
+              <Link to="/login" style={{ color: cyan[500] }}>
+                login
+              </Link>
+            </Typography>
+          </Grid>
+        </div>
+      </Grid>
+    </>
   );
 }
 
