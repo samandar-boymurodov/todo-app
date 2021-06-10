@@ -7,6 +7,7 @@ import {
   InputAdornment,
   IconButton,
 } from "@material-ui/core";
+import { Helmet } from "react-helmet";
 import { useEffect, useState } from "react";
 import { makeStyles } from "@material-ui/styles";
 import { useFormik } from "formik";
@@ -94,101 +95,144 @@ function Login({ onAuth, loading, isAuth }) {
     event.preventDefault();
   };
   return (
-    <Grid container className={classes.mainContainer} alignItems="center">
-      <Hidden xsDown>
-        <Grid item xs={false} sm={4} md={7} className={classes.imgBg} />
-      </Hidden>
-      <Grid item xs={12} sm={8} md={5}>
-        <Grid
-          container
-          direction="column"
-          component="form"
-          onSubmit={formik.handleSubmit}
-        >
-          <Grid item>
-            <Grid item container direction="column" alignItems="center">
+    <>
+      <Helmet>
+        {/* Primary Meta Tags */}
+        <title>Todo App | Login</title>
+        <meta name="title" content="Todo App | Login" />
+        <meta
+          name="description"
+          content="This is a Todo App created by Boymurodov Samandar. Here you can log in to continue to the dashboard"
+        />
+
+        {/* Open Graph / Facebook  */}
+        <meta property="og:type" content="website" />
+        <meta
+          property="og:url"
+          content="https://todo-app-lime-eta.vercel.app/login"
+        />
+        <meta property="og:title" content="Todo App | Login" />
+        <meta
+          property="og:description"
+          content="This is a Todo App created by Boymurodov Samandar. Here you can log in to continue to the dashboard"
+        />
+        <meta
+          property="og:image"
+          content="https://i.postimg.cc/CxTFs44T/todo-login.png"
+        />
+
+        {/* Twitter */}
+        <meta property="twitter:card" content="summary_large_image" />
+        <meta
+          property="twitter:url"
+          content="https://todo-app-lime-eta.vercel.app/login"
+        />
+        <meta property="twitter:title" content="Todo App | Login" />
+        <meta
+          property="twitter:description"
+          content="This is a Todo App created by Boymurodov Samandar. Here you can log in to continue to the dashboard"
+        />
+        <meta
+          property="twitter:image"
+          content="https://i.postimg.cc/CxTFs44T/todo-login.png"
+        />
+      </Helmet>
+      <Grid container className={classes.mainContainer} alignItems="center">
+        <Hidden xsDown>
+          <Grid item xs={false} sm={4} md={7} className={classes.imgBg} />
+        </Hidden>
+        <Grid item xs={12} sm={8} md={5}>
+          <Grid
+            container
+            direction="column"
+            component="form"
+            onSubmit={formik.handleSubmit}
+          >
+            <Grid item>
+              <Grid item container direction="column" alignItems="center">
+                <Grid item>
+                  <Typography variant="h1" color="secondary">
+                    Sign in
+                  </Typography>
+                </Grid>
+              </Grid>
+            </Grid>
+            <Grid
+              item
+              container
+              direction="column"
+              className={classes.formContainer}
+            >
               <Grid item>
-                <Typography variant="h1" color="secondary">
-                  Sign in
+                <TextField
+                  name="email"
+                  id="email"
+                  label="Email"
+                  type="email"
+                  fullWidth
+                  value={formik.values.email}
+                  onChange={formik.handleChange}
+                  error={formik.touched.email && Boolean(formik.errors.email)}
+                  helperText={formik.touched.email && formik.errors.email}
+                />
+              </Grid>
+              <Grid item style={{ marginTop: "1.25rem" }}>
+                <TextField
+                  name="password"
+                  aria-label="toggle password visibility"
+                  id="password"
+                  type={showPassword ? "text" : "password"}
+                  label="Password"
+                  fullWidth
+                  value={formik.values.password}
+                  onChange={formik.handleChange}
+                  error={
+                    formik.touched.password && Boolean(formik.errors.password)
+                  }
+                  helperText={formik.touched.password && formik.errors.password}
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <IconButton
+                          onClick={handleClickShowPassword}
+                          onMouseDown={handleMouseDownPassword}
+                        >
+                          {showPassword ? (
+                            <Visibility color="primary" />
+                          ) : (
+                            <VisibilityOff color="primary" />
+                          )}
+                        </IconButton>
+                      </InputAdornment>
+                    ),
+                  }}
+                />
+              </Grid>
+              <Grid item style={{ marginTop: "1.5rem" }}>
+                <Button
+                  variant="contained"
+                  type="submit"
+                  fullWidth
+                  className={classes.submitButton}
+                  color="primary"
+                  disabled={loading}
+                >
+                  {loading ? <CircularProgress color="primary" /> : "Submit"}
+                </Button>
+              </Grid>
+              <Grid item style={{ marginTop: "1rem" }}>
+                <Typography variant="body1" color="secondary">
+                  If you have not signed up, then you can{" "}
+                  <Link to="/register" style={{ color: cyan[500] }}>
+                    sign up
+                  </Link>
                 </Typography>
               </Grid>
             </Grid>
           </Grid>
-          <Grid
-            item
-            container
-            direction="column"
-            className={classes.formContainer}
-          >
-            <Grid item>
-              <TextField
-                name="email"
-                id="email"
-                label="Email"
-                type="email"
-                fullWidth
-                value={formik.values.email}
-                onChange={formik.handleChange}
-                error={formik.touched.email && Boolean(formik.errors.email)}
-                helperText={formik.touched.email && formik.errors.email}
-              />
-            </Grid>
-            <Grid item style={{ marginTop: "1.25rem" }}>
-              <TextField
-                name="password"
-                aria-label="toggle password visibility"
-                id="password"
-                type={showPassword ? "text" : "password"}
-                label="Password"
-                fullWidth
-                value={formik.values.password}
-                onChange={formik.handleChange}
-                error={
-                  formik.touched.password && Boolean(formik.errors.password)
-                }
-                helperText={formik.touched.password && formik.errors.password}
-                InputProps={{
-                  endAdornment: (
-                    <InputAdornment position="end">
-                      <IconButton
-                        onClick={handleClickShowPassword}
-                        onMouseDown={handleMouseDownPassword}
-                      >
-                        {showPassword ? (
-                          <Visibility color="primary" />
-                        ) : (
-                          <VisibilityOff color="primary" />
-                        )}
-                      </IconButton>
-                    </InputAdornment>
-                  ),
-                }}
-              />
-            </Grid>
-            <Grid item style={{ marginTop: "1.5rem" }}>
-              <Button
-                variant="contained"
-                type="submit"
-                fullWidth
-                className={classes.submitButton}
-                color="primary"
-                disabled={loading}
-              >
-                {loading ? <CircularProgress color="primary" /> : "Submit"}
-              </Button>
-            </Grid>
-            <Grid item style={{ marginTop: "1rem" }}>
-              <Typography variant="body1" color="secondary">
-                If you have not signed up, then you can{" "}
-                <Link to="/register" style={{ color: cyan[500] }}>
-                  sign up
-                </Link>
-              </Typography>
-            </Grid>
-          </Grid>
         </Grid>
       </Grid>
-    </Grid>
+    </>
   );
 }
 
